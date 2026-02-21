@@ -1,10 +1,86 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CivicFlow | Frontend (Next.js + Redux)
 
-## Getting Started
+**CivicFlow Frontend** is a modern, AI-enabled government services portal built with **Next.js**, demonstrating a privacy-first, accessible, and interactive citizen experience.
 
-First, run the development server:
+## 🌟 Project Overview
+
+This frontend is designed to provide:
+
+- A fast, responsive, and accessible web interface.
+- Multi-step request flows with persistent state.
+- AI-assisted service suggestions and dashboards for citizens.
+
+---
+
+## 🛠 Tech Stack (Frontend)
+
+- **Framework:** Next.js 16 (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **UI Components:** shadcn/ui (Radix UI)
+- **Forms & Validation:** React Hook Form + Zod
+- **State Management:** Redux Toolkit + TanStack Query (React Query)
+- **Maps & Visualization:** Mapbox / Leaflet
+
+---
+
+## 💡 Key Frontend Highlights
+
+- **Redux State Management:** Centralized store for citizen request flows, authentication, and dashboard state.
+- **Privacy-First UX:** Avoids intrusive GPS tracking; focuses on actionable searches and visual context.
+- **AI-Driven Suggestions:** UI components display AI-predicted service categories and confidence scores.
+- **Design System:** Custom **shadcn/ui** theme with government-grade "Civic Blue" palette; WCAG 2.1 AA compliant.
+- **Interactive Maps:** Integrated Mapbox/Leaflet layers for visual service insights.
+
+---
+
+## 📂 Frontend Architecture
+
+```text
+app/
+├── (admin)/        # Admin dashboard and insights
+├── (auth)/         # Authentication: Login, Register, MFA
+├── (citizen)/      # Citizen dashboard, Request Wizard, Messaging
+├── (public)/       # Landing page, Services Directory, Search
+├── hooks/          # Custom React hooks
+├── state/          # Redux store and slices
+├── types/          # TypeScript type definitions
+├── fonts.ts        # Font configuration
+├── globals.css     # Global styles
+├── layout.tsx      # Root layout for the app
+├── page.tsx        # Main entry page
+└── providers.tsx   # Context providers (Redux, QueryClient, etc.)
+
+components/
+├── dashboard/      # Domain-specific UI: Timelines, Stats, Charts
+├── forms/          # Form components using React Hook Form + Zod
+├── layouts/        # Shared layout components
+├── maps/           # Mapbox/Leaflet components
+├── shared/         # Reusable shared components
+├── ui/             # shadcn/ui base components and custom theming
+├── component-example.tsx  # Example component
+└── example.tsx     # Example page component
+
+lib/
+├── utils.ts        # Utility functions
+└── validators.ts   # Form validators
+
+public/             # Static assets (images, fonts, icons)
+```
+
+---
+
+## 🚦 Local Setup (Frontend Only)
 
 ```bash
+# Clone the repository
+git clone git@github.com:Steve-conqueror1/civic-flow-client.git
+cd civic-flow-client/frontend
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 # or
 yarn dev
@@ -12,25 +88,9 @@ yarn dev
 pnpm dev
 # or
 bun dev
+
+# Open http://localhost:3000 in your browser
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed with ❤️ by **Stephen Kilonzo**  
+[GitHub](https://github.com/Steve-conqueror1) | [LinkedIn](https://www.linkedin.com/in/skilonzo/)
