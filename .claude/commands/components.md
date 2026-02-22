@@ -21,6 +21,28 @@ UserStatsCard ./design-snapshots/homepage-v1.html
 1. **Determine component name**: Parse description to create a PascalCase name (`UserStatsCard`).
 2. **Determine snapshot path**: If provided, validate file exists in `./design-snapshots`.  
    If not, proceed using description only.
+3. 3. Detect if component needs:
+   - `useState`, `useEffect` → must add `"use client"`
+   - Navigation → use `next/link`
+   - Images → use `next/image`
+
+### Images
+
+- NEVER use `<img>`
+- ALWAYS use:
+
+```tsx
+import Image from "next/image";
+```
+
+### Links
+
+- NEVER use <a href="">
+- ALWAYS use:
+
+```tsx
+import Link from "next/link";
+```
 
 ## Your Task
 
@@ -65,6 +87,7 @@ npm test tests/components/[ComponentName].test.tsx
     - Use extracted HTML as JSX skeleton
     - Convert class → className, inline styles → Tailwind/shadcn classes
     - Ensure semantic HTML and accessibility
+    -
 
 ### 5. Run Tests (expect pass)
 
