@@ -1,24 +1,39 @@
 ---
-description: Create a UI component using TDD (test-driven development)
+description: Create a UI component from a design snapshot using TDD
 allowed-tools: Read, Write, Edit, Glob, Bash(npm test:*), Bash(npx vitest:*)
-argument-hint: "[Brief component description]"
+argument-hint: "[Brief component description] [optional: path to snapshot HTML]"
 ---
 
 ## User Input
 
 The user has provided information about the component to make: **$ARGUMENTS**
 
+It may include:
+
+- A brief description (e.g., "Card showing user stats")
+- Optional: `snapshotPath` pointing to `./design-snapshots/*.html` file
+
+Example:
+UserStatsCard ./design-snapshots/homepage-v1.html
+
 ## Do This First:
 
-From the component information above, determine a PascalCase component name (e.g., "a card showing user stats" - `UserStatsCard`).
+1. **Determine component name**: Parse description to create a PascalCase name (`UserStatsCard`).
+2. **Determine snapshot path**: If provided, validate file exists in `./design-snapshots`.  
+   If not, proceed using description only.
 
 ## Your Task
 
-1. Generate **tests first** using Vitest (`npx vitest`) for all expected functionality.
+1. **Extract the relevant HTML from snapshot (if provided)**
 
-- Create `tests/components/[ComponentName].test.tsx` with 2-3 simple tests:
-  - Test that the component renders
-  - Test key elements are present (roles, text)
+- Read the snapshot file
+- Locate the DOM portion corresponding to the described component (use comments, `id`, or visual hints)
+- Trim unnecessary `<head>` scripts/styles; keep **body content only**
+- Identify semantic elements for testing (buttons, headings, text, images)
+
+2. Generate **tests first** using Vitest (`npx vitest`) for all expected functionality.
+
+- Create `tests/components/[ComponentName].test.tsx` with minimal tests:
 
 Pattern:
 
@@ -35,18 +50,23 @@ describe("ComponentName", () => {
 });
 ```
 
-### 2. Run Tests (expect failure)
+- Include extra assertions based on snapshot (e.g., images, buttons, aria roles)
+
+### 3. Run Tests (expect failure)
 
 ```bash
 npm test tests/components/[ComponentName].test.tsx
 ```
 
-### 3. Create a **React functional component** in TypeScript inside the Next.js app
+### 4. Create a **React functional component** in TypeScript inside the Next.js app
 
     - `components/[ComponentName]/[ComponentName].tsx`
     - `components/[ComponentName]/index.ts` → `export { default } from './[ComponentName]'`
+    - Use extracted HTML as JSX skeleton
+    - Convert class → className, inline styles → Tailwind/shadcn classes
+    - Ensure semantic HTML and accessibility
 
-### 4. Run Tests (expect pass)
+### 5. Run Tests (expect pass)
 
 ```bash
 npm test tests/components/[ComponentName].test.tsx
@@ -75,24 +95,31 @@ Iterate on component development until all tests pass.
 
 ### Example:
 
-User input: `[Button component that toggles a dark mode]`
+User input: `Homepage Hero Card ./design-snapshots/homepage-v1.html`
 
 Generated output:
 
-```ts
-// Button.tsx
-import React from 'react';
+```tsx
+// HomepageHeroCard.tsx
+import React from "react";
 
-interface ButtonProps {
-  onClick: () => void;
-  label: string;
+interface HomepageHeroCardProps {
+  title: string;
+  description: string;
 }
 
-export const Button: React.FC<ButtonProps> = ({ onClick, label }) => {
+export const HomepageHeroCard: React.FC<HomepageHeroCardProps> = ({
+  title,
+  description,
+}) => {
   return (
-    <button onClick={onClick} className="px-4 py-2 bg-primary text-white rounded-md">
-      {label}
-    </button>
+    <section className="bg-white dark:bg-[#111a22] rounded-xl p-6 shadow-lg">
+      <h2 className="text-2xl font-bold">{title}</h2>
+      <p className="text-slate-600 dark:text-slate-400">{description}</p>
+      <button className="bg-primary text-white px-4 py-2 rounded-lg mt-4">
+        Submit a Request
+      </button>
+    </section>
   );
 };
 ```
