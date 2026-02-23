@@ -24,18 +24,18 @@ const legalLinks: FooterLink[] = [
 
 const AppFooter: React.FC = () => {
   return (
-    <footer className="bg-white dark:bg-[#111a22] border-t border-slate-200 dark:border-slate-800 pt-16 pb-8">
+    <footer className="bg-card border-t border-border pt-16 pb-8">
       <div className="max-w-7xl mx-auto px-4 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand column */}
           <div className="col-span-1">
-            <div className="flex items-center gap-3 text-slate-900 dark:text-white mb-6">
-              <div className="size-6 text-[#1985f0]">
+            <div className="flex items-center gap-3 text-foreground mb-6">
+              <div className="size-6 text-primary">
                 <Landmark size={20} aria-hidden="true" />
               </div>
               <span className="text-lg font-bold">CivicFlow</span>
             </div>
-            <p className="text-sm text-slate-500 dark:text-slate-400 mb-6">
+            <p className="text-sm text-muted-foreground mb-6">
               Empowering citizens and government staff with AI-driven public
               service solutions.
             </p>
@@ -43,7 +43,7 @@ const AppFooter: React.FC = () => {
               <a
                 href="#"
                 aria-label="Twitter"
-                className="text-slate-400 hover:text-[#1985f0] transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <svg
                   className="h-5 w-5"
@@ -57,7 +57,7 @@ const AppFooter: React.FC = () => {
               <a
                 href="#"
                 aria-label="LinkedIn"
-                className="text-slate-400 hover:text-[#1985f0] transition-colors"
+                className="text-muted-foreground hover:text-primary transition-colors"
               >
                 <svg
                   className="h-5 w-5"
@@ -78,7 +78,7 @@ const AppFooter: React.FC = () => {
 
         {/* Bottom bar */}
         <div className="border-t border-slate-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
-          <p className="text-xs text-slate-400">
+          <p className="text-xs text-muted-foreground">
             © {new Date().getFullYear()} CivicFlow Alberta. All rights reserved.
           </p>
           <div className="flex items-center gap-2 opacity-60 grayscale hover:grayscale-0 transition-all">
@@ -89,7 +89,7 @@ const AppFooter: React.FC = () => {
               height={24}
               className="h-6 w-auto"
             />
-            <span className="text-xs text-slate-500 font-medium">
+            <span className="text-xs text-muted-foreground font-medium">
               Proudly serving Alberta
             </span>
           </div>

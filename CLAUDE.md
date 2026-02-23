@@ -87,3 +87,7 @@ Dark mode is class-based (`.dark`), toggled by adding the class to an ancestor e
 Vitest with `jsdom` environment. Tests live in `tests/` and mirror the `components/` structure. The setup file `vitest.setup.ts` imports `@testing-library/jest-dom` globally.
 
 Use `@testing-library/react` (`render`, `screen`) and `@testing-library/user-event` for component tests. No explicit imports needed for `describe`/`it`/`expect` — they are global.
+
+## Checking Documentation
+
+- **important:** When implementing any lib/framework-specific features, ALWAYS check the approprite lib/framework documentation using the Context7 MCP server before writing code.
