@@ -20,11 +20,11 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#111a22] border-b border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-50 w-full bg-card border-b border-border">
       <div className="px-4 md:px-10 py-3 flex items-center justify-between max-w-7xl mx-auto">
         {/* Brand */}
-        <div className="flex items-center gap-4 text-slate-900 dark:text-white">
-          <div className="size-8 text-[#1985f0] flex items-center justify-center">
+        <div className="flex items-center gap-4 text-foreground">
+          <div className="size-8 text-primary flex items-center justify-center">
             <Landmark size={28} aria-hidden="true" />
           </div>
           <span className="text-xl font-bold leading-tight tracking-[-0.015em]">
@@ -39,13 +39,13 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium hover:text-[#1985f0] transition-colors text-slate-700 dark:text-slate-300"
+                className="text-sm font-medium hover:text-primary transition-colors text-slate-700 dark:text-slate-300"
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <Button className="bg-[#1985f0] hover:bg-[#106ac5] text-white text-sm font-bold shadow-sm">
+          <Button className="bg-primary hover:bg-[#106ac5] text-primary-foreground text-sm font-bold shadow-sm">
             Register
           </Button>
         </div>
@@ -54,7 +54,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden text-slate-900 dark:text-white"
+          className="md:hidden text-foreground"
           aria-label="Open menu"
           aria-expanded={mobileOpen}
           onClick={() => setMobileOpen((prev) => !prev)}
@@ -65,7 +65,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
 
       {/* Mobile dropdown */}
       {mobileOpen && (
-        <div className="md:hidden bg-white dark:bg-[#111a22] border-t border-slate-100 dark:border-slate-800 px-4 pb-4">
+        <div className="md:hidden bg-card border-t border-slate-100 dark:border-slate-800 px-4 pb-4">
           <nav
             aria-label="Mobile navigation"
             className="flex flex-col gap-3 pt-3"
@@ -74,14 +74,14 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
               <Link
                 key={link.label}
                 href={link.href}
-                className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-[#1985f0] transition-colors"
+                className="text-sm font-medium text-slate-700 dark:text-slate-300 hover:text-primary transition-colors"
                 onClick={() => setMobileOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
           </nav>
-          <Button className="mt-4 w-full bg-[#1985f0] hover:bg-[#106ac5] text-white text-sm font-bold">
+          <Button className="mt-4 w-full bg-primary hover:bg-[#106ac5] text-primary-foreground text-sm font-bold">
             Register
           </Button>
         </div>
