@@ -1,0 +1,16 @@
+.git
+node_modules
+.next
+.env
+.env.*
+.env.local
+tests
+_specs
+.claude
+design-snapshots
+.vscode
+*.log
+tsconfig.tsbuildinfo
+Dockerfile
+docker-compose*.yml
+.dockerignore
