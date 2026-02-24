@@ -9,7 +9,7 @@ services:
     command: npm run dev
     working_dir: /app
     ports:
-      - "3000:3000"
+      - "${APP_PORT}:3000"
     volumes:
       - ./:/app
       - node_modules_dev:/app/node_modules # shadows host node_modules
