@@ -14,11 +14,12 @@ services:
       - ./:/app
       - node_modules_dev:/app/node_modules # shadows host node_modules
     env_file:
-      - .env.local
+      - .env
     environment:
       - NODE_ENV=development
       - NEXT_TELEMETRY_DISABLED=1
       - CHOKIDAR_USEPOLLING=true
+      - PORT=3000
 
 volumes:
   node_modules_dev:

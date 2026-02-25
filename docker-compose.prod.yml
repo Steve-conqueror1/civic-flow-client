@@ -12,9 +12,9 @@ services:
     ports:
       - "${APP_PORT}:3000"
     env_file:
-      - .env.production
+      - .env.prod
     environment:
       - NODE_ENV=production
       - NEXT_TELEMETRY_DISABLED=1
-      - APP_PORT=${APP_PORT}
+      - PORT=3000
     restart: unless-stopped
