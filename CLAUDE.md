@@ -19,13 +19,22 @@ To run a single test file:
 npx vitest tests/components/AppNavbar.test.tsx
 ```
 
+Docker convenience scripts:
+
+```bash
+npm run docker:dev   # Start dev environment with HMR
+npm run docker:prod  # Start production container (uses .env.prod)
+npm run docker:down  # Stop all containers
+npm run docker:logs  # Tail container logs
+```
+
 ## Environment
 
-Requires `NEXT_PUBLIC_API_BASE_URL` to be set for API calls to work.
+Requires `NEXT_PUBLIC_API_BASE_URL` to be set for API calls to work. Dev values live in `.env`; production values in `.env.prod`.
 
 ## Architecture
 
-**CivicFlow** is an AI-enabled public service request platform for Alberta citizens, built with Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v4 and Shadcn.
+**CivicFlow** is an AI-enabled public service request platform for Alberta citizens, built with Next.js 16 App Router, React 19, TypeScript, Tailwind CSS v4, and shadcn/ui.
 
 ### Route Groups
 
@@ -43,7 +52,15 @@ Components live in `components/` (not `app/`):
 
 - `components/ui/` — shadcn/ui base primitives (Button, Card, Input, Select, etc.)
 - `components/AppNavbar/` and `components/AppFooter/` — global layout components; each exported via an `index.ts` barrel
-- `components/dashboard/`, `components/forms/`, `components/layouts/`, `components/maps/`, `components/shared/` — domain-specific components (mostly stubs to implement)
+- `components/shared/` — reusable cross-feature components (e.g. `BrandLogo`)
+- `components/dashboard/`, `components/forms/`, `components/layouts/`, `components/maps/` — domain-specific components (stubs to implement)
+
+### Domain Types
+
+`app/types/` holds shared TypeScript interfaces:
+
+- `app/types/request.ts` — service request model
+- `app/types/user.ts` — user/citizen model
 
 ### State Management
 
@@ -52,6 +69,8 @@ Redux Toolkit is set up in `app/state/`:
 - `app/state/index.ts` — global Redux slice (currently empty; add reducers here)
 - `app/state/api.ts` — RTK Query API slice using `NEXT_PUBLIC_API_BASE_URL`; add endpoints here with tag types for cache invalidation
 - `app/state/redux.tsx` — store config and typed hooks (`useAppDispatch`, `useAppSelector`); the `StoreProvider` wraps the app via `app/providers.tsx`
+
+**TanStack Query** (`@tanstack/react-query`) is also installed and available for server-state that doesn't need RTK Query.
 
 ### Custom Hooks (stubs — implement these)
 
@@ -70,8 +89,15 @@ Redux Toolkit is set up in `app/state/`:
 
 ### Styling
 
-Tailwind CSS v4 uses CSS-first configuration — no `tailwind.config.js`. All theme tokens are defined in `app/globals.css` using `@theme inline`. Custom CivicFlow utilities:
+Tailwind CSS v4 uses CSS-first configuration — no `tailwind.config.js`. All theme tokens are defined in `app/globals.css` using `@theme inline`. Color values use hex (not oklch).
 
+Key theme tokens:
+- `--primary`: `#1985f0` (Civic Blue)
+- `--primary-dark`: `#106ac5` (hover state)
+- Dark mode backgrounds: `#101922` (page), `#111a22` (card/surface)
+
+Custom utilities defined in `globals.css`:
+- `.container` — `max-w-7xl mx-auto px-4 md:px-10`
 - `.text-display` — hero/display text (2.25rem, bold, tight)
 - `.text-meta` — small metadata text (0.875rem, muted)
 - `.code-id` — monospace tracking-wide for request IDs
@@ -88,6 +114,10 @@ Vitest with `jsdom` environment. Tests live in `tests/` and mirror the `componen
 
 Use `@testing-library/react` (`render`, `screen`) and `@testing-library/user-event` for component tests. No explicit imports needed for `describe`/`it`/`expect` — they are global.
 
+### Feature Specs
+
+`_specs/` stores feature specification documents. Use `_specs/template.md` when writing a new spec. Specs define branch naming, functional requirements, acceptance criteria, and testing guidelines before implementation begins.
+
 ## Checking Documentation
 
-- **important:** When implementing any lib/framework-specific features, ALWAYS check the approprite lib/framework documentation using the Context7 MCP server before writing code.
+**Important:** When implementing any lib/framework-specific features, ALWAYS check the appropriate documentation using the Context7 MCP server before writing code.

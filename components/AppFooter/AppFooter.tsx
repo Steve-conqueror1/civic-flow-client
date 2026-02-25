@@ -26,7 +26,7 @@ const legalLinks: FooterLink[] = [
 const AppFooter: React.FC = () => {
   return (
     <footer className="bg-white dark:bg-[#111a22] border-t border-slate-200 dark:border-slate-800 pt-16 pb-8">
-      <div className="container">
+      <div className="container mx-auto px-4 md:px-10">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
           {/* Brand column */}
           <div className="col-span-1">

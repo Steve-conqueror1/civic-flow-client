@@ -21,7 +21,7 @@ const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
 
   return (
     <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#111a22] border-b border-slate-200 dark:border-slate-800">
-      <div className="container py-3  flex items-center justify-between">
+      <div className="container mx-auto px-4 md:px-10 py-3  flex items-center justify-between">
         <BrandLogo brandName={brandName} />
 
         {/* Desktop nav */}

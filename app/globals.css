@@ -161,11 +161,6 @@
 }
 
 @layer utilities {
-  /* Layout */
-  .container {
-    @apply max-w-7xl mx-auto px-4 md:px-10;
-  }
-
   /* Colors */
   .bg-primary {
     background-color: var(--color-primary);
