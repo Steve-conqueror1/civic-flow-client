@@ -16,9 +16,9 @@ describe("AppNavbar", () => {
     expect(screen.getByRole("link", { name: "Sign In" })).toBeDefined();
   });
 
-  it("renders the Register button", () => {
+  it("renders the Register link", () => {
     render(<AppNavbar />);
-    expect(screen.getByRole("button", { name: /register/i })).toBeDefined();
+    expect(screen.getByRole("link", { name: /register/i })).toBeDefined();
   });
 
   it("renders the mobile menu button", () => {
