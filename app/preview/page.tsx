@@ -3,6 +3,7 @@ import AppFooter from "@/components/AppFooter";
 import HeroSection from "@/components/HeroSection";
 import HowItWorksSection from "@/components/HowItWorksSection";
 import ServiceCategoriesSection from "@/components/ServiceCategoriesSection";
+import CtaBannerSection from "@/components/CtaBannerSection";
 
 const page = () => {
   return (
@@ -49,6 +50,14 @@ const page = () => {
           HowItWorksSection
         </p>
         <HowItWorksSection />
+      </section>
+
+      {/* CtaBannerSection */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          CtaBannerSection
+        </p>
+        <CtaBannerSection />
       </section>
 
       {/* AppFooter */}
