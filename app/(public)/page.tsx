@@ -1,9 +1,11 @@
 import HeroSection from "@/components/HeroSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
 
 const page = () => {
   return (
-    <div className="p-4">
+    <div className="w-full">
       <HeroSection />
+      <HowItWorksSection />
     </div>
   );
 };

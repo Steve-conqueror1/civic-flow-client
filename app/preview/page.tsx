@@ -1,6 +1,7 @@
 import AppNavbar from "@/components/AppNavbar";
 import AppFooter from "@/components/AppFooter";
 import HeroSection from "@/components/HeroSection";
+import HowItWorksSection from "@/components/HowItWorksSection";
 
 const page = () => {
   return (
@@ -31,6 +32,14 @@ const page = () => {
           HeroSection
         </p>
         <HeroSection />
+      </section>
+
+      {/* HowItWorksSection */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          HowItWorksSection
+        </p>
+        <HowItWorksSection />
       </section>
 
       {/* AppFooter */}
