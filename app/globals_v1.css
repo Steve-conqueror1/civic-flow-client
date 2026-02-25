@@ -2,16 +2,23 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-/* =====================================================
-   THEME TOKENS (Tailwind v4 compatible)
-===================================================== */
+/* ================================
+   THEME VARIABLES
+================================ */
 
 @theme inline {
-  /* Core Colors */
   --color-background: var(--background);
   --color-foreground: var(--foreground);
 
+  --font-sans: "Public Sans", sans-serif;
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
   --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
   --color-primary-foreground: var(--primary-foreground);
 
   --color-secondary: var(--secondary);
@@ -31,32 +38,24 @@
   --color-popover: var(--popover);
   --color-popover-foreground: var(--popover-foreground);
 
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-
-  /* Typography */
-  --font-sans: "Public Sans", sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, Menlo, monospace;
-
-  /* Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
 
-  /* Type Scale */
+  /* Typography scale */
   --text-display: 2.25rem;
   --text-h1: 1.5rem;
   --text-h2: 1.125rem;
   --text-body: 1rem;
   --text-meta: 0.875rem;
+
+  --tracking-display: -0.02em;
 }
 
-/* =====================================================
+/* ================================
    LIGHT MODE
-===================================================== */
-
+================================ */
 :root {
   --background: #f6f7f8;
   --foreground: #0f172a;
@@ -68,13 +67,15 @@
   --popover-foreground: #0f172a;
 
   --primary: #1985f0;
-  --primary-foreground: #ffffff;
+  --primary-dark: #106ac5;
+  --background-light: #f6f7f8;
+  /* --foreground: #ffffff; */
 
-  --secondary: #e2e8f0;
+  --secondary: #e2e8f0; /* slate-100 */
   --secondary-foreground: #0f172a;
 
   --muted: #e2e8f0;
-  --muted-foreground: #64748b;
+  --muted-foreground: #64748b; /* slate-500 */
 
   --accent: #e2e8f0;
   --accent-foreground: #0f172a;
@@ -85,13 +86,12 @@
   --input: #e2e8f0;
   --ring: #1985f0;
 
-  --radius: 0.5rem;
+  --radius: 0.25rem;
 }
 
-/* =====================================================
+/* ================================
    DARK MODE
-===================================================== */
-
+================================ */
 .dark {
   --background: #101922;
   --foreground: #ffffff;
@@ -105,11 +105,11 @@
   --primary: #1985f0;
   --primary-foreground: #ffffff;
 
-  --secondary: #1c2938;
+  --secondary: #1c2938; /* slate-800 */
   --secondary-foreground: #ffffff;
 
   --muted: #1a2532;
-  --muted-foreground: #94a3b8;
+  --muted-foreground: #94a3b8; /* slate-400 */
 
   --accent: #1c2938;
   --accent-foreground: #ffffff;
@@ -119,25 +119,23 @@
   --border: #1c2938;
   --input: #1f2a3a;
   --ring: #1985f0;
+
+  --radius: 0.25rem;
 }
 
-/* =====================================================
+/* ================================
    BASE STYLES
-===================================================== */
-
+================================ */
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
   body {
-    background-color: #fff;
+    background-color: #f6f7f8;
+    @apply text-foreground font-sans antialiased;
     font-size: var(--text-body);
     line-height: 1.5;
-  }
-
-  .dark body {
-    background-color: #101922;
   }
 
   :focus-visible {
@@ -157,14 +155,45 @@
   h3 {
     @apply font-medium;
   }
+
+  p {
+    @apply text-foreground;
+  }
 }
 
-/* =====================================================
-   CIVICFLOW TYPOGRAPHY UTILITIES
-===================================================== */
+@layer utilities {
+  /* Colors */
+  .text-primary {
+    color: var(--color-primary);
+  }
+  .text-primary-dark {
+    color: var(--color-primary-dark);
+  }
 
+  /* Border Radius */
+  .rounded {
+    border-radius: var(--radius-default);
+  }
+  .rounded-lg {
+    border-radius: var(--radius-lg);
+  }
+  .rounded-xl {
+    border-radius: var(--radius-xl);
+  }
+  .rounded-2xl {
+    border-radius: var(--radius-2xl);
+  }
+  .rounded-full {
+    border-radius: var(--radius-full);
+  }
+}
+
+/* ================================
+   CIVICFLOW TYPOGRAPHY UTILITIES
+================================ */
 .text-display {
   font-size: var(--text-display);
+  letter-spacing: var(--tracking-display);
   @apply font-bold leading-tight;
 }
 

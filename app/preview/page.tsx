@@ -1,5 +1,6 @@
 import AppNavbar from "@/components/AppNavbar";
 import AppFooter from "@/components/AppFooter";
+import HeroSection from "@/components/HeroSection";
 
 const page = () => {
   return (
@@ -22,6 +23,14 @@ const page = () => {
           PublicLayout (navbar + footer shell)
         </p>
         <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden"></div>
+      </section>
+
+      {/* HeroSection */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          HeroSection
+        </p>
+        <HeroSection />
       </section>
 
       {/* AppFooter */}
