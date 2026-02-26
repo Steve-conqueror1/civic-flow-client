@@ -10,19 +10,22 @@ interface AppNavbarProps {
 }
 
 const navLinks = [
-  { label: "Home", href: "#" },
-  { label: "Services", href: "#services" },
-  { label: "How It Works", href: "#how-it-works" },
-  { label: "Sign In", href: "#" },
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/services" },
+  { label: "How It Works", href: "/how-it-works" },
+  { label: "Sign In", href: "/login" },
 ];
 
 const AppNavbar: React.FC<AppNavbarProps> = ({ brandName = "CivicFlow" }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-white dark:bg-[#111a22] border-b border-slate-200 dark:border-slate-800">
+    <header className="sticky top-0 z-50 w-full bg-white dark:bg-card border-b border-slate-200 dark:border-slate-800">
       <div className="max-w-7xl mx-auto px-4 md:px-10 py-3  flex items-center justify-between">
-        <BrandLogo brandName={brandName} />
+        <Link href="/">
+          <BrandLogo brandName={brandName} className="h-10" />
+          <span className="sr-only">— Go to homepage</span>
+        </Link>
 
         {/* Desktop nav */}
         <div className="hidden md:flex flex-1 items-center justify-end gap-8">
