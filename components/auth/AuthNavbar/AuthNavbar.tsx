@@ -54,7 +54,7 @@ const AuthNavbar: React.FC<AuthNavbarProps> = ({ brandName = "CivicFlow" }) => {
         )}
 
         {pathname === "/register" && (
-          <nav aria-label="Authentication options">
+          <nav aria-label="Authentication options" className="hidden lg:flex">
             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
               <span>Already have an account?</span>
               <Link
