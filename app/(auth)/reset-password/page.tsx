@@ -1,9 +1,9 @@
-import { RegisterForm, RegisterHeroPanel } from "@/components/auth/signup";
+import { ResetPasswordForm } from "@/components/auth/reset-password";
 
-const RegisterPage = () => (
+const ResetPasswordPage = () => (
   <main
     className="flex-grow flex items-center justify-center p-4 md:p-8 relative overflow-hidden w-full"
-    aria-label="Citizen registration"
+    aria-label="Set new password"
   >
     {/* Decorative background blobs */}
     <div
@@ -14,11 +14,10 @@ const RegisterPage = () => (
       <div className="absolute bottom-[-10%] right-[-5%] w-125 h-125 bg-primary/10 rounded-full blur-3xl" />
     </div>
 
-    <div className="w-full max-w-240 grid grid-cols-1 lg:grid-cols-12 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden relative z-10">
-      <RegisterHeroPanel />
-      <RegisterForm />
+    <div className="relative z-10 w-full flex flex-col items-center">
+      <ResetPasswordForm />
     </div>
   </main>
 );
 
-export default RegisterPage;
+export default ResetPasswordPage;
