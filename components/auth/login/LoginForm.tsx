@@ -116,21 +116,21 @@ export const LoginForm = () => {
           </Link>
         </p>
       </div>
+      <div className="hidden lg:flex flex-col gap-4 mt-8">
+        <div className="relative flex  items-center">
+          <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+          <span className="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-wider">
+            New User?
+          </span>
+          <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        </div>
 
-      <div className="relative flex py-2 items-center mt-6">
-        <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-        <span className="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-wider">
-          New User?
-        </span>
-        <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+        <div className="mt-4 w-full flex justify-center">
+          <Link className="text-primary" href={"/register"}>
+            Create account &rarr;
+          </Link>
+        </div>
       </div>
-
-      <div className="mt-4 w-full flex justify-center">
-        <Link className="text-primary" href={"/register"}>
-          Create account &rarr;
-        </Link>
-      </div>
-
       {/* Security badge */}
       <div className="mt-8 flex justify-center items-center gap-2 text-slate-400 dark:text-slate-500">
         <Lock size={16} aria-hidden="true" />
