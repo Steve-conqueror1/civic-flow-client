@@ -18,6 +18,7 @@ import { Button } from "@/components/ui/button";
 import { InputGroupButton } from "@/components/ui/input-group";
 import { FormField } from "@/components/shared";
 import { PasswordStrengthChecker } from "./PasswordStrengthChecker";
+import FormHeader from "../FormHeader";
 
 type RegisterFormValues = {
   fullName: string;
@@ -46,15 +47,10 @@ export const RegisterForm = () => {
 
   return (
     <div className="col-span-1 lg:col-span-7 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
-      <div className="mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold text-slate-900 dark:text-white mb-2">
-          Create your Account
-        </h2>
-        <p className="text-slate-500 dark:text-slate-400">
-          Enter your details to register for CivicFlow.
-        </p>
-      </div>
-
+      <FormHeader
+        title="Create your Account"
+        description="Enter your details to register for CivicFlow."
+      />
       <form
         aria-label="Registration form"
         onSubmit={handleSubmit(onSubmit)}
