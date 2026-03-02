@@ -19,15 +19,7 @@ import { InputGroupButton } from "@/components/ui/input-group";
 import { FormField } from "@/components/shared";
 import { PasswordStrengthChecker } from "./PasswordStrengthChecker";
 import FormHeader from "../FormHeader";
-
-type RegisterFormValues = {
-  fullName: string;
-  phone: string;
-  email: string;
-  address: string;
-  password: string;
-  terms: boolean;
-};
+import { RegisterFormValues } from "@/types";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,6 +35,7 @@ export const RegisterForm = () => {
 
   const onSubmit = (_data: RegisterFormValues) => {
     // TODO: connect to registration API endpoint
+    console.log("Form submitted:", _data);
   };
 
   return (
@@ -60,29 +53,41 @@ export const RegisterForm = () => {
         {/* Full Name + Phone row */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
           <FormField
-            id="fullName"
-            label="Full Name"
+            id="firstName"
+            label="First Name"
             required
             icon={<User size={16} aria-hidden="true" />}
             type="text"
-            placeholder="Jane Doe"
+            placeholder="Enter First Name"
             autoComplete="name"
-            error={errors.fullName?.message}
-            {...register("fullName", { required: "Full name is required" })}
+            error={errors.firstName?.message}
+            {...register("firstName", { required: "First name is required" })}
           />
 
           <FormField
-            id="phone"
-            label="Phone Number"
+            id="lastName"
+            label="Last Name"
             required
-            icon={<Phone size={16} aria-hidden="true" />}
-            type="tel"
-            placeholder="(780) 555-0123"
-            autoComplete="tel"
-            error={errors.phone?.message}
-            {...register("phone", { required: "Phone number is required" })}
+            icon={<User size={16} aria-hidden="true" />}
+            type="text"
+            placeholder="Enter Last Name"
+            autoComplete="family-name"
+            error={errors.lastName?.message}
+            {...register("lastName", { required: "Last name is required" })}
           />
         </div>
+
+        <FormField
+          id="phone"
+          label="Phone Number"
+          required
+          icon={<Phone size={16} aria-hidden="true" />}
+          type="tel"
+          placeholder="(780) 555-0123"
+          autoComplete="tel"
+          error={errors.phone?.message}
+          {...register("phone", { required: "Phone number is required" })}
+        />
 
         {/* Email */}
         <FormField
