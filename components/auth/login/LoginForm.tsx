@@ -2,29 +2,35 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { InputGroupButton } from "@/components/ui/input-group";
 import { FormField } from "@/components/shared";
 import FormHeader from "../FormHeader";
-
-type LoginFormValues = {
-  email: string;
-  password: string;
-};
+import { loginSchema } from "@/lib/validators";
+import { useAuth } from "@/app/hooks/use-auth";
+import type { LoginFormValues } from "@/types";
 
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const { loginMutation } = useAuth();
 
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting },
-  } = useForm<LoginFormValues>();
+    formState: { errors },
+  } = useForm<LoginFormValues>({
+    resolver: zodResolver(loginSchema),
+  });
 
-  const onSubmit = (_data: LoginFormValues) => {
-    // TODO: connect to login API endpoint
+  const onSubmit = (data: LoginFormValues) => {
+    loginMutation.mutate(data, {
+      onSuccess: () => router.push("/dashboard"),
+    });
   };
 
   return (
@@ -50,7 +56,7 @@ export const LoginForm = () => {
           placeholder="jane@example.com"
           autoComplete="email"
           error={errors.email?.message}
-          {...register("email", { required: "Email is required" })}
+          {...register("email")}
         />
 
         {/* Password */}
@@ -77,7 +83,7 @@ export const LoginForm = () => {
                 )}
               </InputGroupButton>
             }
-            {...register("password", { required: "Password is required" })}
+            {...register("password")}
           />
 
           <div className="flex justify-end pt-0.5">
@@ -91,16 +97,21 @@ export const LoginForm = () => {
         </div>
 
         {/* Submit */}
-        <div className="pt-2">
+        <div className="pt-2 space-y-2">
           <Button
             type="submit"
             size="lg"
             className="w-full"
-            disabled={isSubmitting}
+            disabled={loginMutation.isPending}
           >
             Sign In
             <ArrowRight size={18} aria-hidden="true" />
           </Button>
+          {loginMutation.isError && (
+            <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+              {loginMutation.error?.message}
+            </p>
+          )}
         </div>
       </form>
 
