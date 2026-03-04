@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import {
   Eye,
@@ -19,30 +21,37 @@ import { InputGroupButton } from "@/components/ui/input-group";
 import { FormField } from "@/components/shared";
 import { PasswordStrengthChecker } from "./PasswordStrengthChecker";
 import FormHeader from "../FormHeader";
-import { RegisterFormValues } from "@/types";
+import { registerSchema } from "@/lib/validators";
+import { useAuth } from "@/app/hooks/use-auth";
+import type { RegisterFormValues } from "@/types";
 
 export const RegisterForm = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const { registerMutation } = useAuth();
 
   const {
     register,
     handleSubmit,
     watch,
-    formState: { errors, isSubmitting },
-  } = useForm<RegisterFormValues>();
+    formState: { errors },
+  } = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
+  });
 
   const password = watch("password", "");
 
-  const onSubmit = (_data: RegisterFormValues) => {
-    // TODO: connect to registration API endpoint
-    console.log("Form submitted:", _data);
+  const onSubmit = ({ terms: _terms, ...payload }: RegisterFormValues) => {
+    registerMutation.mutate(payload, {
+      onSuccess: () => router.push("/login"),
+    });
   };
 
   return (
     <div className="col-span-1 lg:col-span-7 p-6 md:p-10 lg:p-12 flex flex-col justify-center">
       <FormHeader
         title="Create your Account"
-        description="Enter your details to register for CivicFlow."
+        description="E nter your details to register for CivicFlow."
       />
       <form
         aria-label="Registration form"
@@ -61,7 +70,7 @@ export const RegisterForm = () => {
             placeholder="Enter First Name"
             autoComplete="name"
             error={errors.firstName?.message}
-            {...register("firstName", { required: "First name is required" })}
+            {...register("firstName")}
           />
 
           <FormField
@@ -73,7 +82,7 @@ export const RegisterForm = () => {
             placeholder="Enter Last Name"
             autoComplete="family-name"
             error={errors.lastName?.message}
-            {...register("lastName", { required: "Last name is required" })}
+            {...register("lastName")}
           />
         </div>
 
@@ -85,8 +94,8 @@ export const RegisterForm = () => {
           type="tel"
           placeholder="(780) 555-0123"
           autoComplete="tel"
-          error={errors.phone?.message}
-          {...register("phone", { required: "Phone number is required" })}
+          error={errors.phoneNumber?.message}
+          {...register("phoneNumber")}
         />
 
         {/* Email */}
@@ -100,7 +109,7 @@ export const RegisterForm = () => {
           autoComplete="email"
           hint="We'll send a verification link to this email."
           error={errors.email?.message}
-          {...register("email", { required: "Email is required" })}
+          {...register("email")}
         />
 
         {/* Residential Address */}
@@ -122,7 +131,7 @@ export const RegisterForm = () => {
               <MapPin size={16} aria-hidden="true" />
             </InputGroupButton>
           }
-          {...register("address", { required: "Address is required" })}
+          {...register("address")}
         />
 
         {/* Password */}
@@ -149,7 +158,7 @@ export const RegisterForm = () => {
                 )}
               </InputGroupButton>
             }
-            {...register("password", { required: "Password is required" })}
+            {...register("password")}
           />
 
           <PasswordStrengthChecker password={password} />
@@ -163,7 +172,7 @@ export const RegisterForm = () => {
               type="checkbox"
               className="h-4 w-4 rounded border-slate-300 text-primary focus:ring-primary bg-white dark:bg-slate-800 cursor-pointer"
               aria-required="true"
-              {...register("terms", { required: true })}
+              {...register("terms")}
             />
           </div>
           <div className="text-sm leading-6">
@@ -185,16 +194,21 @@ export const RegisterForm = () => {
         </div>
 
         {/* Submit */}
-        <div className="pt-2">
+        <div className="pt-2 space-y-2">
           <Button
             type="submit"
             size="lg"
             className="w-full"
-            disabled={isSubmitting}
+            disabled={registerMutation.isPending}
           >
             Create Account
             <ArrowRight size={18} aria-hidden="true" />
           </Button>
+          {registerMutation.isError && (
+            <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+              {registerMutation.error?.message}
+            </p>
+          )}
         </div>
       </form>
 

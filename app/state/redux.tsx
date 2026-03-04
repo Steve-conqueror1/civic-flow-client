@@ -9,9 +9,11 @@ import {
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import globalReducer from "../state";
 import { api } from "./api";
+import authReducer from "./authSlice";
 
 const rootReducer = combineReducers({
   global: globalReducer,
+  auth: authReducer,
   [api.reducerPath]: api.reducer,
 });
 
