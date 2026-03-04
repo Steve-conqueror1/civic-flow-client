@@ -5,7 +5,6 @@ const ForgotPasswordPage = () => (
     className="flex-grow flex items-center justify-center p-4 md:p-8 relative overflow-hidden w-full"
     aria-label="Forgot password"
   >
-    {/* Decorative background blobs */}
     <div
       aria-hidden="true"
       className="absolute inset-0 pointer-events-none overflow-hidden"
