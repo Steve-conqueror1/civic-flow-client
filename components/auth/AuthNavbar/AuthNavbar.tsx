@@ -53,7 +53,7 @@ const AuthNavbar: React.FC<AuthNavbarProps> = ({ brandName = "CivicFlow" }) => {
           </div>
         )}
 
-        {["/verify-email"].includes(pathname) && (
+        {["/verify-email", "/reset-password"].includes(pathname) && (
           <div
             className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400"
             aria-label="Secure Connection indicator"
