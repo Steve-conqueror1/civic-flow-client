@@ -2,29 +2,51 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 import Link from "next/link";
 import { Mail, ArrowRight, ArrowLeft, KeyRound, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { FormField } from "@/components/shared";
+import { forgotPasswordSchema } from "@/lib/validators";
 
-type ForgotPasswordValues = {
-  email: string;
-};
+type ForgotPasswordValues = z.infer<typeof forgotPasswordSchema>;
 
 export const ForgotPasswordForm = () => {
   const [submitted, setSubmitted] = useState(false);
   const [submittedEmail, setSubmittedEmail] = useState("");
+  const [apiError, setApiError] = useState("");
 
   const {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-  } = useForm<ForgotPasswordValues>();
+  } = useForm<ForgotPasswordValues>({
+    resolver: zodResolver(forgotPasswordSchema),
+  });
 
-  const onSubmit = (data: ForgotPasswordValues) => {
-    setSubmittedEmail(data.email);
-    setSubmitted(true);
-    // TODO: call password reset API endpoint
+  const onSubmit = async (data: ForgotPasswordValues) => {
+    setApiError("");
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_BASE_URL}/auth/request-password-reset`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: data.email }),
+        },
+      );
+      if (!res.ok) {
+        const err = await res.json().catch(() => ({}));
+        throw new Error(err?.message ?? "Something went wrong. Please try again.");
+      }
+      setSubmittedEmail(data.email);
+      setSubmitted(true);
+    } catch (err) {
+      setApiError(
+        err instanceof Error ? err.message : "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (
@@ -89,8 +111,14 @@ export const ForgotPasswordForm = () => {
                 autoComplete="email"
                 hint="Enter the email associated with your account."
                 error={errors.email?.message}
-                {...register("email", { required: "Email is required" })}
+                {...register("email")}
               />
+
+              {apiError && (
+                <p role="alert" className="text-sm text-red-600 dark:text-red-400">
+                  {apiError}
+                </p>
+              )}
 
               <Button
                 type="submit"

@@ -1,5 +1,9 @@
 import { z } from "zod";
 
+export const forgotPasswordSchema = z.object({
+  email: z.email("Enter a valid email").nonempty("Email is required"),
+});
+
 export const loginSchema = z.object({
   email: z.email("Enter a valid email").nonempty("Email is required"),
   password: z.string().nonempty("Password is required"),
