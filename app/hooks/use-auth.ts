@@ -79,21 +79,23 @@ export function useAuth() {
     queryFn: fetchCurrentUser,
     retry: false,
     staleTime: 1000 * 60 * 5,
+    refetchOnWindowFocus: false,
+    enabled: !!user,
   });
 
   useEffect(() => {
-    if (currentUserQuery.isSuccess && currentUserQuery.data) {
+    if (currentUserQuery.status === "success") {
       dispatch(setAuthUser({ user: currentUserQuery.data }));
     }
-    if (currentUserQuery.isError) {
+    if (isAuthenticated) {
       dispatch(clearAuth());
     }
-  }, [currentUserQuery.status, dispatch]);
+  }, [currentUserQuery.status]);
 
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: async () => {
-      await queryClient.invalidateQueries({ queryKey: ["me"] });
+      await currentUserQuery.refetch();
     },
   });
 
