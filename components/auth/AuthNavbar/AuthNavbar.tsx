@@ -53,6 +53,20 @@ const AuthNavbar: React.FC<AuthNavbarProps> = ({ brandName = "CivicFlow" }) => {
           </div>
         )}
 
+        {["/verify-email"].includes(pathname) && (
+          <div
+            className="flex items-center gap-2 text-sm font-medium text-slate-500 dark:text-slate-400"
+            aria-label="Secure Connection indicator"
+          >
+            <span title="Secure Connection - SSL Encryption">
+              <Lock size={16} aria-hidden="true" />
+            </span>
+            <span className="hidden sm:flex">
+              Secure Alberta Government Service
+            </span>
+          </div>
+        )}
+
         {pathname === "/register" && (
           <nav aria-label="Authentication options" className="hidden lg:flex">
             <div className="flex items-center gap-2 text-sm text-slate-600 dark:text-slate-400">
