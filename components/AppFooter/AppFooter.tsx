@@ -18,9 +18,9 @@ const supportLinks: FooterLink[] = [
 ];
 
 const legalLinks: FooterLink[] = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Service", href: "#" },
-  { label: "Data Protection", href: "#" },
+  { label: "Privacy Policy", href: "/privacy-policy" },
+  { label: "Terms of Service", href: "/terms-of-service" },
+  { label: "Data Protection", href: "/data-protection" },
 ];
 
 const AppFooter: React.FC = () => {

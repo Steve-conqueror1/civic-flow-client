@@ -20,52 +20,26 @@ const page = () => {
         <AppNavbar />
       </section>
 
-      {/* PublicLayout */}
-      <section className="mt-8">
-        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
-          PublicLayout (navbar + footer shell)
-        </p>
-        <div className="border border-slate-200 dark:border-slate-700 rounded-xl overflow-hidden"></div>
-      </section>
-
-      {/* HeroSection */}
-      <section className="mt-8">
-        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
-          HeroSection
-        </p>
-        <HeroSection />
-      </section>
-
-      {/* ServiceCategoriesSection */}
-      <section className="mt-8">
-        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
-          ServiceCategoriesSection
-        </p>
-        <ServiceCategoriesSection />
-      </section>
-
-      {/* HowItWorksSection */}
-      <section className="mt-8">
-        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
-          HowItWorksSection
-        </p>
-        <HowItWorksSection />
-      </section>
-
-      {/* CtaBannerSection */}
-      <section className="mt-8">
-        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
-          CtaBannerSection
-        </p>
-        <CtaBannerSection />
-      </section>
-
       {/* AppFooter */}
       <section className="mt-8">
         <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
           AppFooter
         </p>
         <AppFooter />
+      </section>
+
+      {/* PrivacyPolicyTitleSection */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          PrivacyPolicyTitleSection
+        </p>
+      </section>
+
+      {/* PrivacyPolicyContentSection */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          PrivacyPolicyContentSection
+        </p>
       </section>
     </div>
   );
