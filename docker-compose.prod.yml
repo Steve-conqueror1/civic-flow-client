@@ -8,6 +8,7 @@ services:
       target: runner
       args:
         NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL}
+        NEXT_PUBLIC_MAPBOX_TOKEN: ${NEXT_PUBLIC_MAPBOX_TOKEN}
     container_name: civicflow-frontend
     ports:
       - "${APP_PORT}:3000"
