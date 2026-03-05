@@ -1,10 +1,6 @@
 import AppNavbar from "@/components/AppNavbar";
 import AppFooter from "@/components/AppFooter";
-import HeroSection from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import ServiceCategoriesSection from "@/components/ServiceCategoriesSection";
-import CtaBannerSection from "@/components/CtaBannerSection";
-
+import MapView from "@/components/maps";
 const page = () => {
   return (
     <div>
@@ -18,6 +14,16 @@ const page = () => {
           AppNavbar
         </p>
         <AppNavbar />
+      </section>
+
+      {/* MapView */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          MapView
+        </p>
+        <div className="px-4">
+          <MapView />
+        </div>
       </section>
 
       {/* AppFooter */}
