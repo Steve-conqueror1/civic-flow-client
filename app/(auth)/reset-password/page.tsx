@@ -1,5 +1,4 @@
 import { ResetPasswordForm } from "@/components/auth/reset-password";
-import AuthPageFooter from "../verify-email/AuthPageFooter";
 
 export default async function ResetPasswordPage({
   searchParams,
