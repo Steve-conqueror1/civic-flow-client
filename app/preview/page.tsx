@@ -7,7 +7,7 @@ import ServiceCategoryCard from "@/components/ServiceCategoryCard";
 import ServicesAIAssistant from "@/components/ServicesAIAssistant";
 import ServicesQuickLinks from "@/components/ServicesQuickLinks";
 import ServicesAlerts from "@/components/ServicesAlerts";
-import RequestProgressBar from "@/components/RequestProgressBar";
+import RequestProgressBar from "@/components/requests";
 import AISuggestionPanel from "@/components/AISuggestionPanel";
 import { Construction, TrafficCone } from "lucide-react";
 const page = () => {
@@ -71,7 +71,11 @@ const page = () => {
           PopularServiceCard
         </p>
         <div className="px-4 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-2xl">
-          <PopularServiceCard title="Report Pothole" href="/services/infrastructure/pothole" icon={Construction} />
+          <PopularServiceCard
+            title="Report Pothole"
+            href="/services/infrastructure/pothole"
+            icon={Construction}
+          />
         </div>
       </section>
 
@@ -89,8 +93,14 @@ const page = () => {
             iconBgClass="bg-blue-100 dark:bg-blue-900/30"
             iconColorClass="text-primary"
             services={[
-              { name: "Road Repair Request", href: "/services/infrastructure/road-repair" },
-              { name: "Snow Removal Status", href: "/services/infrastructure/snow-removal" },
+              {
+                name: "Road Repair Request",
+                href: "/services/infrastructure/road-repair",
+              },
+              {
+                name: "Snow Removal Status",
+                href: "/services/infrastructure/snow-removal",
+              },
             ]}
             viewAllHref="/services/infrastructure"
             viewAllLabel="View all Infrastructure services"

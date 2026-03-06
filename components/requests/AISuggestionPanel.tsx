@@ -10,7 +10,7 @@ interface AISuggestionPanelProps {
   onChangeCategory?: () => void;
 }
 
-export default function AISuggestionPanel({
+export function AISuggestionPanel({
   suggestedCategory,
   isLoading = false,
   onApply,
@@ -25,10 +25,7 @@ export default function AISuggestionPanel({
       />
 
       <div className="flex items-center gap-3 mb-4">
-        <Sparkles
-          className="text-primary size-6"
-          aria-hidden="true"
-        />
+        <Sparkles className="text-primary size-6" aria-hidden="true" />
         <h3 className="text-slate-900 dark:text-white text-lg font-bold">
           AI Suggestion
         </h3>

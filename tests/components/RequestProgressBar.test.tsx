@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import RequestProgressBar from "@/components/RequestProgressBar";
+import RequestProgressBar from "@/components/requests";
 
 const DEFAULT_STEPS = ["Description", "Location", "Upload", "Review"];
 

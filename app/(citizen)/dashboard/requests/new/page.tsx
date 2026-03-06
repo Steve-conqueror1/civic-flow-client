@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import RequestProgressBar from "@/components/RequestProgressBar";
-import AISuggestionPanel from "@/components/AISuggestionPanel";
+import { RequestProgressBar } from "@/components/requests";
+import { AISuggestionPanel } from "@/components/requests";
 import Link from "next/link";
 
 const WIZARD_STEPS = ["Description", "Location", "Upload", "Review"];

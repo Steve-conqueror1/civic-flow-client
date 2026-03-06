@@ -6,7 +6,7 @@ interface RequestProgressBarProps {
   currentStep: number; // 1-based
 }
 
-export default function RequestProgressBar({
+export function RequestProgressBar({
   steps,
   currentStep,
 }: RequestProgressBarProps) {
