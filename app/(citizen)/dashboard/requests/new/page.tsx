@@ -5,8 +5,8 @@ import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import RequestProgressBar from "@/components/RequestProgressBar";
-import AISuggestionPanel from "@/components/AISuggestionPanel";
+import { RequestProgressBar } from "@/components/requests";
+import { AISuggestionPanel } from "@/components/requests";
 import Link from "next/link";
 
 const WIZARD_STEPS = ["Description", "Location", "Upload", "Review"];
@@ -48,7 +48,7 @@ export default function NewRequestPage() {
 
   return (
     <main className="flex flex-1 flex-col overflow-y-auto">
-      <div className="max-w-7xl mx-auto w-full px-6 py-10">
+      <div className="max-w-7xl mx-auto w-full px-6 py-8">
         <div className="flex items-center gap-2 my-4 text-slate-500 dark:text-slate-400 text-sm">
           <span>
             <Link href="/dashboard">Dashboard</Link>
