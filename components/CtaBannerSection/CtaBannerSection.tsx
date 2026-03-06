@@ -36,7 +36,7 @@ export default function CtaBannerSection() {
               Register Now
             </Link>
             <Link
-              href="#how-it-works"
+              href="/how-it-works"
               className="flex items-center justify-center rounded-lg h-12 px-8 bg-white/10 hover:bg-white/20 border border-white/20 text-white text-base font-bold transition-all w-full sm:w-auto backdrop-blur-sm"
             >
               Learn More
