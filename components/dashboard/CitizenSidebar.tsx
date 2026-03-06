@@ -25,12 +25,12 @@ import {
 } from "@/components/ui/sidebar";
 
 const NAV_LINKS = [
-  { label: "Dashboard", href: "/citizen/dashboard", icon: LayoutDashboard },
-  { label: "New Request", href: "/citizen/submit", icon: PlusCircle },
-  { label: "My Requests", href: "/citizen/requests", icon: ListOrdered },
-  { label: "Messages", href: "/citizen/messages", icon: MessageSquare },
-  { label: "Notifications", href: "/citizen/notifications", icon: Bell },
-  { label: "Profile", href: "/citizen/profile", icon: User },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "New Request", href: "/dashboard/requests/new", icon: PlusCircle },
+  { label: "My Requests", href: "/dashboard/requests", icon: ListOrdered },
+  { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
+  { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
+  { label: "Profile", href: "/dashboard/profile", icon: User },
 ];
 
 interface CitizenSidebarProps {

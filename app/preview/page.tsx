@@ -7,6 +7,8 @@ import ServiceCategoryCard from "@/components/ServiceCategoryCard";
 import ServicesAIAssistant from "@/components/ServicesAIAssistant";
 import ServicesQuickLinks from "@/components/ServicesQuickLinks";
 import ServicesAlerts from "@/components/ServicesAlerts";
+import RequestProgressBar from "@/components/RequestProgressBar";
+import AISuggestionPanel from "@/components/AISuggestionPanel";
 import { Construction, TrafficCone } from "lucide-react";
 const page = () => {
   return (
@@ -123,6 +125,29 @@ const page = () => {
         </p>
         <div className="px-4 max-w-sm">
           <ServicesAlerts />
+        </div>
+      </section>
+
+      {/* RequestProgressBar */}
+      <section className="mt-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          RequestProgressBar
+        </p>
+        <div className="px-4 max-w-2xl">
+          <RequestProgressBar
+            steps={["Description", "Location", "Upload", "Review"]}
+            currentStep={2}
+          />
+        </div>
+      </section>
+
+      {/* AISuggestionPanel */}
+      <section className="mt-8 mb-8">
+        <p className="px-4 pb-2 text-sm font-medium text-slate-400 uppercase tracking-wide">
+          AISuggestionPanel
+        </p>
+        <div className="px-4 max-w-sm">
+          <AISuggestionPanel suggestedCategory="Infrastructure" />
         </div>
       </section>
     </div>
