@@ -4,8 +4,8 @@ import { FooterLinkGroup, FooterLink } from "./FooterLinkGroup";
 import { BrandLogo } from "../shared";
 
 const platformLinks: FooterLink[] = [
-  { label: "Browse Services", href: "#" },
-  { label: "Track Request", href: "#" },
+  { label: "Browse Services", href: "/services" },
+  { label: "Track Request", href: "/track-request" },
   { label: "Mobile App", href: "#" },
   { label: "For Government Staff", href: "#" },
 ];
