@@ -24,7 +24,7 @@ export function DashboardHeader({ name }: DashboardHeaderProps) {
         </p>
       </div>
       <Link
-        href="/citizen/submit"
+        href="/dashboard/requests/new"
         className="flex items-center gap-2 rounded-lg h-10 px-5 bg-primary text-white hover:bg-primary-dark text-sm font-semibold transition-colors shadow-sm"
       >
         <Plus size={18} aria-hidden="true" />
