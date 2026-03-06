@@ -3,24 +3,14 @@ import Link from "next/link";
 import { FooterLinkGroup, FooterLink } from "./FooterLinkGroup";
 import { BrandLogo } from "../shared";
 
-const platformLinks: FooterLink[] = [
-  { label: "Browse Services", href: "/services" },
-  { label: "Track Request", href: "/track-request" },
-  { label: "Mobile App", href: "#" },
-  { label: "For Government Staff", href: "#" },
-];
-
 const supportLinks: FooterLink[] = [
-  { label: "Help Center", href: "#" },
   { label: "Contact Us", href: "#" },
   { label: "Accessibility", href: "#" },
-  { label: "Report a Bug", href: "#" },
 ];
 
 const legalLinks: FooterLink[] = [
   { label: "Privacy Policy", href: "/privacy-policy" },
   { label: "Terms of Service", href: "/terms-of-service" },
-  { label: "Data Protection", href: "/data-protection" },
 ];
 
 const AppFooter: React.FC = () => {
@@ -69,13 +59,22 @@ const AppFooter: React.FC = () => {
             </div>
           </div>
 
-          <FooterLinkGroup heading="Platform" links={platformLinks} />
-          <FooterLinkGroup heading="Support" links={supportLinks} />
           <FooterLinkGroup heading="Legal" links={legalLinks} />
+          <FooterLinkGroup heading="Support" links={supportLinks} />
+          <div>
+            <h3 className="font-bold text-slate-900 dark:text-white mb-4">
+              Contact
+            </h3>
+            <p className="text-sm text-slate-600 dark:text-slate-400">
+              Government of Alberta
+              <br />
+              10155 102 St NW <br /> Edmonton, AB T5J 0L2
+            </p>
+          </div>
         </div>
 
         {/* Bottom bar */}
-        <div className="border-t border-slate-100 dark:border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-slate-100 dark:border-slate-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-400">
             © {new Date().getFullYear()} CivicFlow Alberta. All rights reserved.
           </p>

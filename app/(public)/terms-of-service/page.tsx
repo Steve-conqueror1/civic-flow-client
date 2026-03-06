@@ -4,7 +4,7 @@ import { TermsSection, TermsTitleSection } from "@/components/TermsOfService";
 const page = () => {
   return (
     <main className="flex-1 w-full  px-6 py-12 md:py-16 bg-background">
-      <div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto md:px-10">
         <TermsTitleSection />
 
         <article className="space-y-10">

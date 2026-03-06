@@ -1,56 +1,42 @@
 import {
-  AIUsage,
-  CitizenRights,
-  DataResidency,
   PrivacyPolicyTitleSection,
+  CollectedInfo,
+  AIUsage,
+  DataResidency,
+  CitizenRights,
+  PolicyHeading,
 } from "@/components/ProvacyPolicy";
-import { PolicyHeading } from "@/components/ProvacyPolicy";
-import { CollectedInfo } from "@/components/ProvacyPolicy/CollectedInfo";
 
 const PrivacyPolicyPage = () => {
   return (
-    <main className="bg-background w-full py-16">
-      <div className="max-w-7xl mx-auto px-4 md:px-10 ">
+    <main className="flex flex-1 justify-center py-10 px-6 md:px-20  w-full bg-background">
+      <div className="flex flex-col max-w-7xl flex-1 mx-auto px-4 sm:px-6 md:px-10">
         <PrivacyPolicyTitleSection />
-        <div className="flex flex-col gap-6">
-          <div className="w-full">
+
+        <div className="space-y-12">
+          {/* Section 01 — Introduction */}
+          <section aria-labelledby="intro-heading">
             <PolicyHeading number="01" title="Introduction" />
-            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm  mb-8">
+            <div className="bg-white dark:bg-slate-900 p-6 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm">
               <p className="text-slate-700 dark:text-slate-300 text-base leading-relaxed">
                 CivicFlow is committed to protecting your privacy. This policy
                 outlines our practices regarding the collection, use, and
                 disclosure of personal information. As an Alberta-based service
                 provider, we operate in strict compliance with the{" "}
-                <span className="font-bold">
-                  Freedom of Information and Protection of Privacy Act
-                  (FOIP){" "}
-                </span>
+                <strong>
+                  Freedom of Information and Protection of Privacy Act (FOIP)
+                </strong>{" "}
                 and the{" "}
-                <span className="font-bold">
-                  Personal Information Protection Act (PIPA){" "}
-                </span>{" "}
+                <strong>Personal Information Protection Act (PIPA)</strong>{" "}
                 where applicable.
               </p>
             </div>
-          </div>
+          </section>
 
-          <div className="w-full">
-            <PolicyHeading number="02" title="Information We Collect" />
-            <CollectedInfo />
-          </div>
-
-          <div className="w-full">
-            <PolicyHeading number="03" title="How We Use AI" />
-            <AIUsage />
-          </div>
-          <div className="w-full">
-            <PolicyHeading number="04" title="Data Residency & Security" />
-            <DataResidency />
-          </div>
-          <div className="w-full">
-            <PolicyHeading number="05" title="Citizen Rights" />
-            <CitizenRights />
-          </div>
+          <CollectedInfo />
+          <AIUsage />
+          <DataResidency />
+          <CitizenRights />
         </div>
       </div>
     </main>
