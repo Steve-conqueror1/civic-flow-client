@@ -181,11 +181,17 @@ export const RegisterForm = () => {
               className="font-medium text-slate-700 dark:text-slate-300 cursor-pointer"
             >
               I agree to the{" "}
-              <Link href="/terms" className="text-primary hover:underline">
+              <Link
+                href="/terms-of-service"
+                className="text-primary hover:underline"
+              >
                 Terms of Service
               </Link>{" "}
               and{" "}
-              <Link href="/privacy" className="text-primary hover:underline">
+              <Link
+                href="/privacy-policy"
+                className="text-primary hover:underline"
+              >
                 Privacy Policy
               </Link>
               .
