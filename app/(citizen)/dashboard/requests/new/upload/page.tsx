@@ -140,10 +140,13 @@ export default function RequestUploadPage() {
               Back to Step 2
             </Link>
           </Button>
-          <Button className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-primary/30 flex items-center gap-2 hover:cursor-pointer">
+          <Link
+            href={"/"}
+            className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-lg font-semibold shadow-lg shadow-primary/30 flex items-center gap-2 hover:cursor-pointer"
+          >
             Review &amp; Submit
             <ArrowRight className="size-4" aria-hidden="true" />
-          </Button>
+          </Link>
         </div>
       </div>
     </main>
