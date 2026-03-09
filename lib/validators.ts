@@ -33,6 +33,14 @@ export const contactSchema = z.object({
 
 export type ContactFormData = z.infer<typeof contactSchema>;
 
+export const accessibilityFeedbackSchema = z.object({
+  fullName: z.string().nonempty("Full name is required"),
+  email: z.email("Enter a valid email").nonempty("Email is required"),
+  feedback: z.string().min(10, "Please provide at least 10 characters"),
+});
+
+export type AccessibilityFeedbackData = z.infer<typeof accessibilityFeedbackSchema>;
+
 export const registerSchema = z.object({
   firstName: z.string().nonempty("First name is required"),
   lastName: z.string().nonempty("Last name is required"),

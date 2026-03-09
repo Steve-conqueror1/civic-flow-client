@@ -1,9 +1,14 @@
-import { MapPin } from "lucide-react";
+import { MapPin, Keyboard } from "lucide-react";
 import {
   ContactInfoItem,
   ContactForm,
   ContactMapCard,
 } from "@/components/Contact";
+import {
+  AccessibilityFeatureCard,
+  AccessibilityComplianceTable,
+  AccessibilityFeedbackForm,
+} from "@/components/Accessibility";
 
 const PreviewPage = () => {
   return (
@@ -36,6 +41,34 @@ const PreviewPage = () => {
           ContactForm
         </h2>
         <ContactForm />
+      </section>
+
+      {/* AccessibilityFeatureCard */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          AccessibilityFeatureCard
+        </h2>
+        <AccessibilityFeatureCard
+          icon={<Keyboard className="size-8" />}
+          title="Navigation & Keyboard Support"
+          description="Our interface is fully navigable using a keyboard."
+        />
+      </section>
+
+      {/* AccessibilityComplianceTable */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          AccessibilityComplianceTable
+        </h2>
+        <AccessibilityComplianceTable />
+      </section>
+
+      {/* AccessibilityFeedbackForm */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          AccessibilityFeedbackForm
+        </h2>
+        <AccessibilityFeedbackForm />
       </section>
     </div>
   );

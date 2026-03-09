@@ -5,7 +5,7 @@ import { BrandLogo } from "../shared";
 
 const supportLinks: FooterLink[] = [
   { label: "Contact Us", href: "/contact-us" },
-  { label: "Accessibility", href: "#" },
+  { label: "Accessibility", href: "/accessibility" },
 ];
 
 const legalLinks: FooterLink[] = [

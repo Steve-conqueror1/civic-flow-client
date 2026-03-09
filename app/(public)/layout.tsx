@@ -1,5 +1,6 @@
 import AppFooter from "@/components/AppFooter";
 import AppNavbar from "@/components/AppNavbar";
+import { Toaster } from "@/components/ui/sonner";
 
 export default function PublicRootLayout({
   children,
@@ -11,6 +12,7 @@ export default function PublicRootLayout({
       <AppNavbar />
       <div className="flex-grow flex flex-col items-center">{children}</div>
       <AppFooter />
+      <Toaster richColors position="top-right" />
     </main>
   );
 }
