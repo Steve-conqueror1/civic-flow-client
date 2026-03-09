@@ -4,6 +4,13 @@ import { describe, it, expect, vi } from "vitest";
 import { render } from "@testing-library/react";
 import ContactForm from "@/components/Contact/ContactForm";
 
+// Mock sonner's toast
+vi.mock("sonner", () => ({
+  toast: {
+    success: vi.fn(),
+  },
+}));
+
 describe("ContactForm", () => {
   it("renders the form", () => {
     render(<ContactForm />);
@@ -69,7 +76,6 @@ describe("ContactForm", () => {
       screen.getByRole("button", { name: /submit inquiry/i }),
     );
     await waitFor(() => {
-      // Polite live region error summary (sr-only)
       const summaries = screen.getAllByRole("status");
       expect(summaries.length).toBeGreaterThan(0);
     });
@@ -81,15 +87,15 @@ describe("ContactForm", () => {
       screen.getByRole("button", { name: /submit inquiry/i }),
     );
     await waitFor(() => {
-      // Confirm at least one field-level error message exists
       expect(screen.getByText(/full name is required/i)).toBeDefined();
     });
-    // No element should have role="alert" — inline errors use aria-describedby only
     expect(screen.queryAllByRole("alert")).toHaveLength(0);
   });
 
-  it("shows success message after valid submission", async () => {
+  it("calls toast.success and logs on valid submission", async () => {
+    const { toast } = await import("sonner");
     const consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {});
+
     render(<ContactForm />);
     await userEvent.type(screen.getByLabelText(/full name/i), "Jane Doe");
     await userEvent.type(
@@ -104,11 +110,33 @@ describe("ContactForm", () => {
     await userEvent.click(
       screen.getByRole("button", { name: /submit inquiry/i }),
     );
+
     await waitFor(() => {
-      expect(screen.getByRole("status")).toBeDefined();
-      expect(screen.getByText(/inquiry sent/i)).toBeDefined();
+      expect(toast.success).toHaveBeenCalled();
+      expect(consoleSpy).toHaveBeenCalled();
     });
-    expect(consoleSpy).toHaveBeenCalled();
+
     consoleSpy.mockRestore();
+  });
+
+  it("clears form after valid submission", async () => {
+    render(<ContactForm />);
+    const nameInput = screen.getByLabelText(/full name/i) as HTMLInputElement;
+    await userEvent.type(nameInput, "Jane Doe");
+    await userEvent.type(
+      screen.getByLabelText(/email address/i),
+      "jane@gov.ca",
+    );
+    await userEvent.type(screen.getByLabelText(/subject/i), "Test Subject");
+    await userEvent.type(
+      screen.getByLabelText(/message/i),
+      "This is a test message.",
+    );
+    await userEvent.click(
+      screen.getByRole("button", { name: /submit inquiry/i }),
+    );
+    await waitFor(() => {
+      expect(nameInput.value).toBe("");
+    });
   });
 });

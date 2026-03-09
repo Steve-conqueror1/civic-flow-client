@@ -1,58 +1,28 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Send, CheckCircle } from "lucide-react";
+import { toast } from "sonner";
+import { Send } from "lucide-react";
 import { contactSchema, type ContactFormData } from "@/lib/validators";
 
 const ContactForm = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const successRef = useRef<HTMLDivElement>(null);
-
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors, isSubmitting },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
 
-  // Move focus into the success region so screen readers announce it reliably
-  useEffect(() => {
-    if (submitted && successRef.current) {
-      successRef.current.focus();
-    }
-  }, [submitted]);
-
   const onSubmit = (data: ContactFormData) => {
     console.log("Contact form submission:", data);
-    setSubmitted(true);
+    toast.success("Inquiry sent! We'll get back to you within 1–2 business days.");
+    reset();
   };
 
   const errorCount = Object.keys(errors).length;
-
-  if (submitted) {
-    return (
-      <div
-        ref={successRef}
-        tabIndex={-1}
-        role="status"
-        className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800 flex flex-col items-center justify-center gap-4 text-center min-h-[400px] outline-none"
-      >
-        <div className="bg-primary/10 p-4 rounded-full">
-          <CheckCircle className="text-primary size-10" aria-hidden="true" />
-        </div>
-        <h2 className="text-slate-900 dark:text-slate-100 text-2xl font-bold">
-          Inquiry Sent!
-        </h2>
-        <p className="text-slate-600 dark:text-slate-400 max-w-sm">
-          Thank you for reaching out. Our team will get back to you within 1–2
-          business days.
-        </p>
-      </div>
-    );
-  }
 
   return (
     <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
