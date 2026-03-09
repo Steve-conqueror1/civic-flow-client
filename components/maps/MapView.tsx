@@ -21,6 +21,7 @@ export default function MapView({
   latitude = DEFAULT_LATITUDE,
   zoom = DEFAULT_ZOOM,
   markerLabel,
+
   height = "400px",
 }: MapViewProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -46,6 +47,7 @@ export default function MapView({
         initialViewState={{ longitude, latitude, zoom }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         style={{ width: "100%", height: "100%" }}
+        attributionControl={false}
       >
         <Marker longitude={longitude} latitude={latitude} anchor="bottom">
           <MapPin

@@ -206,3 +206,11 @@
 .code-id {
   @apply font-mono text-meta tracking-wide;
 }
+
+.mapboxgl-ctrl-logo {
+  display: none !important;
+}
+
+.mapboxgl-control-container {
+  display: none !important;
+}

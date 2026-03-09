@@ -4,7 +4,7 @@ import { FooterLinkGroup, FooterLink } from "./FooterLinkGroup";
 import { BrandLogo } from "../shared";
 
 const supportLinks: FooterLink[] = [
-  { label: "Contact Us", href: "#" },
+  { label: "Contact Us", href: "/contact-us" },
   { label: "Accessibility", href: "#" },
 ];
 
@@ -31,7 +31,8 @@ const AppFooter: React.FC = () => {
             </p>
             <div className="flex gap-4">
               <Link
-                href="#"
+                target="_blank"
+                href="https://x.com/YourAlberta"
                 aria-label="Twitter"
                 className="transition-[filter] hover:[filter:brightness(0)_saturate(100%)_invert(38%)_sepia(82%)_saturate(1234%)_hue-rotate(199deg)_brightness(99%)_contrast(96%)]"
               >
@@ -44,7 +45,8 @@ const AppFooter: React.FC = () => {
                 />
               </Link>
               <Link
-                href="#"
+                target="_blank"
+                href="https://www.linkedin.com/company/government-of-alberta/?originalSubdomain=ca"
                 aria-label="LinkedIn"
                 className="transition-[filter] hover:[filter:brightness(0)_saturate(100%)_invert(38%)_sepia(82%)_saturate(1234%)_hue-rotate(199deg)_brightness(99%)_contrast(96%)]"
               >

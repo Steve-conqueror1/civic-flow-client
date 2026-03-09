@@ -24,6 +24,15 @@ export const loginSchema = z.object({
   password: z.string().nonempty("Password is required"),
 });
 
+export const contactSchema = z.object({
+  fullName: z.string().nonempty("Full name is required"),
+  email: z.email("Enter a valid email").nonempty("Email is required"),
+  subject: z.string().nonempty("Subject is required"),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+
+export type ContactFormData = z.infer<typeof contactSchema>;
+
 export const registerSchema = z.object({
   firstName: z.string().nonempty("First name is required"),
   lastName: z.string().nonempty("Last name is required"),
