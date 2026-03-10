@@ -29,6 +29,10 @@ const AccessibilityFeedbackForm = () => {
   const [submitContact, { isLoading }] = useSubmitContactMutation();
 
   const onSubmit = async (data: AccessibilityFeedbackData) => {
+    if (!turnstileToken) {
+      toast.error("Please complete the verification.");
+      return;
+    }
     try {
       await submitContact({
         name: data.fullName,
@@ -38,8 +42,13 @@ const AccessibilityFeedbackForm = () => {
         turnstileToken: turnstileToken!,
       }).unwrap();
       toast.success("Feedback received! We'll respond within 2 business days.");
+
       reset();
-      turnstileRef.current?.reset();
+      setTurnstileToken(null);
+
+      if (turnstileRef.current) {
+        turnstileRef.current?.reset();
+      }
     } catch (err: unknown) {
       const apiErr = err as { data?: { message?: string } };
       toast.error(
@@ -54,8 +63,7 @@ const AccessibilityFeedbackForm = () => {
         aria-label="Accessibility feedback"
         className="space-y-4"
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(onSubmit);
+          handleSubmit(onSubmit)(e);
         }}
         noValidate
       >
