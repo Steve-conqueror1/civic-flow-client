@@ -1,29 +1,51 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { Label } from "@/components/ui/label";
 import {
   accessibilityFeedbackSchema,
   type AccessibilityFeedbackData,
 } from "@/lib/validators";
+import { useSubmitContactMutation } from "@/app/state/api";
 
 const AccessibilityFeedbackForm = () => {
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<AccessibilityFeedbackData>({
     resolver: zodResolver(accessibilityFeedbackSchema),
   });
 
-  const onSubmit = (data: AccessibilityFeedbackData) => {
-    console.log("Accessibility feedback submission:", data);
-    toast.success("Feedback received! We'll respond within 2 business days.");
-    reset();
+  const [submitContact, { isLoading }] = useSubmitContactMutation();
+
+  const onSubmit = async (data: AccessibilityFeedbackData) => {
+    try {
+      await submitContact({
+        name: data.fullName,
+        email: data.email,
+        subject: "Accessibility Enquiry",
+        message: data.feedback,
+        turnstileToken: turnstileToken!,
+      }).unwrap();
+      toast.success("Feedback received! We'll respond within 2 business days.");
+      reset();
+      turnstileRef.current?.reset();
+    } catch (err: unknown) {
+      const apiErr = err as { data?: { message?: string } };
+      toast.error(
+        apiErr.data?.message ?? "Something went wrong. Please try again.",
+      );
+    }
   };
 
   return (
@@ -31,7 +53,10 @@ const AccessibilityFeedbackForm = () => {
       <form
         aria-label="Accessibility feedback"
         className="space-y-4"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(onSubmit);
+        }}
         noValidate
       >
         <p className="text-xs text-slate-500 dark:text-slate-400">
@@ -123,14 +148,25 @@ const AccessibilityFeedbackForm = () => {
           )}
         </div>
 
+        <div id="a11y-turnstile-wrapper" className="w-full">
+          <Turnstile
+            options={{ size: "flexible" }}
+            ref={turnstileRef}
+            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+            onSuccess={(token) => setTurnstileToken(token)}
+            onExpire={() => setTurnstileToken(null)}
+            onError={() => setTurnstileToken(null)}
+          />
+        </div>
+
         <button
           type="submit"
-          disabled={isSubmitting}
-          aria-busy={isSubmitting}
+          disabled={isLoading || !turnstileToken}
+          aria-busy={isLoading}
           className="w-full bg-primary hover:bg-primary/90 hover:cursor-pointer text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <Send className="size-4" aria-hidden="true" />
-          {isSubmitting ? "Submitting..." : "Submit Feedback"}
+          {isLoading ? "Submitting..." : "Submit Feedback"}
         </button>
       </form>
     </div>
