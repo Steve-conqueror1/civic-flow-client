@@ -25,19 +25,29 @@ const ContactForm = () => {
   const [submitContact, { isLoading }] = useSubmitContactMutation();
 
   const onSubmit = async (data: ContactFormData) => {
+    if (!turnstileToken) {
+      toast.error("Please complete the verification.");
+      return;
+    }
     try {
       await submitContact({
         name: data.fullName,
         email: data.email,
         subject: data.subject,
         message: data.message,
-        turnstileToken: turnstileToken!,
+        turnstileToken,
       }).unwrap();
+
       toast.success(
         "Inquiry sent! We'll get back to you within 1–2 business days.",
       );
+
       reset();
-      turnstileRef.current?.reset();
+      setTurnstileToken(null);
+
+      if (turnstileRef.current) {
+        turnstileRef.current?.reset();
+      }
     } catch (err: unknown) {
       const apiErr = err as { data?: { message?: string } };
       toast.error(
@@ -54,8 +64,7 @@ const ContactForm = () => {
         aria-label="Contact"
         className="space-y-6"
         onSubmit={(e) => {
-          e.preventDefault();
-          handleSubmit(onSubmit);
+          handleSubmit(onSubmit)(e);
         }}
         noValidate
       >
@@ -191,8 +200,8 @@ const ContactForm = () => {
 
         <button
           type="submit"
-          disabled={isLoading || !turnstileToken}
-          aria-busy={isLoading}
+          // disabled={isLoading || !turnstileToken}
+          // aria-busy={isLoading}
           aria-describedby="encryption-notice"
           className="w-full bg-primary hover:bg-primary/90 hover:cursor-pointer text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
         >
