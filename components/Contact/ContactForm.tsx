@@ -1,25 +1,49 @@
 "use client";
 
+import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { Send } from "lucide-react";
+import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { contactSchema, type ContactFormData } from "@/lib/validators";
+import { useSubmitContactMutation } from "@/app/state/api";
 
 const ContactForm = () => {
+  const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const turnstileRef = useRef<TurnstileInstance | null>(null);
+
   const {
     register,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitting },
+    formState: { errors },
   } = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
   });
 
-  const onSubmit = (data: ContactFormData) => {
-    console.log("Contact form submission:", data);
-    toast.success("Inquiry sent! We'll get back to you within 1–2 business days.");
-    reset();
+  const [submitContact, { isLoading }] = useSubmitContactMutation();
+
+  const onSubmit = async (data: ContactFormData) => {
+    try {
+      await submitContact({
+        name: data.fullName,
+        email: data.email,
+        subject: data.subject,
+        message: data.message,
+        turnstileToken: turnstileToken!,
+      }).unwrap();
+      toast.success(
+        "Inquiry sent! We'll get back to you within 1–2 business days.",
+      );
+      reset();
+      turnstileRef.current?.reset();
+    } catch (err: unknown) {
+      const apiErr = err as { data?: { message?: string } };
+      toast.error(
+        apiErr.data?.message ?? "Something went wrong. Please try again.",
+      );
+    }
   };
 
   const errorCount = Object.keys(errors).length;
@@ -29,7 +53,10 @@ const ContactForm = () => {
       <form
         aria-label="Contact"
         className="space-y-6"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(e) => {
+          e.preventDefault();
+          handleSubmit(onSubmit);
+        }}
         noValidate
       >
         {/* Required-fields legend */}
@@ -153,15 +180,24 @@ const ContactForm = () => {
           )}
         </div>
 
+        <Turnstile
+          options={{ size: "flexible" }}
+          ref={turnstileRef}
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token) => setTurnstileToken(token)}
+          onExpire={() => setTurnstileToken(null)}
+          onError={() => setTurnstileToken(null)}
+        />
+
         <button
           type="submit"
-          disabled={isSubmitting}
-          aria-busy={isSubmitting}
+          disabled={isLoading || !turnstileToken}
+          aria-busy={isLoading}
           aria-describedby="encryption-notice"
           className="w-full bg-primary hover:bg-primary/90 hover:cursor-pointer text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
         >
           <Send className="size-4" aria-hidden="true" />
-          {isSubmitting ? "Submitting..." : "Submit Inquiry"}
+          {isLoading ? "Submitting..." : "Submit Inquiry"}
         </button>
 
         <p

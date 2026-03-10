@@ -1,4 +1,9 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query";
+import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+
+import type {
+  ContactApiPayload,
+  ContactApiResponse,
+} from "@/app/types/contact";
 
 export const api = createApi({
   baseQuery: fetchBaseQuery({
@@ -6,7 +11,11 @@ export const api = createApi({
   }),
   reducerPath: "api",
   tagTypes: [],
-  endpoints: (build) => ({}),
+  endpoints: (build) => ({
+    submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
+      query: (body) => ({ url: "/contact", method: "POST", body }),
+    }),
+  }),
 });
 
-export const {} = api;
+export const { useSubmitContactMutation } = api;
