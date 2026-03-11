@@ -214,10 +214,3 @@
 .mapboxgl-control-container {
   display: none !important;
 }
-
-@media only screen and (max-width: 350px) {
-  .cf-turnstile {
-    transform: scale(0.85);
-    transform-origin: left;
-  }
-}
