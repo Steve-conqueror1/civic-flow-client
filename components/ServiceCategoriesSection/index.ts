@@ -1,1 +1,2 @@
-export { default } from "./ServiceCategoriesSection";
+export { ServiceDepartmentCard } from "./ServiceDepartmentCard";
+export { ServiceDepartmentsSection } from "./ServiceDepartmentsSection";

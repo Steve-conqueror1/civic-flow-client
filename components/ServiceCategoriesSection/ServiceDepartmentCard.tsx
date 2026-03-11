@@ -1,17 +1,17 @@
 import { type ReactNode } from "react";
 import Link from "next/link";
 
-interface ServiceCategoryCardProps {
+interface ServiceDepartmentCardProps {
   icon: ReactNode;
   label: string;
   href: string;
 }
 
-export default function ServiceCategoryCard({
+export function ServiceDepartmentCard({
   icon,
   label,
   href,
-}: ServiceCategoryCardProps) {
+}: ServiceDepartmentCardProps) {
   return (
     <Link
       href={href}

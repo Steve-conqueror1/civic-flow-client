@@ -8,9 +8,22 @@ import {
   Users,
 } from "lucide-react";
 import Link from "next/link";
-import ServiceCategoryCard from "./ServiceCategoryCard";
+import { ServiceDepartmentCard } from "./ServiceDepartmentCard";
 
-const CATEGORIES = [
+const DEPARTMENTS_ICONS = {
+  "roads-traffic": <Car size={28} />,
+  permits: <FileText size={28} />,
+
+  "parks-rec": <TreePine size={28} />,
+
+  "waste-mgmt": <Recycle size={28} />,
+
+  "social-services": <Users size={28} />,
+
+  "help-circle": <HelpCircle size={28} />,
+};
+
+const DEPARTMENTS = [
   {
     icon: <Car size={28} />,
     label: "Roads & Traffic",
@@ -43,7 +56,7 @@ const CATEGORIES = [
   },
 ];
 
-export default function ServiceCategoriesSection() {
+export function ServiceDepartmentsSection() {
   return (
     <section
       id="services"
@@ -73,8 +86,8 @@ export default function ServiceCategoriesSection() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-          {CATEGORIES.map((cat) => (
-            <ServiceCategoryCard
+          {DEPARTMENTS.map((cat) => (
+            <ServiceDepartmentCard
               key={cat.label}
               icon={cat.icon}
               label={cat.label}
