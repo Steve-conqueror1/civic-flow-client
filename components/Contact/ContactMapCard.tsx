@@ -2,7 +2,7 @@ import Image from "next/image";
 import { MapPin, Navigation } from "lucide-react";
 import Link from "next/link";
 
-const ContactMapCard = () => {
+export const ContactMapCard = () => {
   return (
     <div className="relative w-full h-64 rounded-xl overflow-hidden shadow-inner border border-slate-200 dark:border-slate-800 bg-slate-200 dark:bg-slate-800">
       {/* Gradient overlay */}
@@ -49,5 +49,3 @@ const ContactMapCard = () => {
     </div>
   );
 };
-
-export default ContactMapCard;

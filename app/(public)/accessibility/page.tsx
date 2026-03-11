@@ -102,7 +102,7 @@ const AccessibilityPage = () => {
         {/* Reporting Section */}
         <section
           aria-labelledby="reporting-heading"
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start bg-primary/5 p-8 md:p-12 rounded-2xl border border-primary/10"
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-start bg-primary/5 md:p-12 rounded-2xl border border-primary/10"
         >
           <div>
             <h2

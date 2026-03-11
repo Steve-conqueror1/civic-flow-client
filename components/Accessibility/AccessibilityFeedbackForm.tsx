@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -13,9 +13,17 @@ import {
 } from "@/lib/validators";
 import { useSubmitContactMutation } from "@/app/state/api";
 
-const AccessibilityFeedbackForm = () => {
+export const AccessibilityFeedbackForm = () => {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth < 432);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   const {
     register,
@@ -58,10 +66,10 @@ const AccessibilityFeedbackForm = () => {
   };
 
   return (
-    <div className="bg-white dark:bg-slate-900 p-6 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
+    <div className="bg-white dark:bg-slate-900 p-8 rounded-xl shadow-sm border border-slate-200 dark:border-slate-800">
       <form
         aria-label="Accessibility feedback"
-        className="space-y-4"
+        className="space-y-6"
         onSubmit={(e) => {
           handleSubmit(onSubmit)(e);
         }}
@@ -156,16 +164,16 @@ const AccessibilityFeedbackForm = () => {
           )}
         </div>
 
-        <div id="a11y-turnstile-wrapper" className="w-full">
-          <Turnstile
-            options={{ size: "flexible" }}
-            ref={turnstileRef}
-            siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-            onSuccess={(token) => setTurnstileToken(token)}
-            onExpire={() => setTurnstileToken(null)}
-            onError={() => setTurnstileToken(null)}
-          />
-        </div>
+        <Turnstile
+          options={{
+            size: isMobile ? "compact" : "flexible",
+          }}
+          ref={turnstileRef}
+          siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+          onSuccess={(token) => setTurnstileToken(token)}
+          onExpire={() => setTurnstileToken(null)}
+          onError={() => setTurnstileToken(null)}
+        />
 
         <button
           type="submit"
@@ -180,6 +188,3 @@ const AccessibilityFeedbackForm = () => {
     </div>
   );
 };
-
-export { AccessibilityFeedbackForm };
-export default AccessibilityFeedbackForm;

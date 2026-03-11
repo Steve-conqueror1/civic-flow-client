@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
@@ -9,9 +9,17 @@ import { Turnstile, type TurnstileInstance } from "@marsidev/react-turnstile";
 import { contactSchema, type ContactFormData } from "@/lib/validators";
 import { useSubmitContactMutation } from "@/app/state/api";
 
-const ContactForm = () => {
+export const ContactForm = () => {
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
   const turnstileRef = useRef<TurnstileInstance | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkWidth = () => setIsMobile(window.innerWidth < 432);
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
 
   const {
     register,
@@ -190,7 +198,9 @@ const ContactForm = () => {
         </div>
 
         <Turnstile
-          options={{ size: "flexible" }}
+          options={{
+            size: isMobile ? "compact" : "flexible",
+          }}
           ref={turnstileRef}
           siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
           onSuccess={(token) => setTurnstileToken(token)}
@@ -200,8 +210,8 @@ const ContactForm = () => {
 
         <button
           type="submit"
-          // disabled={isLoading || !turnstileToken}
-          // aria-busy={isLoading}
+          disabled={isLoading || !turnstileToken}
+          aria-busy={isLoading}
           aria-describedby="encryption-notice"
           className="w-full bg-primary hover:bg-primary/90 hover:cursor-pointer text-white font-bold py-4 rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-primary/20 disabled:opacity-60 disabled:cursor-not-allowed"
         >
@@ -219,5 +229,3 @@ const ContactForm = () => {
     </div>
   );
 };
-
-export default ContactForm;
