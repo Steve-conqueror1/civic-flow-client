@@ -77,7 +77,6 @@ export function ServiceDepartmentsSection() {
             {departments
               .filter((dept) => dept.isActive)
               .map((dept) => {
-                console.log("----department icon----", dept.icon);
                 const Icon = DEPARTMENTS_ICONS[dept.icon] ?? HelpCircle;
                 return (
                   <ServiceDepartmentCard

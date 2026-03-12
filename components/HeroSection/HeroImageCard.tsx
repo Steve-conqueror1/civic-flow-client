@@ -1,7 +1,21 @@
+"use client";
+import { useEffect } from "react";
 import { Bot, CheckCircle } from "lucide-react";
 import MapView from "../maps";
 
+import { io } from "socket.io-client";
+const socket = io(process.env.NEXT_PUBLIC_BASE_URL);
+
 export function HeroImageCard() {
+  useEffect(() => {
+    socket.on("new_featured_case", (data) => {
+      console.log(data);
+    });
+
+    return () => {
+      socket.off("new_featured_case");
+    };
+  }, []);
   return (
     <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group">
       <MapView markerLabel="6 Stanton St." />
