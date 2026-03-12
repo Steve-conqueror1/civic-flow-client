@@ -1,7 +1,7 @@
-import HeroContent from "./HeroContent";
-import HeroImageCard from "./HeroImageCard";
+import { HeroContent } from "./HeroContent";
+import { HeroImageCard } from "./HeroImageCard";
 
-export default function HeroSection() {
+export function HeroSection() {
   return (
     <section
       aria-label="Hero"
