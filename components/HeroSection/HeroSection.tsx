@@ -1,5 +1,5 @@
 import { HeroContent } from "./HeroContent";
-import { HeroImageCard } from "./HeroImageCard";
+import { HeroImageCard } from "./HeroMapCard";
 
 export function HeroSection() {
   return (
