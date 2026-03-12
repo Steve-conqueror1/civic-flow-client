@@ -1,7 +1,7 @@
 import { Bot, CheckCircle } from "lucide-react";
 import MapView from "../maps";
 
-export default function HeroImageCard() {
+export function HeroImageCard() {
   return (
     <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group">
       <MapView markerLabel="6 Stanton St." />

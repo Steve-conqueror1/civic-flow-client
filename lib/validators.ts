@@ -60,3 +60,25 @@ export const registerSchema = z.object({
     message: "You must accept the terms",
   }),
 });
+
+export const updateProfileSchema = z.object({
+  firstName: z.string().min(1, "First name is required").optional(),
+  lastName: z.string().min(1, "Last name is required").optional(),
+  phoneNumber: z.string().optional(),
+  address: z.string().optional(),
+  mfaEnabled: z.boolean().optional(),
+});
+
+export type UpdateProfileFormValues = z.infer<typeof updateProfileSchema>;
+
+export const adminUpdateUserSchema = z.object({
+  firstName: z.string().min(1, "First name is required").optional(),
+  lastName: z.string().min(1, "Last name is required").optional(),
+  phoneNumber: z.string().optional(),
+  address: z.string().optional(),
+  email: z.email("Enter a valid email").optional(),
+  role: z.enum(["citizen", "admin"]).optional(),
+  status: z.enum(["active", "inactive"]).optional(),
+});
+
+export type AdminUpdateUserFormValues = z.infer<typeof adminUpdateUserSchema>;
