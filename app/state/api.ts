@@ -5,6 +5,7 @@ import type {
   ContactApiResponse,
 } from "@/app/types/contact";
 import type { GetDepartmentsResponse } from "@/app/types/department";
+import type { GetFeaturedServiceRequestResponse } from "@/app/types/request";
 import type {
   GetMeResponse,
   UpdateMePayload,
@@ -26,7 +27,7 @@ export const api = createApi({
     credentials: "include",
   }),
   reducerPath: "api",
-  tagTypes: ["Departments", "Users", "UserDetail", "UserCount", "Me"],
+  tagTypes: ["Departments", "Users", "UserDetail", "UserCount", "Me", "FeaturedServiceRequest"],
   endpoints: (build) => ({
     submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
       query: (body) => ({ url: "/contact", method: "POST", body }),
@@ -34,6 +35,12 @@ export const api = createApi({
     getDepartments: build.query<GetDepartmentsResponse, void>({
       query: () => "/departments",
       providesTags: ["Departments"],
+    }),
+
+    // Public endpoints
+    getFeaturedServiceRequest: build.query<GetFeaturedServiceRequestResponse, void>({
+      query: () => "/service-requests/featured",
+      providesTags: ["FeaturedServiceRequest"],
     }),
 
     // Citizen endpoints
@@ -103,6 +110,7 @@ export const api = createApi({
 export const {
   useSubmitContactMutation,
   useGetDepartmentsQuery,
+  useGetFeaturedServiceRequestQuery,
   useGetMeQuery,
   useUpdateMeMutation,
   useDeleteMeMutation,

@@ -1,8 +1,9 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import Map, { Marker, Popup } from "react-map-gl/mapbox";
+import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
+import React from "react";
 
 interface MapViewProps {
   longitude?: number;
@@ -16,7 +17,7 @@ const DEFAULT_LONGITUDE = -114.097;
 const DEFAULT_LATITUDE = 52.309;
 const DEFAULT_ZOOM = 11;
 
-export default function MapView({
+function MapView({
   longitude = DEFAULT_LONGITUDE,
   latitude = DEFAULT_LATITUDE,
   zoom = DEFAULT_ZOOM,
@@ -25,6 +26,23 @@ export default function MapView({
   height = "400px",
 }: MapViewProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
+
+  const mapRef = React.useRef<MapRef | null>(null);
+
+  React.useEffect(() => {
+    if (!mapRef.current) return;
+
+    const map = mapRef.current.getMap();
+    const current = map.getCenter();
+
+    if (current.lng !== longitude || current.lat !== latitude) {
+      map.flyTo({
+        center: [longitude, latitude],
+        zoom,
+        duration: 1000,
+      });
+    }
+  }, [longitude, latitude, zoom]);
 
   if (!token) {
     return (
@@ -40,11 +58,18 @@ export default function MapView({
     );
   }
 
+  console.log("Map mounted........");
+
   return (
     <div style={{ height }} data-testid="map-container">
       <Map
+        ref={mapRef}
+        initialViewState={{
+          longitude,
+          latitude,
+          zoom,
+        }}
         mapboxAccessToken={token}
-        initialViewState={{ longitude, latitude, zoom }}
         mapStyle="mapbox://styles/mapbox/streets-v12"
         style={{ width: "100%", height: "100%" }}
         attributionControl={false}
@@ -73,3 +98,5 @@ export default function MapView({
     </div>
   );
 }
+
+export default React.memo(MapView);
