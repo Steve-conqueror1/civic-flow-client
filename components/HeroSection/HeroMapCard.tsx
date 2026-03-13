@@ -5,7 +5,42 @@ import { Bot, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
 import MapView from "../maps";
 import { useGetFeaturedServiceRequestQuery } from "@/app/state/api";
 import { io } from "socket.io-client";
-import type { FeaturedServiceRequest } from "@/app/types/request";
+import type {
+  FeaturedServiceRequest,
+  RequestStatus,
+} from "@/app/types/request";
+import { Badge } from "../ui/badge";
+
+const REQUEST_STATUSES = {
+  open: {
+    title: "open",
+    className: "bg-purple-100 text-purple-700 border-purple-200",
+  },
+  in_progress: {
+    title: "In progress",
+    className: "bg-blue-100 text-blue-700 border-blue-200",
+  },
+  under_review: {
+    title: "Under Review",
+    className: "bg-orange-100 text-orange-700 border-orange-200",
+  },
+  pending_review: {
+    title: "Pending Review",
+    className: "bg-amber-100 text-amber-700 border-amber-200",
+  },
+  resolved: {
+    title: "Resolved",
+    className: "bg-green-100 text-green-700 border-green-200",
+  },
+  rejected: {
+    title: "Rejected",
+    className: "red-100 text-red-700 border-red-200",
+  },
+  closed: {
+    title: "Closed",
+    className: "bg-slate-100 text-slate-700 border-slate-200",
+  },
+};
 
 export function HeroImageCard() {
   const { data, isLoading, isError } = useGetFeaturedServiceRequestQuery();
@@ -79,7 +114,13 @@ export function HeroImageCard() {
                 {featuredCase.title}
               </h3>
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
-                Status: {featuredCase.status} • {featuredCase.location.address}
+                Status:{" "}
+                <Badge
+                  className={`${REQUEST_STATUSES[featuredCase.status as RequestStatus].className} ${REQUEST_STATUSES[featuredCase.status as RequestStatus].color}`}
+                >
+                  {REQUEST_STATUSES[featuredCase.status as RequestStatus].title}
+                </Badge>{" "}
+                • {featuredCase.location.address}
               </p>
 
               <div className="mt-2 text-xs font-medium text-slate-400 flex items-center gap-1">

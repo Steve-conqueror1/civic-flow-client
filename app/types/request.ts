@@ -4,6 +4,15 @@ export interface ServiceRequestLocation {
   address: string;
 }
 
+export type RequestStatus =
+  | "open"
+  | "under_review"
+  | "in_progress"
+  | "pending_review"
+  | "resolved"
+  | "closed"
+  | "rejected";
+
 export interface FeaturedServiceRequest {
   id: string;
   userId: string;
