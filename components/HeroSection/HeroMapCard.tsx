@@ -34,7 +34,7 @@ const REQUEST_STATUSES = {
   },
   rejected: {
     title: "Rejected",
-    className: "red-100 text-red-700 border-red-200",
+    className: "bg-red-100 text-red-700 border-red-200",
   },
   closed: {
     title: "Closed",
@@ -69,11 +69,12 @@ export function HeroImageCard() {
   }, []);
 
   return (
-    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group">
+    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group h-96 sm:h-fit">
       <MapView
+        height="100%"
         latitude={featuredCase?.location.lat}
         longitude={featuredCase?.location.lng}
-        markerLabel={featuredCase?.location.address}
+        markerLabel={"REQUEST LOCATION"}
       />
       {/* Gradient overlay */}
       <div
@@ -82,7 +83,7 @@ export function HeroImageCard() {
       />
 
       {/* Floating status card */}
-      <div className="absolute bottom-4 left-6 right-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-lg">
+      <div className="absolute bottom-0 sm:bottom-4 left-0 right-0 sm:left-6 sm:right-6 bg-white/95 dark:bg-slate-900/95 backdrop-blur-sm p-4 rounded-xl border border-white/20 shadow-lg">
         {isLoading && (
           <div className="flex items-center gap-3" data-testid="loading-state">
             <Loader2 className="animate-spin text-slate-400" />
@@ -116,7 +117,7 @@ export function HeroImageCard() {
               <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
                 Status:{" "}
                 <Badge
-                  className={`${REQUEST_STATUSES[featuredCase.status as RequestStatus].className} ${REQUEST_STATUSES[featuredCase.status as RequestStatus].color}`}
+                  className={`${REQUEST_STATUSES[featuredCase.status as RequestStatus].className}`}
                 >
                   {REQUEST_STATUSES[featuredCase.status as RequestStatus].title}
                 </Badge>{" "}

@@ -22,7 +22,6 @@ function MapView({
   latitude = DEFAULT_LATITUDE,
   zoom = DEFAULT_ZOOM,
   markerLabel,
-
   height = "400px",
 }: MapViewProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
@@ -51,14 +50,10 @@ function MapView({
         style={{ height }}
         data-testid="map-error"
       >
-        <p className="text-sm font-medium">
-          Map unavailable: NEXT_PUBLIC_MAPBOX_TOKEN is not set.
-        </p>
+        <p className="text-sm font-medium">Map unavailable at the moment</p>
       </div>
     );
   }
-
-  console.log("Map mounted........");
 
   return (
     <div style={{ height }} data-testid="map-container">
@@ -76,9 +71,10 @@ function MapView({
       >
         <Marker longitude={longitude} latitude={latitude} anchor="bottom">
           <MapPin
-            className="text-primary hover:cursor-pointer"
+            className="text-white hover:cursor-pointer"
             size={28}
-            strokeWidth={4}
+            strokeWidth={2}
+            fill="#1985f0"
           />
         </Marker>
 
