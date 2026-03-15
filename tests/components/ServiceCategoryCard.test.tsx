@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
 import { Construction } from "lucide-react";
-import ServiceCategoryCard from "@/components/services";
+import { ServiceCategoryCard } from "@/components/services";
 
 const defaultProps = {
   name: "Infrastructure",
@@ -11,14 +11,8 @@ const defaultProps = {
   iconBgClass: "bg-blue-100 dark:bg-blue-900/30",
   iconColorClass: "text-primary",
   services: [
-    {
-      name: "Road Repair Request",
-      href: "/services/infrastructure/road-repair",
-    },
-    {
-      name: "Snow Removal Status",
-      href: "/services/infrastructure/snow-removal",
-    },
+    { name: "Road Repair Request" },
+    { name: "Snow Removal Status" },
   ],
   viewAllHref: "/services/infrastructure",
   viewAllLabel: "View all Infrastructure services",
@@ -44,14 +38,17 @@ describe("ServiceCategoryCard", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders all service links", () => {
+  it("renders all service items as plain text", () => {
     render(<ServiceCategoryCard {...defaultProps} />);
-    expect(
-      screen.getByRole("link", { name: /road repair request/i }),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole("link", { name: /snow removal status/i }),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Road Repair Request")).toBeInTheDocument();
+    expect(screen.getByText("Snow Removal Status")).toBeInTheDocument();
+  });
+
+  it("renders no anchor elements for service items", () => {
+    const { container } = render(<ServiceCategoryCard {...defaultProps} />);
+    const serviceList = container.querySelector("ul");
+    const anchors = serviceList?.querySelectorAll("a");
+    expect(anchors?.length).toBe(0);
   });
 
   it("renders the view all link", () => {
@@ -61,5 +58,12 @@ describe("ServiceCategoryCard", () => {
     });
     expect(viewAllLink).toBeInTheDocument();
     expect(viewAllLink).toHaveAttribute("href", "/services/infrastructure");
+  });
+
+  it("renders without crashing when services is empty", () => {
+    render(<ServiceCategoryCard {...defaultProps} services={[]} />);
+    expect(
+      screen.getByRole("heading", { name: /infrastructure/i }),
+    ).toBeInTheDocument();
   });
 });

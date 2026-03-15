@@ -1,128 +1,142 @@
 import { screen } from "@testing-library/react";
-import { describe, it, expect, vi } from "vitest";
-import { ServiceDepartmentsSection } from "@/components/ServiceDepartmentsSection";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { ServiceCategoriesSection } from "@/components/services";
 import { renderWithProviders } from "@/tests/utils/render-with-providers";
+import type { GetServicesGroupedByCategoryResponse } from "@/app/types/service";
 
-const mockDepartments = [
-  {
-    id: "1",
-    name: "Roads & Traffic",
-    description: "Road maintenance",
-    icon: "roads-traffic",
-    slug: "roads-traffic",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-  {
-    id: "2",
-    name: "Permits",
-    description: "Building permits",
-    icon: "permits",
-    slug: "permits",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-  {
-    id: "3",
-    name: "Parks & Rec",
-    description: "Parks and recreation",
-    icon: "parks-rec",
-    slug: "parks-rec",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-  {
-    id: "4",
-    name: "Waste Mgmt",
-    description: "Waste management",
-    icon: "waste-mgmt",
-    slug: "waste-management",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-  {
-    id: "5",
-    name: "Social Services",
-    description: "Social services",
-    icon: "social-services",
-    slug: "social-services",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-  {
-    id: "6",
-    name: "General Help",
-    description: "General help",
-    icon: "help-circle",
-    slug: "general-help",
-    isActive: true,
-    createdAt: "2025-01-01T00:00:00Z",
-    updatedAt: "2025-01-01T00:00:00Z",
-  },
-];
+type QueryResult = {
+  data: GetServicesGroupedByCategoryResponse | undefined;
+  isLoading: boolean;
+  isError: boolean;
+};
+
+let mockQueryResult: QueryResult = {
+  data: undefined,
+  isLoading: false,
+  isError: false,
+};
 
 vi.mock("@/app/state/api", async (importOriginal) => {
   const actual = await importOriginal<typeof import("@/app/state/api")>();
   return {
     ...actual,
-    useGetDepartmentsQuery: () => ({
-      data: {
-        success: true,
-        message: "OK",
-        data: { departments: mockDepartments },
-      },
-      isLoading: false,
-      isError: false,
-    }),
+    useGetServicesGroupedByCategoryQuery: vi.fn(() => mockQueryResult),
   };
 });
 
+const twoGroups: GetServicesGroupedByCategoryResponse = {
+  success: true,
+  message: "OK",
+  data: {
+    groups: [
+      {
+        category: { id: "cat-1", name: "Infrastructure" },
+        services: [
+          {
+            id: "svc-1",
+            name: "Road Repair",
+            description: "Fix roads",
+            instructions: "Describe the issue",
+            categoryId: "cat-1",
+            departmentId: "dept-1",
+            minResponseDays: 2,
+            maxResponseDays: 5,
+            isActive: true,
+            createdAt: "2025-01-01T00:00:00Z",
+            updatedAt: "2025-01-01T00:00:00Z",
+          },
+          {
+            id: "svc-2",
+            name: "Snow Removal",
+            description: "Snow clearing",
+            instructions: "Provide address",
+            categoryId: "cat-1",
+            departmentId: "dept-1",
+            minResponseDays: 2,
+            maxResponseDays: 5,
+            isActive: true,
+            createdAt: "2025-01-01T00:00:00Z",
+            updatedAt: "2025-01-01T00:00:00Z",
+          },
+        ],
+      },
+      {
+        category: { id: "cat-2", name: "Permits & Licensing" },
+        services: [
+          {
+            id: "svc-3",
+            name: "Business License",
+            description: "Apply for license",
+            instructions: "Fill form",
+            categoryId: "cat-2",
+            departmentId: "dept-2",
+            minResponseDays: 3,
+            maxResponseDays: 3,
+            isActive: true,
+            createdAt: "2025-01-01T00:00:00Z",
+            updatedAt: "2025-01-01T00:00:00Z",
+          },
+        ],
+      },
+    ],
+  },
+};
+
 describe("ServiceCategoriesSection", () => {
-  it("renders the section heading", () => {
-    renderWithProviders(<ServiceDepartmentsSection />);
+  beforeEach(() => {
+    mockQueryResult = { data: twoGroups, isLoading: false, isError: false };
+  });
+
+  it("renders skeleton cards when loading", () => {
+    mockQueryResult = { data: undefined, isLoading: true, isError: false };
+    const { container } = renderWithProviders(<ServiceCategoriesSection />);
+    const skeletons = container.querySelectorAll("[data-slot='skeleton']");
+    expect(skeletons.length).toBeGreaterThan(0);
+  });
+
+  it("renders an error message when the query fails", () => {
+    mockQueryResult = { data: undefined, isLoading: false, isError: true };
+    renderWithProviders(<ServiceCategoriesSection />);
     expect(
-      screen.getByRole("heading", { level: 2, name: /service categories/i }),
-    ).toBeDefined();
+      screen.getByText(/failed to load service categories/i),
+    ).toBeInTheDocument();
   });
 
-  it("renders the subtitle", () => {
-    renderWithProviders(<ServiceDepartmentsSection />);
-    expect(screen.getByText(/browse services by department/i)).toBeDefined();
-  });
-
-  it("renders the View All Services link", () => {
-    renderWithProviders(<ServiceDepartmentsSection />);
+  it("renders a fallback message when groups is empty", () => {
+    mockQueryResult = {
+      data: { success: true, message: "OK", data: { groups: [] } },
+      isLoading: false,
+      isError: false,
+    };
+    renderWithProviders(<ServiceCategoriesSection />);
     expect(
-      screen.getByRole("link", { name: /view all services/i }),
-    ).toBeDefined();
+      screen.getByText(/no service categories are available/i),
+    ).toBeInTheDocument();
   });
 
-  it("renders all six category cards", () => {
-    renderWithProviders(<ServiceDepartmentsSection />);
+  it("renders the correct number of category cards", () => {
+    renderWithProviders(<ServiceCategoriesSection />);
     expect(
-      screen.getByRole("link", { name: /roads & traffic/i }),
-    ).toBeDefined();
-    expect(screen.getByRole("link", { name: /permits/i })).toBeDefined();
-    expect(screen.getByRole("link", { name: /parks & rec/i })).toBeDefined();
-    expect(screen.getByRole("link", { name: /waste mgmt/i })).toBeDefined();
+      screen.getByRole("heading", { name: /infrastructure/i, level: 3 }),
+    ).toBeInTheDocument();
     expect(
-      screen.getByRole("link", { name: /social services/i }),
-    ).toBeDefined();
-    expect(screen.getByRole("link", { name: /general help/i })).toBeDefined();
+      screen.getByRole("heading", { name: /permits & licensing/i, level: 3 }),
+    ).toBeInTheDocument();
   });
 
-  it("has an id for anchor navigation", () => {
-    const { container } = renderWithProviders(<ServiceDepartmentsSection />);
-    expect(container.querySelector("#services")).toBeDefined();
+  it("renders category names from API data", () => {
+    renderWithProviders(<ServiceCategoriesSection />);
+    expect(screen.getByText("Infrastructure")).toBeInTheDocument();
+    expect(screen.getByText("Permits & Licensing")).toBeInTheDocument();
   });
 
-  it("renders as a section landmark", () => {
-    renderWithProviders(<ServiceDepartmentsSection />);
-    expect(screen.getByRole("region")).toBeDefined();
+  it("formats response time correctly when min !== max", () => {
+    renderWithProviders(<ServiceCategoriesSection />);
+    expect(screen.getByText("Response: 2–5 days")).toBeInTheDocument();
+  });
+
+  it("formats response time correctly when min === max", () => {
+    renderWithProviders(<ServiceCategoriesSection />);
+    expect(screen.getByText("Response: 3 days")).toBeInTheDocument();
   });
 });

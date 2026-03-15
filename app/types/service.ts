@@ -2,6 +2,7 @@ export type Service = {
   id: string;
   name: string;
   description: string;
+  slug: string;
   instructions: string;
   categoryId: string;
   departmentId: string;
@@ -60,7 +61,7 @@ export type GetServicesGroupedByCategoryResponse = {
   message: string;
   data: {
     groups: Array<{
-      category: { id: string; name: string };
+      category: { id: string; name: string; description: string; slug: string };
       services: Service[];
     }>;
   };
