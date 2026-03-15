@@ -19,7 +19,7 @@ interface ServiceCategoryCardProps {
   viewAllLabel: string;
 }
 
-const ServiceCategoryCard = ({
+export const ServiceCategoryCard = ({
   name,
   description,
   responseTime,
@@ -34,7 +34,9 @@ const ServiceCategoryCard = ({
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-6 shadow-sm hover:shadow-md transition-shadow">
       <div className="flex items-start gap-4">
         {/* Category icon */}
-        <div className={`p-3 rounded-lg ${iconBgClass} ${iconColorClass} flex-shrink-0`}>
+        <div
+          className={`p-3 rounded-lg ${iconBgClass} ${iconColorClass} flex-shrink-0`}
+        >
           <Icon className="w-6 h-6" aria-hidden="true" />
         </div>
 
@@ -86,5 +88,3 @@ const ServiceCategoryCard = ({
     </div>
   );
 };
-
-export default ServiceCategoryCard;

@@ -10,12 +10,15 @@ import {
   Leaf,
   Star,
 } from "lucide-react";
-import ServicesHero from "@/components/ServicesHero";
-import PopularServiceCard from "@/components/PopularServiceCard";
-import ServiceCategoryCard from "@/components/ServiceCategoryCard";
-import ServicesAIAssistant from "@/components/ServicesAIAssistant";
-import ServicesQuickLinks from "@/components/ServicesQuickLinks";
-import ServicesAlerts from "@/components/ServicesAlerts";
+
+import {
+  ServiceCategoryCard,
+  ServicesAIAssistant,
+  ServicesAlerts,
+  ServicesHero,
+  ServicesQuickLinks,
+  PopularServiceCard,
+} from "@/components/services";
 
 const popularServices = [
   {

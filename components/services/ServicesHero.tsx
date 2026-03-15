@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { Sparkles } from "lucide-react";
 
-const ServicesHero = () => {
+export const ServicesHero = () => {
   const [query, setQuery] = useState("");
 
   const handleSearch = (e: React.FormEvent) => {
@@ -65,5 +65,3 @@ const ServicesHero = () => {
     </section>
   );
 };
-
-export default ServicesHero;

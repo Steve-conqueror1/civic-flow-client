@@ -8,7 +8,11 @@ interface PopularServiceCardProps {
   icon: ComponentType<LucideProps>;
 }
 
-const PopularServiceCard = ({ title, href, icon: Icon }: PopularServiceCardProps) => {
+export const PopularServiceCard = ({
+  title,
+  href,
+  icon: Icon,
+}: PopularServiceCardProps) => {
   return (
     <Link
       href={href}
@@ -23,5 +27,3 @@ const PopularServiceCard = ({ title, href, icon: Icon }: PopularServiceCardProps
     </Link>
   );
 };
-
-export default PopularServiceCard;

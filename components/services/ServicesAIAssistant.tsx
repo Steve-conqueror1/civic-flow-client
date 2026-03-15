@@ -1,6 +1,6 @@
 import { Bot, Send } from "lucide-react";
 
-const ServicesAIAssistant = () => {
+export const ServicesAIAssistant = () => {
   return (
     <div className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-slate-800 dark:to-slate-900 rounded-xl border border-primary/20 p-6 shadow-sm relative overflow-hidden">
       {/* Decorative background icon */}
@@ -19,8 +19,8 @@ const ServicesAIAssistant = () => {
         </div>
 
         <p className="text-sm text-slate-600 dark:text-slate-300 mb-4">
-          Not sure which service you need? Our AI Assistant can guide you to
-          the right form.
+          Not sure which service you need? Our AI Assistant can guide you to the
+          right form.
         </p>
 
         <button
@@ -34,5 +34,3 @@ const ServicesAIAssistant = () => {
     </div>
   );
 };
-
-export default ServicesAIAssistant;

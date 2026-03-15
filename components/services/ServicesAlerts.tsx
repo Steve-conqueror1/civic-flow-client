@@ -16,7 +16,9 @@ interface ServicesAlertsProps {
   alerts?: ServiceAlert[];
 }
 
-const ServicesAlerts = ({ alerts = defaultAlerts }: ServicesAlertsProps) => {
+export const ServicesAlerts = ({
+  alerts = defaultAlerts,
+}: ServicesAlertsProps) => {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm">
       <h3 className="font-bold text-slate-900 dark:text-white mb-2">
@@ -47,5 +49,3 @@ const ServicesAlerts = ({ alerts = defaultAlerts }: ServicesAlertsProps) => {
     </div>
   );
 };
-
-export default ServicesAlerts;

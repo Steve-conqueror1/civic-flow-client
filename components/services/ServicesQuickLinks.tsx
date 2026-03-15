@@ -9,12 +9,16 @@ import {
 
 const quickLinks = [
   { label: "My Account", href: "/citizen/profile", icon: User },
-  { label: "Application Status", href: "/citizen/requests", icon: ClipboardList },
+  {
+    label: "Application Status",
+    href: "/citizen/requests",
+    icon: ClipboardList,
+  },
   { label: "Service Locations", href: "/services/locations", icon: Map },
   { label: "Make a Payment", href: "/citizen/payments", icon: CreditCard },
 ];
 
-const ServicesQuickLinks = () => {
+export const ServicesQuickLinks = () => {
   return (
     <div className="bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 p-5 shadow-sm">
       <h3 className="font-bold text-slate-900 dark:text-white mb-4 border-b border-slate-100 dark:border-slate-700 pb-2">
@@ -47,5 +51,3 @@ const ServicesQuickLinks = () => {
     </div>
   );
 };
-
-export default ServicesQuickLinks;
