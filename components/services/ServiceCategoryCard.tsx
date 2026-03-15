@@ -4,7 +4,7 @@ import { type ComponentType } from "react";
 
 interface ServiceLink {
   name: string;
-  href: string;
+  slug: string;
 }
 
 interface ServiceCategoryCardProps {
@@ -35,7 +35,7 @@ export const ServiceCategoryCard = ({
       <div className="flex items-start gap-4">
         {/* Category icon */}
         <div
-          className={`p-3 rounded-lg ${iconBgClass} ${iconColorClass} flex-shrink-0`}
+          className={`p-3 rounded-lg ${iconBgClass} ${iconColorClass} shrink-0`}
         >
           <Icon className="w-6 h-6" aria-hidden="true" />
         </div>
@@ -55,16 +55,16 @@ export const ServiceCategoryCard = ({
             {description}
           </p>
 
-          {/* Service links */}
+          {/* Service items */}
           <ul className="space-y-3">
             {services.map((service) => (
               <li key={service.name}>
                 <Link
-                  href={service.href}
+                  href={`/services/${service.slug}`}
                   className="text-slate-700 dark:text-slate-300 hover:text-primary dark:hover:text-primary flex items-center gap-2 group"
                 >
                   <ChevronRight
-                    className="w-4 h-4 text-slate-400 group-hover:text-primary flex-shrink-0"
+                    className="w-4 h-4 text-slate-400 shrink-0"
                     aria-hidden="true"
                   />
                   {service.name}
@@ -76,7 +76,7 @@ export const ServiceCategoryCard = ({
           {/* View all link */}
           <div className="mt-4 pt-4 border-t border-slate-100 dark:border-slate-700">
             <Link
-              href={viewAllHref}
+              href={`${viewAllHref}`}
               className="text-sm font-bold text-primary hover:underline flex items-center gap-1"
             >
               {viewAllLabel}
