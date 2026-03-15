@@ -7,6 +7,27 @@ import type {
 import type { GetDepartmentsResponse } from "@/app/types/department";
 import type { GetFeaturedServiceRequestResponse } from "@/app/types/request";
 import type {
+  GetServicesQuery,
+  GetServicesResponse,
+  SearchServicesQuery,
+  SearchServicesResponse,
+  GetServicesGroupedQuery,
+  GetServicesGroupedByCategoryResponse,
+  GetServicesGroupedByDepartmentResponse,
+  GetServicesByCategoryQuery,
+  GetServicesByCategoryResponse,
+  GetServicesByDepartmentQuery,
+  GetServicesByDepartmentResponse,
+  GetServiceByIdResponse,
+  CreateServicePayload,
+  CreateServiceResponse,
+  UpdateServicePayload,
+  UpdateServiceResponse,
+  DeleteServiceResponse,
+  ActivateServiceResponse,
+  DeactivateServiceResponse,
+} from "@/app/types/service";
+import type {
   GetMeResponse,
   UpdateMePayload,
   UpdateMeResponse,
@@ -27,7 +48,15 @@ export const api = createApi({
     credentials: "include",
   }),
   reducerPath: "api",
-  tagTypes: ["Departments", "Users", "UserDetail", "UserCount", "Me", "FeaturedServiceRequest"],
+  tagTypes: [
+    "Departments",
+    "Users",
+    "UserDetail",
+    "UserCount",
+    "Me",
+    "FeaturedServiceRequest",
+    "Services",
+  ],
   endpoints: (build) => ({
     submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
       query: (body) => ({ url: "/contact", method: "POST", body }),
@@ -38,7 +67,10 @@ export const api = createApi({
     }),
 
     // Public endpoints
-    getFeaturedServiceRequest: build.query<GetFeaturedServiceRequestResponse, void>({
+    getFeaturedServiceRequest: build.query<
+      GetFeaturedServiceRequestResponse,
+      void
+    >({
       query: () => "/service-requests/featured",
       providesTags: ["FeaturedServiceRequest"],
     }),
@@ -104,6 +136,124 @@ export const api = createApi({
       query: (id) => ({ url: `/users/${id}/deactivate`, method: "PATCH" }),
       invalidatesTags: ["Users", "UserDetail"],
     }),
+
+    // Service endpoints — public
+    getServices: build.query<GetServicesResponse, GetServicesQuery | void>({
+      query: (params) => {
+        const searchParams = new URLSearchParams();
+        if (params) {
+          if (params.page != null)
+            searchParams.set("page", String(params.page));
+          if (params.limit != null)
+            searchParams.set("limit", String(params.limit));
+          if (params.includeInactive != null)
+            searchParams.set("includeInactive", String(params.includeInactive));
+        }
+        const qs = searchParams.toString();
+        return qs ? `/services?${qs}` : "/services";
+      },
+      providesTags: ["Services"],
+    }),
+    searchServices: build.query<SearchServicesResponse, SearchServicesQuery>({
+      query: (params) => {
+        const searchParams = new URLSearchParams();
+        searchParams.set("q", params.q);
+        if (params.page != null) searchParams.set("page", String(params.page));
+        if (params.limit != null)
+          searchParams.set("limit", String(params.limit));
+        return `/services/search?${searchParams.toString()}`;
+      },
+      providesTags: ["Services"],
+    }),
+    getServicesGroupedByCategory: build.query<
+      GetServicesGroupedByCategoryResponse,
+      GetServicesGroupedQuery | void
+    >({
+      query: (params) => {
+        if (params?.limit != null) {
+          return `/services/grouped/category?limit=${params.limit}`;
+        }
+        return "/services/grouped/category";
+      },
+      providesTags: ["Services"],
+    }),
+    getServicesGroupedByDepartment: build.query<
+      GetServicesGroupedByDepartmentResponse,
+      GetServicesGroupedQuery | void
+    >({
+      query: (params) => {
+        if (params?.limit != null) {
+          return `/services/grouped/department?limit=${params.limit}`;
+        }
+        return "/services/grouped/department";
+      },
+      providesTags: ["Services"],
+    }),
+    getServicesByCategory: build.query<
+      GetServicesByCategoryResponse,
+      GetServicesByCategoryQuery
+    >({
+      query: ({ categoryId, ...params }) => {
+        const searchParams = new URLSearchParams();
+        if (params.page != null) searchParams.set("page", String(params.page));
+        if (params.limit != null)
+          searchParams.set("limit", String(params.limit));
+        const qs = searchParams.toString();
+        return qs
+          ? `/services/category/${categoryId}?${qs}`
+          : `/services/category/${categoryId}`;
+      },
+      providesTags: ["Services"],
+    }),
+    getServicesByDepartment: build.query<
+      GetServicesByDepartmentResponse,
+      GetServicesByDepartmentQuery
+    >({
+      query: ({ departmentId, ...params }) => {
+        const searchParams = new URLSearchParams();
+        if (params.page != null) searchParams.set("page", String(params.page));
+        if (params.limit != null)
+          searchParams.set("limit", String(params.limit));
+        const qs = searchParams.toString();
+        return qs
+          ? `/services/department/${departmentId}?${qs}`
+          : `/services/department/${departmentId}`;
+      },
+      providesTags: ["Services"],
+    }),
+    getServiceById: build.query<GetServiceByIdResponse, string>({
+      query: (id) => `/services/${id}`,
+      providesTags: ["Services"],
+    }),
+
+    // Service endpoints — admin mutations
+    createService: build.mutation<CreateServiceResponse, CreateServicePayload>({
+      query: (body) => ({ url: "/services", method: "POST", body }),
+      invalidatesTags: ["Services"],
+    }),
+    updateService: build.mutation<
+      UpdateServiceResponse,
+      { id: string; body: UpdateServicePayload }
+    >({
+      query: ({ id, body }) => ({
+        url: `/services/${id}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["Services"],
+    }),
+    deleteService: build.mutation<DeleteServiceResponse, string>({
+      query: (id) => ({ url: `/services/${id}`, method: "DELETE" }),
+      invalidatesTags: ["Services"],
+    }),
+    activateService: build.mutation<ActivateServiceResponse, string>({
+      query: (id) => ({ url: `/services/${id}/activate`, method: "PATCH" }),
+      invalidatesTags: ["Services"],
+    }),
+    deactivateService: build.mutation<DeactivateServiceResponse, string>({
+      query: (id) => ({ url: `/services/${id}/deactivate`, method: "PATCH" }),
+      invalidatesTags: ["Services"],
+    }),
   }),
 });
 
@@ -120,4 +270,16 @@ export const {
   useAdminUpdateUserMutation,
   useAdminDeleteUserMutation,
   useAdminDeactivateUserMutation,
+  useGetServicesQuery,
+  useSearchServicesQuery,
+  useGetServicesGroupedByCategoryQuery,
+  useGetServicesGroupedByDepartmentQuery,
+  useGetServicesByCategoryQuery,
+  useGetServicesByDepartmentQuery,
+  useGetServiceByIdQuery,
+  useCreateServiceMutation,
+  useUpdateServiceMutation,
+  useDeleteServiceMutation,
+  useActivateServiceMutation,
+  useDeactivateServiceMutation,
 } = api;
