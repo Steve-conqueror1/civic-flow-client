@@ -100,6 +100,31 @@ export type GetServicesByDepartmentResponse = PaginatedServiceResponse;
 // GET /v1/services/{id}
 export type GetServiceByIdResponse = SingleServiceResponse;
 
+// GET /v1/services/{slug}
+export type ServiceDetail = {
+  id: string;
+  name: string;
+  slug: string;
+  description: string;
+  instructions: string;
+  departmentId: string;
+  departmentName: string;
+  departmentSlug: string;
+  categoryId: string;
+  categoryName: string;
+  categorySlug: string;
+  minResponseDays: number;
+  maxResponseDays: number;
+};
+
+export type GetServiceBySlugResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    service: ServiceDetail;
+  };
+};
+
 // POST /v1/services
 export type CreateServicePayload = {
   name: string;
