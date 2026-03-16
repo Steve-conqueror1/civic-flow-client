@@ -77,7 +77,7 @@ export const ServiceCategoriesSection = () => {
                 iconBgClass={iconBgClass}
                 iconColorClass={iconColorClass}
                 services={services.map((s) => ({ name: s.name, slug: s.slug }))}
-                viewAllHref={`/services?category=${category.slug}`}
+                viewAllHref={`/categories/${category.slug}`}
                 viewAllLabel={`View all ${category.name} services`}
               />
             );

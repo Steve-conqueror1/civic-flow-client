@@ -12,16 +12,16 @@ import {
 const popularServices = [
   {
     title: "Report Pothole",
-    href: "/services/infrastructure/pothole",
+    href: "/services/pothole",
     icon: Construction,
   },
   {
     title: "Waste Schedule",
-    href: "/services/environment/waste-schedule",
+    href: "/services/waste-schedule",
     icon: CalendarDays,
   },
-  { title: "Pay Ticket", href: "/services/payments/ticket", icon: Receipt },
-  { title: "Business Permit", href: "/services/permits/business", icon: Store },
+  { title: "Pay Ticket", href: "/services/ticket", icon: Receipt },
+  { title: "Business Permit", href: "/services/business", icon: Store },
 ];
 
 const ServicesPage = () => {
