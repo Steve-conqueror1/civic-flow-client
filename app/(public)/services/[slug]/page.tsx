@@ -1,4 +1,5 @@
-import { Construction, MapPin, Camera, FileText } from "lucide-react";
+import { notFound } from "next/navigation";
+import { Wrench, MapPin, Camera, FileText } from "lucide-react";
 import {
   ServiceBreadcrumb,
   ServiceHero,
@@ -10,16 +11,18 @@ import {
   type RequirementItem,
   type FAQItem,
 } from "@/components/services";
+import type { GetServiceBySlugResponse } from "@/app/types/service";
 
 interface ServicePageProps {
   params: Promise<{ slug: string }>;
 }
 
-const breadcrumbs: BreadcrumbItem[] = [
-  { label: "Services", href: "/services" },
-  { label: "Infrastructure", href: "/services?category=infrastructure" },
-  { label: "Pothole Repair" },
-];
+function formatResolutionTime(min: number, max: number): string {
+  if (min === max) {
+    return `${min} Business Day${min === 1 ? "" : "s"}`;
+  }
+  return `${min}\u2013${max} Business Days`;
+}
 
 const requirements: RequirementItem[] = [
   {
@@ -30,7 +33,7 @@ const requirements: RequirementItem[] = [
   {
     icon: <Camera className="w-5 h-5" />,
     label: "Photo (Optional but recommended)",
-    description: "A clear picture showing the size and context of the pothole.",
+    description: "A clear picture showing the size and context of the issue.",
   },
   {
     icon: <FileText className="w-5 h-5" />,
@@ -61,6 +64,34 @@ const faqs: FAQItem[] = [
 const ServicePage = async ({ params }: ServicePageProps) => {
   const { slug } = await params;
 
+  const response = await fetch(
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/${slug}`,
+  );
+
+  if (!response.ok) {
+    notFound();
+  }
+
+  const json: GetServiceBySlugResponse = await response.json();
+
+  if (!json.success) {
+    notFound();
+  }
+
+  const service = json.data.service;
+
+  const breadcrumbs: BreadcrumbItem[] = [
+    {
+      label: "Services",
+      href: `/services`,
+    },
+    {
+      label: service.categoryName,
+      href: `/categories/${service.categorySlug}`,
+    },
+    { label: service.name },
+  ];
+
   return (
     <main className="flex-1 w-full  py-8 bg-background">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -69,18 +100,16 @@ const ServicePage = async ({ params }: ServicePageProps) => {
           {/* Main content */}
           <div className="lg:col-span-2 space-y-8">
             <ServiceHero
-              icon={<Construction className="w-12 h-12" aria-hidden="true" />}
-              title="Pothole Repair"
-              description="Report a pothole on a municipal road for repair. Timely reporting helps prevent vehicle damage and keeps our streets safe."
+              departmentName={service.departmentName}
+              icon={<Wrench className="w-12 h-12" aria-hidden="true" />}
+              title={service.name}
+              description={service.description}
             />
 
             <ServiceDescriptionCard
               title="Service Description"
               icon={<FileText className="w-5 h-5" />}
-              paragraphs={[
-                "This service allows citizens to report and submit requests for pothole repairs on municipal roads within the City of Edmonton. Upon submission, your report is assessed by our public works team and prioritized based on severity and location.",
-                "Governed by the Municipal Government Act (RSA 2000, c M-26), the municipality is responsible for maintaining roads under its jurisdiction. Repairs to provincial highways should be directed to Alberta Transportation.",
-              ]}
+              paragraphs={[service.instructions]}
             />
 
             <ServiceRequirementsCard items={requirements} />
@@ -89,10 +118,13 @@ const ServicePage = async ({ params }: ServicePageProps) => {
           {/* Sidebar */}
           <aside className="space-y-6">
             <ServiceResolutionCard
-              resolutionTime="2-3 Business Days"
+              resolutionTime={formatResolutionTime(
+                service.minResponseDays,
+                service.maxResponseDays,
+              )}
               note="Based on AI prediction from recent similar requests in your area."
               startHref={`/services/${slug}/new`}
-              serviceName="Pothole Repair"
+              serviceName={service.name}
             />
             <ServiceFAQAccordion items={faqs} />
           </aside>

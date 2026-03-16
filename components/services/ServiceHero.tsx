@@ -4,13 +4,19 @@ interface ServiceHeroProps {
   icon: ReactNode;
   title: string;
   description: string;
+  departmentName: string;
 }
 
-export const ServiceHero = ({ icon, title, description }: ServiceHeroProps) => {
+export const ServiceHero = ({
+  icon,
+  title,
+  description,
+  departmentName,
+}: ServiceHeroProps) => {
   return (
     <div className="flex flex-col sm:flex-row gap-6 items-start">
       <div
-        className="flex-shrink-0 bg-primary/10 dark:bg-primary/20 text-primary p-4 rounded-xl flex items-center justify-center h-24 w-24"
+        className="shrink-0 bg-primary/10 dark:bg-primary/20 text-primary p-4 rounded-xl flex items-center justify-center h-24 w-24"
         aria-hidden="true"
       >
         {icon}
@@ -20,7 +26,7 @@ export const ServiceHero = ({ icon, title, description }: ServiceHeroProps) => {
           {title}
         </h1>
         <p className="text-slate-600 dark:text-slate-300 text-lg font-normal leading-relaxed">
-          {description}
+          {description} This service is offered by {departmentName} department
         </p>
       </div>
     </div>

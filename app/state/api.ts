@@ -19,6 +19,7 @@ import type {
   GetServicesByDepartmentQuery,
   GetServicesByDepartmentResponse,
   GetServiceByIdResponse,
+  GetServiceBySlugResponse,
   CreateServicePayload,
   CreateServiceResponse,
   UpdateServicePayload,
@@ -225,6 +226,10 @@ export const api = createApi({
       query: (id) => `/services/${id}`,
       providesTags: ["Services"],
     }),
+    getServiceBySlug: build.query<GetServiceBySlugResponse, string>({
+      query: (slug) => `/services/${slug}`,
+      providesTags: ["Services"],
+    }),
 
     // Service endpoints — admin mutations
     createService: build.mutation<CreateServiceResponse, CreateServicePayload>({
@@ -277,6 +282,7 @@ export const {
   useGetServicesByCategoryQuery,
   useGetServicesByDepartmentQuery,
   useGetServiceByIdQuery,
+  useGetServiceBySlugQuery,
   useCreateServiceMutation,
   useUpdateServiceMutation,
   useDeleteServiceMutation,
