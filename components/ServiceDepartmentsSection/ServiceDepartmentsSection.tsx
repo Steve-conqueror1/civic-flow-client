@@ -83,7 +83,7 @@ export function ServiceDepartmentsSection() {
                     key={dept.id}
                     icon={<Icon size={28} />}
                     label={dept.name}
-                    href={`/services/${dept.slug}`}
+                    href={`/departments/${dept.slug}`}
                   />
                 );
               })}
