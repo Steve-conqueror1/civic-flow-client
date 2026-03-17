@@ -27,6 +27,8 @@ import type {
   DeleteServiceResponse,
   ActivateServiceResponse,
   DeactivateServiceResponse,
+  GetPopularServicesQuery,
+  GetPopularServicesResponse,
 } from "@/app/types/service";
 import type {
   GetMeResponse,
@@ -230,6 +232,18 @@ export const api = createApi({
       query: (slug) => `/services/${slug}`,
       providesTags: ["Services"],
     }),
+    getPopularServices: build.query<
+      GetPopularServicesResponse,
+      GetPopularServicesQuery | void
+    >({
+      query: (params) => {
+        if (params?.limit != null) {
+          return `/services/popular?limit=${params.limit}`;
+        }
+        return "/services/popular";
+      },
+      providesTags: ["Services"],
+    }),
 
     // Service endpoints — admin mutations
     createService: build.mutation<CreateServiceResponse, CreateServicePayload>({
@@ -283,6 +297,7 @@ export const {
   useGetServicesByDepartmentQuery,
   useGetServiceByIdQuery,
   useGetServiceBySlugQuery,
+  useGetPopularServicesQuery,
   useCreateServiceMutation,
   useUpdateServiceMutation,
   useDeleteServiceMutation,

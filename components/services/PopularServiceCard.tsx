@@ -1,18 +1,19 @@
 import Link from "next/link";
-import { type LucideProps } from "lucide-react";
+import { Layers, type LucideProps } from "lucide-react";
 import { type ComponentType } from "react";
 
 interface PopularServiceCardProps {
   title: string;
   href: string;
-  icon: ComponentType<LucideProps>;
+  icon?: ComponentType<LucideProps>;
 }
 
 export const PopularServiceCard = ({
   title,
   href,
-  icon: Icon,
+  icon,
 }: PopularServiceCardProps) => {
+  const Icon = icon ?? Layers;
   return (
     <Link
       href={href}

@@ -154,3 +154,16 @@ export type ActivateServiceResponse = SingleServiceResponse;
 
 // PATCH /v1/services/{id}/deactivate
 export type DeactivateServiceResponse = SingleServiceResponse;
+
+// GET /api/v1/services/popular
+export type GetPopularServicesQuery = {
+  limit?: number;
+};
+
+export type GetPopularServicesResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    services: Service[];
+  };
+};
