@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { Wrench, Clock, ArrowRight } from "lucide-react";
+import { Wrench, Clock } from "lucide-react";
 import type { Service } from "@/app/types/service";
 
 interface ServiceListTableProps {

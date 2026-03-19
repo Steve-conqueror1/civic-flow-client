@@ -98,7 +98,7 @@ const ServicePage = async ({ params }: ServicePageProps) => {
         <ServiceBreadcrumb items={breadcrumbs} />
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Main content */}
-          <div className="lg:col-span-2 space-y-8 ">
+          <div className="lg:col-span-2 space-y-8">
             <ServiceHero
               departmentName={service.departmentName}
               icon={<Wrench className="w-12 h-12" aria-hidden="true" />}

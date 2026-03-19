@@ -37,7 +37,7 @@ const DepartmentPage = async ({ params }: DepartmentPageProps) => {
   }
 
   const servicesResponse = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/department/${department.id}`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/department/${department.id}?limit=10`,
     { cache: "no-store" },
   );
 

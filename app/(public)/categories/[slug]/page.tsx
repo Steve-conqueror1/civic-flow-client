@@ -15,7 +15,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
   const { slug } = await params;
 
   const response = await fetch(
-    `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/grouped/category`,
+    `${process.env.NEXT_PUBLIC_API_BASE_URL}/services/grouped/category?limit=10`,
     { cache: "no-store" },
   );
 
