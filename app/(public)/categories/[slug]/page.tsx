@@ -42,7 +42,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
       <ServiceListHero
         title={category.name}
         description={category.description}
-        icon={<Building2 className="w-[300px] h-[300px]" />}
+        icon={<Building2 className="w-75 h-75" />}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
@@ -54,7 +54,7 @@ const CategoryPage = async ({ params }: CategoryPageProps) => {
         <div className="mt-8">
           <ServiceListTable services={services} />
         </div>
-        <ServiceListCTA />
+        <ServiceListCTA moduleName={category.name} />
       </div>
     </main>
   );

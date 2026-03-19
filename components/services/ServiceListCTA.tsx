@@ -1,6 +1,11 @@
 import Link from "next/link";
 
-export const ServiceListCTA = () => {
+interface Props {
+  moduleName: string;
+}
+
+export const ServiceListCTA: React.FC<Props> = (props) => {
+  const { moduleName } = props;
   return (
     <section
       aria-labelledby="cta-heading"
@@ -14,22 +19,16 @@ export const ServiceListCTA = () => {
           Can&apos;t find what you&apos;re looking for?
         </h2>
         <p className="text-slate-600 dark:text-slate-400 mb-6 leading-relaxed">
-          Our service directory is always growing. If the specific issue or
-          government service you are looking for isn&apos;t listed above, our team
-          can help direct you to the right department.
+          Sign in to search across all {moduleName} services, and quickly find
+          the support you need—even if it&apos;s not listed above.
         </p>
+
         <div className="flex flex-col sm:flex-row gap-4">
           <Link
-            href="/citizen/requests/new"
+            href="/login"
             className="bg-primary hover:bg-primary/90 text-white px-8 py-3 rounded-xl font-bold transition-all shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
           >
-            Start General Request
-          </Link>
-          <Link
-            href="/contact-us"
-            className="bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 hover:border-primary/50 text-slate-700 dark:text-slate-200 px-8 py-3 rounded-xl font-bold transition-all flex items-center justify-center"
-          >
-            Contact Support
+            Sign In
           </Link>
         </div>
       </div>

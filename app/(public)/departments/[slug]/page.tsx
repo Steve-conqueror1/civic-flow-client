@@ -50,7 +50,7 @@ const DepartmentPage = async ({ params }: DepartmentPageProps) => {
       <ServiceListHero
         title={department.name}
         description={department.description}
-        icon={<Landmark className="w-[300px] h-[300px]" />}
+        icon={<Landmark className="w-75 h-75" />}
         breadcrumbs={[
           { label: "Home", href: "/" },
           { label: "Services", href: "/services" },
@@ -58,11 +58,11 @@ const DepartmentPage = async ({ params }: DepartmentPageProps) => {
         ]}
       />
 
-      <div className="max-w-7xl mx-auto px-4 md:px-10 relative pb-20 pb-20">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 relative pb-20">
         <div className="mt-8">
           <ServiceListTable services={services} />
         </div>
-        <ServiceListCTA />
+        <ServiceListCTA moduleName={department.name} />
       </div>
     </main>
   );

@@ -155,7 +155,7 @@ const PreviewPage = () => {
         <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
           ServiceListCTA
         </h2>
-        <ServiceListCTA />
+        {/* <ServiceListCTA /> */}
       </section>
     </div>
   );

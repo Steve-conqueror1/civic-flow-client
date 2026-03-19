@@ -18,9 +18,9 @@ export const ServiceListHero = ({
   return (
     <section
       aria-labelledby="service-list-hero-title"
-      className="bg-[#004f84] text-white pt-16 pb-20 overflow-hidden"
+      className="bg-[#004f84] text-white pt-16 pb-20 overflow-hidden relative"
     >
-      <div className="max-w-7xl mx-auto px-4 md:px-10 relative">
+      <div className="max-w-7xl mx-auto px-4 md:px-10 relative mb-12">
         <div className="max-w-3xl">
           <nav aria-label="Breadcrumb" className="mb-6">
             <ol className="flex flex-wrap items-center gap-2 list-none p-0 m-0 text-xs text-blue-200/70 uppercase tracking-widest font-bold">
