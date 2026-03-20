@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,10 +14,10 @@ import { loginSchema } from "@/lib/validators";
 import { useAuth } from "@/app/hooks/use-auth";
 import type { LoginFormValues } from "@/types";
 
-export const LoginForm = () => {
+export const LoginForm = ({ redirect }: { redirect?: string }) => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
-  const searchParams = useSearchParams();
+
   const { loginMutation } = useAuth();
 
   const {
@@ -31,8 +31,8 @@ export const LoginForm = () => {
   const onSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data, {
       onSuccess: () => {
-        const redirect = searchParams.get("redirect") ?? "/dashboard";
-        router.push(redirect);
+        const redirectPath = redirect ?? "/dashboard";
+        router.push(redirectPath);
       },
     });
   };
@@ -133,11 +133,11 @@ export const LoginForm = () => {
       </div>
       <div className="hidden lg:flex flex-col gap-4 mt-8">
         <div className="relative flex  items-center">
-          <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
-          <span className="flex-shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-wider">
+          <div className="grow border-t border-slate-200 dark:border-slate-700"></div>
+          <span className="shrink-0 mx-4 text-slate-400 dark:text-slate-500 text-xs font-medium uppercase tracking-wider">
             New User?
           </span>
-          <div className="flex-grow border-t border-slate-200 dark:border-slate-700"></div>
+          <div className="grow border-t border-slate-200 dark:border-slate-700"></div>
         </div>
 
         <div className="mt-4 w-full flex justify-center">
