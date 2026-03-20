@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import HowItWorksStep from "@/components/HowItWorksSection/HowItWorksStep";
+import HowItWorksStep from "@/components/home/HowItWorksSection/HowItWorksStep";
 
 describe("HowItWorksStep", () => {
   const defaultProps = {
@@ -17,7 +17,7 @@ describe("HowItWorksStep", () => {
   it("renders the description", () => {
     render(<HowItWorksStep {...defaultProps} />);
     expect(
-      screen.getByText("Describe your issue in plain language.")
+      screen.getByText("Describe your issue in plain language."),
     ).toBeDefined();
   });
 
@@ -32,11 +32,11 @@ describe("HowItWorksStep", () => {
         icon={<span>icon</span>}
         title="2. AI Analysis"
         description="Our AI categorizes and routes your request."
-      />
+      />,
     );
     expect(screen.getByText("2. AI Analysis")).toBeDefined();
     expect(
-      screen.getByText("Our AI categorizes and routes your request.")
+      screen.getByText("Our AI categorizes and routes your request."),
     ).toBeDefined();
   });
 });

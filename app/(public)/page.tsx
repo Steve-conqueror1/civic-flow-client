@@ -1,7 +1,7 @@
-import CtaBannerSection from "@/components/CtaBannerSection";
-import { HeroSection } from "@/components/HeroSection";
-import HowItWorksSection from "@/components/HowItWorksSection";
-import { ServiceDepartmentsSection } from "@/components/ServiceDepartmentsSection";
+import CtaBannerSection from "@/components/home/CtaBannerSection";
+import { HeroSection } from "@/components/home/HeroSection";
+import HowItWorksSection from "@/components/home/HowItWorksSection";
+import { ServiceDepartmentsSection } from "@/components/home/ServiceDepartmentsSection";
 
 const page = () => {
   return (

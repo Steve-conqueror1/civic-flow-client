@@ -33,7 +33,7 @@ export function HeroContent() {
           Submit a Request
         </Link>
         <Link
-          href="/track"
+          href="/dashboard/requests"
           className="flex items-center justify-center rounded-lg h-12 px-6 bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-700 text-base font-bold transition-all"
         >
           Track Your Request

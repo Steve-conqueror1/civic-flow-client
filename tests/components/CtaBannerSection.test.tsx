@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import { describe, it, expect } from "vitest";
-import CtaBannerSection from "@/components/CtaBannerSection";
+import CtaBannerSection from "@/components/home/CtaBannerSection";
 
 describe("CtaBannerSection", () => {
   it("renders the heading", () => {
@@ -9,7 +9,7 @@ describe("CtaBannerSection", () => {
       screen.getByRole("heading", {
         level: 2,
         name: /ready to improve your community/i,
-      })
+      }),
     ).toBeDefined();
   });
 
@@ -20,16 +20,12 @@ describe("CtaBannerSection", () => {
 
   it("renders the Register Now link", () => {
     render(<CtaBannerSection />);
-    expect(
-      screen.getByRole("link", { name: /register now/i })
-    ).toBeDefined();
+    expect(screen.getByRole("link", { name: /register now/i })).toBeDefined();
   });
 
   it("renders the Learn More link", () => {
     render(<CtaBannerSection />);
-    expect(
-      screen.getByRole("link", { name: /learn more/i })
-    ).toBeDefined();
+    expect(screen.getByRole("link", { name: /learn more/i })).toBeDefined();
   });
 
   it("renders as a section landmark", () => {

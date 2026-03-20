@@ -2,14 +2,14 @@
 
 import { useEffect, useState } from "react";
 import { Bot, CheckCircle, AlertCircle, Loader2 } from "lucide-react";
-import MapView from "../maps";
+import MapView from "../../maps";
 import { useGetFeaturedServiceRequestQuery } from "@/app/state/api";
 import { io } from "socket.io-client";
 import type {
   FeaturedServiceRequest,
   RequestStatus,
 } from "@/app/types/request";
-import { Badge } from "../ui/badge";
+import { Badge } from "../../ui/badge";
 
 const REQUEST_STATUSES = {
   open: {
@@ -69,7 +69,7 @@ export function HeroImageCard() {
   }, []);
 
   return (
-    <div className="relative w-full aspect-[4/3] rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group h-96 sm:h-fit">
+    <div className="relative w-full aspect-4/3 rounded-2xl overflow-hidden shadow-2xl bg-slate-100 dark:bg-slate-800 group h-96 sm:h-fit">
       <MapView
         height="100%"
         latitude={featuredCase?.location.lat}
@@ -78,7 +78,7 @@ export function HeroImageCard() {
       />
       {/* Gradient overlay */}
       <div
-        className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"
+        className="absolute inset-0 bg-linear-to-t from-black/60 via-transparent to-transparent"
         aria-hidden="true"
       />
 
