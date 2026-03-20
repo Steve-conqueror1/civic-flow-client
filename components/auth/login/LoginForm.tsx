@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -17,6 +17,7 @@ import type { LoginFormValues } from "@/types";
 export const LoginForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const router = useRouter();
+  const searchParams = useSearchParams();
   const { loginMutation } = useAuth();
 
   const {
@@ -29,7 +30,10 @@ export const LoginForm = () => {
 
   const onSubmit = (data: LoginFormValues) => {
     loginMutation.mutate(data, {
-      onSuccess: () => router.push("/dashboard"),
+      onSuccess: () => {
+        const redirect = searchParams.get("redirect") ?? "/dashboard";
+        router.push(redirect);
+      },
     });
   };
 
