@@ -22,7 +22,7 @@ export default function DashboardLayout({
   const pathname = usePathname();
 
   useEffect(() => {
-    if (!isLoading && !isAuthenticated) {
+    if (isLoading && !isAuthenticated) {
       router.push("/login?redirect=" + encodeURIComponent(pathname));
     }
   }, [isLoading, isAuthenticated, router, pathname]);
