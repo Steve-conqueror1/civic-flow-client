@@ -1,11 +1,13 @@
 import { LoginForm, LoginHeroPanel } from "@/components/auth/login";
 
 interface Props {
-  searchParams: { redirect: string };
+  searchParams: Promise<{ redirect: string }>;
 }
 
-const LoginPage: React.FC<Props> = (props) => {
+const LoginPage: React.FC<Props> = async (props) => {
   const { searchParams } = props;
+
+  const params = await searchParams;
   return (
     <>
       <main
@@ -23,7 +25,7 @@ const LoginPage: React.FC<Props> = (props) => {
 
         <div className="w-full max-w-240 grid grid-cols-1 lg:grid-cols-12 bg-white dark:bg-slate-800 rounded-2xl shadow-xl border border-slate-100 dark:border-slate-700 overflow-hidden relative z-10">
           <LoginHeroPanel />
-          <LoginForm redirect={searchParams?.redirect} />
+          <LoginForm redirect={params?.redirect} />
         </div>
       </main>
     </>
