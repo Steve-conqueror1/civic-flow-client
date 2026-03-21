@@ -1,5 +1,3 @@
-import React from "react";
-import AuthRedirect from "@/components/auth/AuthRedirect";
 import { LoginForm, LoginHeroPanel } from "@/components/auth/login";
 
 interface Props {
@@ -10,7 +8,6 @@ const LoginPage: React.FC<Props> = (props) => {
   const { searchParams } = props;
   return (
     <>
-      <AuthRedirect redirect={searchParams?.redirect} />
       <main
         className="grow flex items-center justify-center p-4 md:p-8 relative overflow-hidden w-full"
         aria-label="Citizen sign in"
