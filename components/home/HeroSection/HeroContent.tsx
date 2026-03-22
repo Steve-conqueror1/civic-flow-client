@@ -27,7 +27,7 @@ export function HeroContent() {
       {/* CTA buttons */}
       <div className="flex flex-wrap gap-4 pt-4">
         <Link
-          href="/request/new"
+          href="/requests/new"
           className="flex items-center justify-center rounded-lg h-12 px-6 bg-primary hover:bg-primary-dark text-white text-base font-bold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5"
         >
           Submit a Request

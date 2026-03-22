@@ -1,4 +1,4 @@
-import { CitizenSidebar } from "@/components/dashboard";
+import { AppSidebar } from "@/components/dashboard";
 import {
   SidebarProvider,
   SidebarInset,
@@ -14,10 +14,10 @@ export default function DashboardLayout({
   return (
     <TooltipProvider>
       <SidebarProvider>
-        <CitizenSidebar />
+        <AppSidebar />
         <SidebarInset>
           <header className="flex md:hidden sticky top-0 z-10 items-center gap-3 px-4 h-14 bg-background border-b border-border shrink-0">
-            <SidebarTrigger />
+            <SidebarTrigger className="hover:cursor-pointer" />
             <span className="text-sm font-semibold text-slate-900 dark:text-white">
               CivicFlow
             </span>

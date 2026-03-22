@@ -12,7 +12,7 @@ export function AIAssistantButton({ onClick }: AIAssistantButtonProps) {
       <button
         aria-label="Open AI assistant"
         onClick={onClick}
-        className="bg-primary hover:bg-primary-dark text-white rounded-full size-14 flex items-center justify-center shadow-lg transition-transform hover:scale-105"
+        className="bg-primary hover:bg-primary-dark text-white rounded-full size-14 flex items-center justify-center shadow-lg transition-transform hover:scale-105 hover:cursor-pointer"
       >
         <Bot size={24} aria-hidden="true" />
       </button>

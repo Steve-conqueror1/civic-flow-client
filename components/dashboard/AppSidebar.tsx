@@ -10,6 +10,10 @@ import {
   Bell,
   User,
   LogOut,
+  Landmark,
+  Settings2,
+  Users,
+  Map,
 } from "lucide-react";
 import {
   Sidebar,
@@ -23,6 +27,7 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "@/components/ui/sidebar";
+import NavUser from "./NavUser";
 
 const NAV_LINKS = [
   { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
@@ -30,18 +35,19 @@ const NAV_LINKS = [
   { label: "My Requests", href: "/dashboard/requests", icon: ListOrdered },
   { label: "Messages", href: "/dashboard/messages", icon: MessageSquare },
   { label: "Notifications", href: "/dashboard/notifications", icon: Bell },
-  { label: "Profile", href: "/dashboard/profile", icon: User },
+  { label: "Users", href: "/dashboard/users", icon: Users },
+  { label: "Settings", href: "/dashboard/settings", icon: Settings2 },
+  { label: "Live Map", href: "/dashboard/map", icon: Map },
 ];
 
-interface CitizenSidebarProps {
-  userName?: string;
-  location?: string;
-}
+const user = {
+  avatar: "",
+  firstName: "Stephen",
+  lastName: "Kilonzo",
+  email: "skilonzo@gmail.com",
+};
 
-export function CitizenSidebar({
-  userName = "Alex",
-  location = "Red Deer",
-}: CitizenSidebarProps) {
+export function AppSidebar() {
   const pathname = usePathname();
 
   return (
@@ -49,20 +55,20 @@ export function CitizenSidebar({
       {/* User profile */}
       <SidebarHeader className="border-b border-sidebar-border p-4">
         <div className="flex items-center gap-3 min-w-0">
-          <div
+          <span
             className="size-9 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm shrink-0"
             aria-hidden="true"
           >
-            {userName.charAt(0).toUpperCase()}
-          </div>
-          <div className="flex flex-col min-w-0 group-data-[collapsible=icon]:hidden">
+            <Landmark />
+          </span>
+          <span className="flex flex-col min-w-0 group-data-[collapsible=icon]:hidden">
             <span className="text-sidebar-foreground text-sm font-semibold truncate">
-              {userName}
+              CivicFlow
             </span>
             <span className="text-sidebar-foreground/60 text-xs">
-              {location}
+              Alberta Platform
             </span>
-          </div>
+          </span>
         </div>
       </SidebarHeader>
 
@@ -74,11 +80,12 @@ export function CitizenSidebar({
               {NAV_LINKS.map(({ label, href, icon: Icon }) => {
                 const isActive = pathname === href;
                 return (
-                  <SidebarMenuItem key={href}>
+                  <SidebarMenuItem key={href} className="mb-2">
                     <SidebarMenuButton
                       asChild
                       isActive={isActive}
                       tooltip={label}
+                      className="font-medium py-4"
                     >
                       <Link
                         href={href}
@@ -98,16 +105,8 @@ export function CitizenSidebar({
 
       {/* Logout */}
       <SidebarFooter className="border-t border-sidebar-border p-3">
-        <SidebarMenu>
-          <SidebarMenuItem>
-            <SidebarMenuButton tooltip="Logout" aria-label="Logout">
-              <LogOut aria-hidden="true" />
-              <span>Logout</span>
-            </SidebarMenuButton>
-          </SidebarMenuItem>
-        </SidebarMenu>
+        <NavUser user={user} />
       </SidebarFooter>
-
       <SidebarRail />
     </Sidebar>
   );
