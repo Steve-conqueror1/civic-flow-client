@@ -30,7 +30,7 @@ async function loginUser(data: LoginFormValues) {
   return res.json();
 }
 
-async function fetchCurrentUser(): Promise<LoginResponse["user"]> {
+async function fetchCurrentUser(): Promise<LoginResponse> {
   const res = await fetch(`${API_BASE_URL}/auth/me`, {
     credentials: "include",
   });
@@ -105,7 +105,7 @@ export function useAuth() {
 
   useEffect(() => {
     if (currentUserQuery.status === "success") {
-      dispatch(setAuthUser({ user: currentUserQuery.data }));
+      dispatch(setAuthUser({ user: currentUserQuery.data.data }));
     }
     if (currentUserQuery.status === "error") {
       dispatch(clearAuth());
@@ -127,7 +127,7 @@ export function useAuth() {
     await logoutUser();
     dispatch(clearAuth());
     queryClient.removeQueries({ queryKey: ["me"] });
-    router.push("/login");
+    router.push("/");
   };
 
   return {

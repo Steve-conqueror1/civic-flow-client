@@ -31,10 +31,11 @@ type UserProps = {
 
 interface Props {
   user: UserProps;
+  onLogout: () => void;
 }
 
 const NavUser: React.FC<Props> = (props) => {
-  const { user } = props;
+  const { user, onLogout } = props;
 
   const { isMobile } = useSidebar();
   return (
@@ -96,7 +97,7 @@ const NavUser: React.FC<Props> = (props) => {
                 Go to Home
               </Link>
             </DropdownMenuItem>
-            <DropdownMenuItem className="hover:cursor-pointer">
+            <DropdownMenuItem className="hover:cursor-pointer" onClick={onLogout}>
               <IconLogout />
               Log out
             </DropdownMenuItem>
