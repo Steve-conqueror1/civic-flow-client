@@ -16,7 +16,8 @@ export type AuthUser = {
 };
 
 export type LoginResponse = {
-  user: AuthUser;
+  success: boolean;
+  data: AuthUser;
 };
 
 export type RegisterResponse = {

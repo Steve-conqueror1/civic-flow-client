@@ -8,13 +8,12 @@ import {
   ListOrdered,
   MessageSquare,
   Bell,
-  User,
-  LogOut,
   Landmark,
   Settings2,
   Users,
   Map,
 } from "lucide-react";
+import { useAuth } from "@/app/hooks/use-auth";
 import {
   Sidebar,
   SidebarContent,
@@ -40,15 +39,15 @@ const NAV_LINKS = [
   { label: "Live Map", href: "/dashboard/map", icon: Map },
 ];
 
-const user = {
-  avatar: "",
-  firstName: "Stephen",
-  lastName: "Kilonzo",
-  email: "skilonzo@gmail.com",
-};
-
 export function AppSidebar() {
   const pathname = usePathname();
+  const { user, logout } = useAuth();
+
+  const navUser = {
+    firstName: user?.firstName ?? "",
+    lastName: user?.lastName ?? "",
+    email: user?.email ?? "—",
+  };
 
   return (
     <Sidebar collapsible="icon">
@@ -105,7 +104,7 @@ export function AppSidebar() {
 
       {/* Logout */}
       <SidebarFooter className="border-t border-sidebar-border p-3">
-        <NavUser user={user} />
+        <NavUser user={navUser} onLogout={logout} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
