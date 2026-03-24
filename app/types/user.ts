@@ -99,3 +99,17 @@ export type DeactivateUserResponse = {
   message: string;
   data: { status: string };
 };
+
+// GET /v1/users/stats
+export type UserStatsData = {
+  totalUsers: number;
+  totalStaff: number;
+  inactiveUsers: number;
+  suspendedUsers: number;
+};
+
+export type GetUserStatsResponse = {
+  success: boolean;
+  message?: string;
+  data: UserStatsData;
+};
