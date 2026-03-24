@@ -43,6 +43,7 @@ import type {
   AdminUpdateUserResponse,
   DeleteUserResponse,
   DeactivateUserResponse,
+  GetUserStatsResponse,
 } from "@/app/types/user";
 
 export const api = createApi({
@@ -59,6 +60,7 @@ export const api = createApi({
     "Me",
     "FeaturedServiceRequest",
     "Services",
+    "UserStats",
   ],
   endpoints: (build) => ({
     submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
@@ -99,6 +101,10 @@ export const api = createApi({
     }),
 
     // Admin endpoints
+    getUserStats: build.query<GetUserStatsResponse, void>({
+      query: () => "/users/stats",
+      providesTags: ["UserStats"],
+    }),
     getUsers: build.query<GetUsersResponse, GetUsersQuery | void>({
       query: (params) => {
         const searchParams = new URLSearchParams();
@@ -284,6 +290,7 @@ export const {
   useUpdateMeMutation,
   useDeleteMeMutation,
   useGetUserCountQuery,
+  useGetUserStatsQuery,
   useGetUsersQuery,
   useGetUserByIdQuery,
   useAdminUpdateUserMutation,
