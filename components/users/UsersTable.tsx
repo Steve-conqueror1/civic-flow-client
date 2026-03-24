@@ -104,7 +104,7 @@ const columns = [
   }),
   columnHelper.display({
     id: "actions",
-    header: "",
+    header: "Action",
     cell: () => (
       <button
         className="p-2 text-slate-400 hover:text-primary transition-colors hover:cursor-pointer"
