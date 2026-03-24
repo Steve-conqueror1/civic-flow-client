@@ -92,11 +92,13 @@ Redux Toolkit is set up in `app/state/`:
 Tailwind CSS v4 uses CSS-first configuration — no `tailwind.config.js`. All theme tokens are defined in `app/globals.css` using `@theme inline`. Color values use hex (not oklch).
 
 Key theme tokens:
+
 - `--primary`: `#1985f0` (Civic Blue)
 - `--primary-dark`: `#106ac5` (hover state)
 - Dark mode backgrounds: `#101922` (page), `#111a22` (card/surface)
 
 Custom utilities defined in `globals.css`:
+
 - `.container` — `max-w-7xl mx-auto px-4 md:px-10`
 - `.text-display` — hero/display text (2.25rem, bold, tight)
 - `.text-meta` — small metadata text (0.875rem, muted)
@@ -121,3 +123,7 @@ Use `@testing-library/react` (`render`, `screen`) and `@testing-library/user-eve
 ## Checking Documentation
 
 **Important:** When implementing any lib/framework-specific features, ALWAYS check the appropriate documentation using the Context7 MCP server before writing code.
+
+## Backend APIs
+
+**Important:** Always refer to @backend_apis/api.json for information about backend endpoints
