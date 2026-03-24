@@ -1,4 +1,6 @@
-import { MapPin, Keyboard, Building2 } from "lucide-react";
+import { MapPin, Keyboard, Building2, Users, UserCheck, UserX, ClockArrowUp } from "lucide-react";
+import { UserStatCard, UsersPageHeader, UsersTable } from "@/components/users";
+import type { UserProfile } from "@/app/types/user";
 import {
   ContactInfoItem,
   ContactForm,
@@ -15,6 +17,48 @@ import {
   ServiceListCTA,
 } from "@/components/services";
 import type { Service } from "@/app/types/service";
+
+const previewUsers: UserProfile[] = [
+  {
+    id: "1",
+    firstName: "Marcus",
+    lastName: "Chen",
+    email: "marcus.chen@civicflow.gov",
+    phoneNumber: "",
+    address: "",
+    role: "admin",
+    mfaEnabled: true,
+    status: "active",
+    createdAt: "2024-01-10T09:00:00Z",
+    updatedAt: "2024-03-20T14:30:00Z",
+  },
+  {
+    id: "2",
+    firstName: "Sarah",
+    lastName: "Jenkins",
+    email: "s.jenkins@civicflow.gov",
+    phoneNumber: "",
+    address: "",
+    role: "citizen",
+    mfaEnabled: false,
+    status: "active",
+    createdAt: "2024-02-01T00:00:00Z",
+    updatedAt: "2024-03-21T10:00:00Z",
+  },
+  {
+    id: "3",
+    firstName: "Robert",
+    lastName: "Jordan",
+    email: "rob.jordan@gmail.com",
+    phoneNumber: "",
+    address: "",
+    role: "citizen",
+    mfaEnabled: false,
+    status: "inactive",
+    createdAt: "2023-11-15T00:00:00Z",
+    updatedAt: "2024-03-18T08:00:00Z",
+  },
+];
 
 const previewServices: Service[] = [
   {
@@ -156,6 +200,63 @@ const PreviewPage = () => {
           ServiceListCTA
         </h2>
         {/* <ServiceListCTA /> */}
+      </section>
+
+      {/* UsersPageHeader */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          UsersPageHeader
+        </h2>
+        <UsersPageHeader />
+      </section>
+
+      {/* UserStatCard */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          UserStatCard
+        </h2>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <UserStatCard
+            icon={<Users className="size-5" aria-hidden="true" />}
+            iconClassName="bg-blue-50 text-primary"
+            label="Total Users"
+            value="12,842"
+            badge="+12%"
+            badgeClassName="bg-emerald-100 text-emerald-700"
+          />
+          <UserStatCard
+            icon={<UserCheck className="size-5" aria-hidden="true" />}
+            iconClassName="bg-emerald-50 text-emerald-600"
+            label="Active Now"
+            value="842"
+            badge="98%"
+            badgeClassName="bg-emerald-100 text-emerald-700"
+          />
+          <UserStatCard
+            icon={<ClockArrowUp className="size-5" aria-hidden="true" />}
+            iconClassName="bg-amber-50 text-amber-600"
+            label="Pending Staff"
+            value="24"
+            badge="Review"
+            badgeClassName="bg-amber-100 text-amber-700"
+          />
+          <UserStatCard
+            icon={<UserX className="size-5" aria-hidden="true" />}
+            iconClassName="bg-red-50 text-red-600"
+            label="Suspended"
+            value="16"
+            badge="Stable"
+            badgeClassName="bg-slate-100 text-slate-500"
+          />
+        </div>
+      </section>
+
+      {/* UsersTable */}
+      <section>
+        <h2 className="text-xl font-bold mb-4 text-slate-700 dark:text-slate-300 border-b pb-2">
+          UsersTable
+        </h2>
+        <UsersTable users={previewUsers} />
       </section>
     </div>
   );
