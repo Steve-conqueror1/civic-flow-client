@@ -5,7 +5,6 @@ import {
   useReactTable,
   getCoreRowModel,
   getFilteredRowModel,
-  getPaginationRowModel,
   getSortedRowModel,
   flexRender,
   createColumnHelper,
@@ -274,9 +273,19 @@ const columns = [
 
 interface UsersTableProps {
   users: UserProfile[];
+  total: number;
+  page: number;
+  limit: number;
+  onPageChange: (page: number) => void;
 }
 
-export function UsersTable({ users }: UsersTableProps) {
+export function UsersTable({
+  users,
+  total,
+  page,
+  limit,
+  onPageChange,
+}: UsersTableProps) {
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
   const table = useReactTable({
@@ -286,19 +295,17 @@ export function UsersTable({ users }: UsersTableProps) {
     onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getFilteredRowModel: getFilteredRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-    initialState: { pagination: { pageSize: 10 } },
   });
 
   const roleValue = (table.getColumn("role")?.getFilterValue() as string) ?? "";
   const statusValue =
     (table.getColumn("status")?.getFilterValue() as string) ?? "";
 
-  const { pageIndex } = table.getState().pagination;
-  const totalRows = table.getFilteredRowModel().rows.length;
-  const pageStart = pageIndex * 10 + 1;
-  const pageEnd = Math.min(pageStart + 9, totalRows);
+  const pageStart = (page - 1) * limit + 1;
+  const pageEnd = Math.min(page * limit, total);
+  const canPreviousPage = page > 1;
+  const canNextPage = page * limit < total;
 
   return (
     <div className="bg-white dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
@@ -357,25 +364,25 @@ export function UsersTable({ users }: UsersTableProps) {
         </div>
 
         <div className="flex items-center gap-2">
-          {totalRows > 0 && (
+          {total > 0 && (
             <span className="text-xs font-bold text-slate-500">
-              Showing {pageStart}–{pageEnd} of {totalRows}
+              Showing {pageStart}–{pageEnd} of {total}
             </span>
           )}
           <div className="flex items-center border border-slate-200 dark:border-slate-700 rounded-lg overflow-hidden">
             <button
-              onClick={() => table.previousPage()}
-              disabled={!table.getCanPreviousPage()}
-              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-400 disabled:opacity-40"
+              onClick={() => onPageChange(page - 1)}
+              disabled={!canPreviousPage}
+              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 border-r border-slate-200 dark:border-slate-700 text-slate-400 disabled:opacity-40 hover:cursor-pointer"
               aria-label="Previous page"
               type="button"
             >
               <ChevronLeft className="size-4" aria-hidden="true" />
             </button>
             <button
-              onClick={() => table.nextPage()}
-              disabled={!table.getCanNextPage()}
-              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 disabled:opacity-40"
+              onClick={() => onPageChange(page + 1)}
+              disabled={!canNextPage}
+              className="p-1.5 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-400 disabled:opacity-40 hover:cursor-pointer"
               aria-label="Next page"
               type="button"
             >

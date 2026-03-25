@@ -56,7 +56,7 @@ beforeEach(() => {
 
 describe("UsersTable", () => {
   it("renders the table column headers", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByText("User Profile")).toBeDefined();
     expect(screen.getByText("Role")).toBeDefined();
     expect(screen.getByText("Status")).toBeDefined();
@@ -64,34 +64,34 @@ describe("UsersTable", () => {
   });
 
   it("renders user names from data", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByText("Marcus Chen")).toBeDefined();
     expect(screen.getByText("Sarah Jenkins")).toBeDefined();
   });
 
   it("renders user emails from data", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByText("marcus.chen@civicflow.gov")).toBeDefined();
   });
 
   it("renders role badges", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByText("admin")).toBeDefined();
     expect(screen.getByText("citizen")).toBeDefined();
   });
 
   it("renders the role filter dropdown", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByLabelText(/filter by role/i)).toBeDefined();
   });
 
   it("renders the status filter dropdown", () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     expect(screen.getByLabelText(/filter by status/i)).toBeDefined();
   });
 
   it("filters users by role", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     const roleFilter = screen.getByLabelText(/filter by role/i);
     await userEvent.selectOptions(roleFilter, "admin");
     expect(screen.getByText("Marcus Chen")).toBeDefined();
@@ -99,7 +99,7 @@ describe("UsersTable", () => {
   });
 
   it("renders empty state when no users match filter", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     const roleFilter = screen.getByLabelText(/filter by role/i);
     await userEvent.selectOptions(roleFilter, "staff");
     expect(screen.getByText(/no users found/i)).toBeDefined();
@@ -108,7 +108,7 @@ describe("UsersTable", () => {
 
 describe("UsersTable row actions", () => {
   it("opens a dropdown with menu items when action button is clicked", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[0]);
 
@@ -119,7 +119,7 @@ describe("UsersTable row actions", () => {
   });
 
   it("navigates to user profile on View Profile click", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[0]);
 
@@ -132,7 +132,7 @@ describe("UsersTable row actions", () => {
   });
 
   it("calls activate mutation for an inactive user", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     // Sarah Jenkins (index 1) is inactive, so "Set Active" should appear
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[1]);
@@ -146,7 +146,7 @@ describe("UsersTable row actions", () => {
   });
 
   it("hides Set Active for an active user", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     // Marcus Chen (index 0) is active
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[0]);
@@ -158,7 +158,7 @@ describe("UsersTable row actions", () => {
   });
 
   it("does not call delete when cancel is clicked in confirmation dialog", async () => {
-    render(<UsersTable users={mockUsers} />);
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[0]);
 

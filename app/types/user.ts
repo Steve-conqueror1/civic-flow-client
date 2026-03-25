@@ -52,9 +52,11 @@ export type GetUsersQuery = {
 
 export type PaginatedUsersData = {
   users: UserProfile[];
-  total: number;
-  page: number;
-  limit: number;
+  pagination: {
+    total: number;
+    page: number;
+    limit: number;
+  };
 };
 
 export type GetUsersResponse = {

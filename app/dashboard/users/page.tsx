@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Users, UserCheck, UserX, ClockArrowUp } from "lucide-react";
 import { UserStatCard, UsersPageHeader, UsersTable } from "@/components/users";
 import { useGetUsersQuery, useGetUserStatsQuery } from "@/app/state/api";
@@ -48,13 +49,17 @@ const STAT_CARDS: {
 ];
 
 export default function UsersPage() {
+  const [page, setPage] = useState(1);
   const {
     data: statsData,
     isLoading: statsLoading,
     isError: statsError,
   } = useGetUserStatsQuery(undefined, { pollingInterval: 30000 });
-  const { data, isLoading } = useGetUsersQuery({});
+  const { data, isLoading } = useGetUsersQuery({ page, limit: 10 });
   const users = data?.data?.users ?? [];
+  const total = data?.data?.pagination?.total ?? 0;
+  const currentPage = data?.data?.pagination?.page ?? page;
+  const limit = data?.data?.pagination?.limit ?? 10;
   const stats = statsData?.data;
 
   return (
@@ -95,7 +100,13 @@ export default function UsersPage() {
           Loading users…
         </div>
       ) : (
-        <UsersTable users={users} />
+        <UsersTable
+          users={users}
+          total={total}
+          page={currentPage}
+          limit={limit}
+          onPageChange={setPage}
+        />
       )}
     </div>
   );
