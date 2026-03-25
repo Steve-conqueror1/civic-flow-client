@@ -2,7 +2,7 @@ import type { AuthUser, Role } from "@/types/auth";
 
 export type UserProfile = AuthUser & {
   mfaEnabled: boolean;
-  status: "active" | "inactive";
+  status: "active" | "inactive" | "suspended" | "deleted";
   createdAt: string;
   updatedAt: string;
 };
@@ -98,6 +98,12 @@ export type DeactivateUserResponse = {
   success: boolean;
   message: string;
   data: { status: string };
+};
+
+// PATCH /v1/users/{id}/activate
+export type ActivateUserResponse = {
+  success: boolean;
+  message: string;
 };
 
 // GET /v1/users/stats
