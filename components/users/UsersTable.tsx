@@ -11,9 +11,44 @@ import {
   createColumnHelper,
   type ColumnFiltersState,
 } from "@tanstack/react-table";
-import { MoreVertical, ChevronLeft, ChevronRight } from "lucide-react";
+import {
+  MoreVertical,
+  ChevronLeft,
+  ChevronRight,
+  Eye,
+  UserCheck,
+  UserMinus,
+  ShieldBan,
+  Trash2,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import type { UserProfile } from "@/app/types/user";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+} from "@/components/ui/dropdown-menu";
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from "@/components/ui/alert-dialog";
+import {
+  useAdminActivateUserMutation,
+  useAdminDeactivateUserMutation,
+  useAdminUpdateUserMutation,
+  useAdminDeleteUserMutation,
+} from "@/app/state/api";
 
 const columnHelper = createColumnHelper<UserProfile>();
 
@@ -35,6 +70,123 @@ function formatDate(iso: string) {
     month: "short",
     day: "numeric",
   });
+}
+
+function UserRowActions({ user }: { user: UserProfile }) {
+  const router = useRouter();
+  const [activateUser] = useAdminActivateUserMutation();
+  const [deactivateUser] = useAdminDeactivateUserMutation();
+  const [updateUser] = useAdminUpdateUserMutation();
+  const [deleteUser] = useAdminDeleteUserMutation();
+
+  const handleActivate = async () => {
+    try {
+      await activateUser(user.id).unwrap();
+      toast.success("User set to active");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleDeactivate = async () => {
+    try {
+      await deactivateUser(user.id).unwrap();
+      toast.success("User set to inactive");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleSuspend = async () => {
+    try {
+      await updateUser({ id: user.id, body: { status: "suspended" } }).unwrap();
+      toast.success("User suspended");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
+
+  const handleDelete = async () => {
+    try {
+      await deleteUser(user.id).unwrap();
+      toast.success("User deleted");
+    } catch {
+      toast.error("Something went wrong. Please try again.");
+    }
+  };
+
+  return (
+    <AlertDialog>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <button
+            className="p-2 text-slate-400 hover:text-primary transition-colors hover:cursor-pointer"
+            aria-label="User actions"
+            type="button"
+          >
+            <MoreVertical className="size-4" aria-hidden="true" />
+          </button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onClick={() => router.push(`/dashboard/users/${user.id}`)}
+          >
+            <Eye className="size-4 mr-2" aria-hidden="true" />
+            View Profile
+          </DropdownMenuItem>
+
+          {user.status !== "active" && (
+            <DropdownMenuItem onClick={handleActivate}>
+              <UserCheck className="size-4 mr-2" aria-hidden="true" />
+              Set Active
+            </DropdownMenuItem>
+          )}
+
+          {user.status !== "inactive" && (
+            <DropdownMenuItem onClick={handleDeactivate}>
+              <UserMinus className="size-4 mr-2" aria-hidden="true" />
+              Set Inactive
+            </DropdownMenuItem>
+          )}
+
+          {user.status !== "suspended" && (
+            <DropdownMenuItem onClick={handleSuspend}>
+              <ShieldBan className="size-4 mr-2" aria-hidden="true" />
+              Set Suspended
+            </DropdownMenuItem>
+          )}
+
+          <DropdownMenuSeparator />
+
+          <AlertDialogTrigger asChild>
+            <DropdownMenuItem variant="destructive">
+              <Trash2 className="size-4 mr-2" aria-hidden="true" />
+              Delete User
+            </DropdownMenuItem>
+          </AlertDialogTrigger>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <AlertDialogContent>
+        <AlertDialogHeader>
+          <AlertDialogTitle>Delete User</AlertDialogTitle>
+          <AlertDialogDescription>
+            Are you sure you want to delete {user.firstName} {user.lastName}?
+            This action cannot be undone.
+          </AlertDialogDescription>
+        </AlertDialogHeader>
+        <AlertDialogFooter>
+          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogAction
+            onClick={handleDelete}
+            className="bg-red-600 hover:bg-red-700 text-white"
+          >
+            Delete
+          </AlertDialogAction>
+        </AlertDialogFooter>
+      </AlertDialogContent>
+    </AlertDialog>
+  );
 }
 
 const columns = [
@@ -105,15 +257,7 @@ const columns = [
   columnHelper.display({
     id: "actions",
     header: "Action",
-    cell: () => (
-      <button
-        className="p-2 text-slate-400 hover:text-primary transition-colors hover:cursor-pointer"
-        aria-label="User actions"
-        type="button"
-      >
-        <MoreVertical className="size-4" aria-hidden="true" />
-      </button>
-    ),
+    cell: ({ row }) => <UserRowActions user={row.original} />,
   }),
 ];
 

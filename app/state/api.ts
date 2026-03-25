@@ -43,6 +43,7 @@ import type {
   AdminUpdateUserResponse,
   DeleteUserResponse,
   DeactivateUserResponse,
+  ActivateUserResponse,
   GetUserStatsResponse,
 } from "@/app/types/user";
 
@@ -143,6 +144,10 @@ export const api = createApi({
     }),
     adminDeactivateUser: build.mutation<DeactivateUserResponse, string>({
       query: (id) => ({ url: `/users/${id}/deactivate`, method: "PATCH" }),
+      invalidatesTags: ["Users", "UserDetail"],
+    }),
+    adminActivateUser: build.mutation<ActivateUserResponse, string>({
+      query: (id) => ({ url: `/users/${id}/activate`, method: "PATCH" }),
       invalidatesTags: ["Users", "UserDetail"],
     }),
 
@@ -296,6 +301,7 @@ export const {
   useAdminUpdateUserMutation,
   useAdminDeleteUserMutation,
   useAdminDeactivateUserMutation,
+  useAdminActivateUserMutation,
   useGetServicesQuery,
   useSearchServicesQuery,
   useGetServicesGroupedByCategoryQuery,
