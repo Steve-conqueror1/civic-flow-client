@@ -23,7 +23,7 @@ import {
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import { cn } from "@/lib/utils";
+import { cn, formatDate, getErrorMessage } from "@/lib/utils";
 import type { UserProfile } from "@/app/types/user";
 import {
   DropdownMenu,
@@ -49,6 +49,9 @@ import {
   useAdminUpdateUserMutation,
   useAdminDeleteUserMutation,
 } from "@/app/state/api";
+import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
+import { SerializedError } from "vitest";
+type RTKError = FetchBaseQueryError | SerializedError;
 
 const columnHelper = createColumnHelper<UserProfile>();
 
@@ -63,14 +66,6 @@ const STATUS_DOT: Record<string, string> = {
   inactive: "bg-slate-300",
   suspended: "bg-red-500",
 };
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-CA", {
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  });
-}
 
 function UserRowActions({ user }: { user: UserProfile }) {
   const router = useRouter();
@@ -92,8 +87,8 @@ function UserRowActions({ user }: { user: UserProfile }) {
     try {
       await deactivateUser(user.id).unwrap();
       toast.success("User set to inactive");
-    } catch {
-      toast.error("Something went wrong. Please try again.");
+    } catch (err) {
+      toast.error(getErrorMessage(err as RTKError));
     }
   };
 
@@ -101,17 +96,18 @@ function UserRowActions({ user }: { user: UserProfile }) {
     try {
       await updateUser({ id: user.id, body: { status: "suspended" } }).unwrap();
       toast.success("User suspended");
-    } catch {
-      toast.error("Something went wrong. Please try again.");
+    } catch (err) {
+      toast.error(getErrorMessage(err as RTKError));
     }
   };
 
   const handleDelete = async () => {
     try {
       await deleteUser(user.id).unwrap();
+
       toast.success("User deleted");
-    } catch {
-      toast.error("Something went wrong. Please try again.");
+    } catch (err) {
+      toast.error(getErrorMessage(err as RTKError));
     }
   };
 
@@ -176,10 +172,12 @@ function UserRowActions({ user }: { user: UserProfile }) {
           </AlertDialogDescription>
         </AlertDialogHeader>
         <AlertDialogFooter>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel className="hover:cursor-pointer">
+            Cancel
+          </AlertDialogCancel>
           <AlertDialogAction
             onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white"
+            className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer"
           >
             Delete
           </AlertDialogAction>
