@@ -57,8 +57,6 @@ export default function UsersPage() {
   const users = data?.data?.users ?? [];
   const stats = statsData?.data;
 
-  console.log(users);
-
   return (
     <div className="p-8 max-w-7xl mx-auto w-full">
       <UsersPageHeader />

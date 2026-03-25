@@ -136,19 +136,19 @@ export const api = createApi({
         method: "PATCH",
         body,
       }),
-      invalidatesTags: ["Users", "UserDetail"],
+      invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
     adminDeleteUser: build.mutation<DeleteUserResponse, string>({
       query: (id) => ({ url: `/users/${id}`, method: "DELETE" }),
-      invalidatesTags: ["Users", "UserDetail"],
+      invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
     adminDeactivateUser: build.mutation<DeactivateUserResponse, string>({
       query: (id) => ({ url: `/users/${id}/deactivate`, method: "PATCH" }),
-      invalidatesTags: ["Users", "UserDetail"],
+      invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
     adminActivateUser: build.mutation<ActivateUserResponse, string>({
       query: (id) => ({ url: `/users/${id}/activate`, method: "PATCH" }),
-      invalidatesTags: ["Users", "UserDetail"],
+      invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
 
     // Service endpoints — public

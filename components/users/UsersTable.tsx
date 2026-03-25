@@ -125,6 +125,7 @@ function UserRowActions({ user }: { user: UserProfile }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem
+            className="hover:cursor-pointer"
             onClick={() => router.push(`/dashboard/users/${user.id}`)}
           >
             <Eye className="size-4 mr-2" aria-hidden="true" />
@@ -132,21 +133,30 @@ function UserRowActions({ user }: { user: UserProfile }) {
           </DropdownMenuItem>
 
           {user.status !== "active" && (
-            <DropdownMenuItem onClick={handleActivate}>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={handleActivate}
+            >
               <UserCheck className="size-4 mr-2" aria-hidden="true" />
               Set Active
             </DropdownMenuItem>
           )}
 
           {user.status !== "inactive" && (
-            <DropdownMenuItem onClick={handleDeactivate}>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={handleDeactivate}
+            >
               <UserMinus className="size-4 mr-2" aria-hidden="true" />
               Set Inactive
             </DropdownMenuItem>
           )}
 
           {user.status !== "suspended" && (
-            <DropdownMenuItem onClick={handleSuspend}>
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              onClick={handleSuspend}
+            >
               <ShieldBan className="size-4 mr-2" aria-hidden="true" />
               Set Suspended
             </DropdownMenuItem>
@@ -155,7 +165,10 @@ function UserRowActions({ user }: { user: UserProfile }) {
           <DropdownMenuSeparator />
 
           <AlertDialogTrigger asChild>
-            <DropdownMenuItem variant="destructive">
+            <DropdownMenuItem
+              className="hover:cursor-pointer"
+              variant="destructive"
+            >
               <Trash2 className="size-4 mr-2" aria-hidden="true" />
               Delete User
             </DropdownMenuItem>
