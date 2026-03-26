@@ -123,7 +123,3 @@ Use `@testing-library/react` (`render`, `screen`) and `@testing-library/user-eve
 ## Checking Documentation
 
 **Important:** When implementing any lib/framework-specific features, ALWAYS check the appropriate documentation using the Context7 MCP server before writing code.
-
-## Backend APIs
-
-**Important:** Always refer to @backend_apis/api.json for information about backend endpoints

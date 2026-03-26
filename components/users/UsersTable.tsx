@@ -122,12 +122,12 @@ function UserRowActions({ user }: { user: UserProfile }) {
             <MoreVertical className="size-4" aria-hidden="true" />
           </button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
+        <DropdownMenuContent className="w-32" align="end">
           <DropdownMenuItem
             className="hover:cursor-pointer"
             onClick={() => router.push(`/dashboard/users/${user.id}`)}
           >
-            <Eye className="size-4 mr-2" aria-hidden="true" />
+            <Eye className="size-4 " aria-hidden="true" />
             View Profile
           </DropdownMenuItem>
 
@@ -136,8 +136,8 @@ function UserRowActions({ user }: { user: UserProfile }) {
               className="hover:cursor-pointer"
               onClick={handleActivate}
             >
-              <UserCheck className="size-4 mr-2" aria-hidden="true" />
-              Set Active
+              <UserCheck className="size-4" aria-hidden="true" />
+              Activate
             </DropdownMenuItem>
           )}
 
@@ -146,8 +146,8 @@ function UserRowActions({ user }: { user: UserProfile }) {
               className="hover:cursor-pointer"
               onClick={handleDeactivate}
             >
-              <UserMinus className="size-4 mr-2" aria-hidden="true" />
-              Set Inactive
+              <UserMinus className="size-4" aria-hidden="true" />
+              Deativate
             </DropdownMenuItem>
           )}
 
@@ -157,7 +157,7 @@ function UserRowActions({ user }: { user: UserProfile }) {
               onClick={handleSuspend}
             >
               <ShieldBan className="size-4 mr-2" aria-hidden="true" />
-              Set Suspended
+              Suspend
             </DropdownMenuItem>
           )}
 
@@ -168,8 +168,8 @@ function UserRowActions({ user }: { user: UserProfile }) {
               className="hover:cursor-pointer"
               variant="destructive"
             >
-              <Trash2 className="size-4 mr-2" aria-hidden="true" />
-              Delete User
+              <Trash2 className="size-4" aria-hidden="true" />
+              Delete
             </DropdownMenuItem>
           </AlertDialogTrigger>
         </DropdownMenuContent>
