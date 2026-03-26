@@ -44,6 +44,8 @@ import type {
   DeleteUserResponse,
   DeactivateUserResponse,
   ActivateUserResponse,
+  SuspendUserResponse,
+  UserActionPayload,
   GetUserStatsResponse,
 } from "@/app/types/user";
 
@@ -138,16 +140,39 @@ export const api = createApi({
       }),
       invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
-    adminDeleteUser: build.mutation<DeleteUserResponse, string>({
-      query: (id) => ({ url: `/users/${id}`, method: "DELETE" }),
+    adminDeleteUser: build.mutation<DeleteUserResponse, UserActionPayload>({
+      query: ({ id, reason }) => ({
+        url: `/users/${id}/delete`,
+        method: "PATCH",
+        body: { reason },
+      }),
       invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
-    adminDeactivateUser: build.mutation<DeactivateUserResponse, string>({
-      query: (id) => ({ url: `/users/${id}/deactivate`, method: "PATCH" }),
+    adminDeactivateUser: build.mutation<
+      DeactivateUserResponse,
+      UserActionPayload
+    >({
+      query: ({ id, reason }) => ({
+        url: `/users/${id}/deactivate`,
+        method: "PATCH",
+        body: { reason },
+      }),
       invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
-    adminActivateUser: build.mutation<ActivateUserResponse, string>({
-      query: (id) => ({ url: `/users/${id}/activate`, method: "PATCH" }),
+    adminActivateUser: build.mutation<ActivateUserResponse, UserActionPayload>({
+      query: ({ id, reason }) => ({
+        url: `/users/${id}/activate`,
+        method: "PATCH",
+        body: { reason },
+      }),
+      invalidatesTags: ["Users", "UserDetail", "UserStats"],
+    }),
+    adminSuspendUser: build.mutation<SuspendUserResponse, UserActionPayload>({
+      query: ({ id, reason }) => ({
+        url: `/users/${id}/suspend`,
+        method: "PATCH",
+        body: { reason },
+      }),
       invalidatesTags: ["Users", "UserDetail", "UserStats"],
     }),
 
@@ -302,6 +327,7 @@ export const {
   useAdminDeleteUserMutation,
   useAdminDeactivateUserMutation,
   useAdminActivateUserMutation,
+  useAdminSuspendUserMutation,
   useGetServicesQuery,
   useSearchServicesQuery,
   useGetServicesGroupedByCategoryQuery,

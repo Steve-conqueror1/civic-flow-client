@@ -33,7 +33,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
-  AlertDialogTrigger,
   AlertDialogContent,
   AlertDialogHeader,
   AlertDialogTitle,
@@ -42,10 +41,11 @@ import {
   AlertDialogAction,
   AlertDialogCancel,
 } from "@/components/ui/alert-dialog";
+import { Textarea } from "@/components/ui/textarea";
 import {
   useAdminActivateUserMutation,
   useAdminDeactivateUserMutation,
-  useAdminUpdateUserMutation,
+  useAdminSuspendUserMutation,
   useAdminDeleteUserMutation,
 } from "@/app/state/api";
 import { FetchBaseQueryError } from "@reduxjs/toolkit/query";
@@ -66,52 +66,90 @@ const STATUS_DOT: Record<string, string> = {
   suspended: "bg-red-500",
 };
 
+type UserAction = "activate" | "deactivate" | "suspend" | "delete";
+
+const ACTION_META: Record<
+  UserAction,
+  { title: string; description: (name: string) => string; confirmLabel: string; destructive: boolean }
+> = {
+  activate: {
+    title: "Activate User",
+    description: (name) => `Are you sure you want to activate ${name}?`,
+    confirmLabel: "Activate",
+    destructive: false,
+  },
+  deactivate: {
+    title: "Deactivate User",
+    description: (name) => `Are you sure you want to deactivate ${name}? They will lose access until reactivated.`,
+    confirmLabel: "Deactivate",
+    destructive: false,
+  },
+  suspend: {
+    title: "Suspend User",
+    description: (name) => `Are you sure you want to suspend ${name}? They will be locked out of their account.`,
+    confirmLabel: "Suspend",
+    destructive: false,
+  },
+  delete: {
+    title: "Delete User",
+    description: (name) => `Are you sure you want to delete ${name}? This action cannot be undone.`,
+    confirmLabel: "Delete",
+    destructive: true,
+  },
+};
+
 function UserRowActions({ user }: { user: UserProfile }) {
   const router = useRouter();
   const [activateUser] = useAdminActivateUserMutation();
   const [deactivateUser] = useAdminDeactivateUserMutation();
-  const [updateUser] = useAdminUpdateUserMutation();
+  const [suspendUser] = useAdminSuspendUserMutation();
   const [deleteUser] = useAdminDeleteUserMutation();
 
-  const handleActivate = async () => {
-    try {
-      await activateUser(user.id).unwrap();
-      toast.success("User set to active");
-    } catch {
-      toast.error("Something went wrong. Please try again.");
-    }
+  const [dialogAction, setDialogAction] = useState<UserAction | null>(null);
+  const [reason, setReason] = useState("");
+
+  const openDialog = (action: UserAction) => {
+    setReason("");
+    setDialogAction(action);
   };
 
-  const handleDeactivate = async () => {
+  const closeDialog = () => {
+    setDialogAction(null);
+    setReason("");
+  };
+
+  const handleConfirm = async () => {
+    if (!dialogAction || !reason.trim()) return;
+
+    const payload = { id: user.id, reason: reason.trim() };
+    const mutations: Record<UserAction, () => Promise<unknown>> = {
+      activate: () => activateUser(payload).unwrap(),
+      deactivate: () => deactivateUser(payload).unwrap(),
+      suspend: () => suspendUser(payload).unwrap(),
+      delete: () => deleteUser(payload).unwrap(),
+    };
+
+    const successMessages: Record<UserAction, string> = {
+      activate: "User activated",
+      deactivate: "User deactivated",
+      suspend: "User suspended",
+      delete: "User deleted",
+    };
+
     try {
-      await deactivateUser(user.id).unwrap();
-      toast.success("User set to inactive");
+      await mutations[dialogAction]();
+      toast.success(successMessages[dialogAction]);
+      closeDialog();
     } catch (err) {
       toast.error(getErrorMessage(err as RTKError));
     }
   };
 
-  const handleSuspend = async () => {
-    try {
-      await updateUser({ id: user.id, body: { status: "suspended" } }).unwrap();
-      toast.success("User suspended");
-    } catch (err) {
-      toast.error(getErrorMessage(err as RTKError));
-    }
-  };
-
-  const handleDelete = async () => {
-    try {
-      await deleteUser(user.id).unwrap();
-
-      toast.success("User deleted");
-    } catch (err) {
-      toast.error(getErrorMessage(err as RTKError));
-    }
-  };
+  const meta = dialogAction ? ACTION_META[dialogAction] : null;
+  const fullName = `${user.firstName} ${user.lastName}`;
 
   return (
-    <AlertDialog>
+    <>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
@@ -127,14 +165,14 @@ function UserRowActions({ user }: { user: UserProfile }) {
             className="hover:cursor-pointer"
             onClick={() => router.push(`/dashboard/users/${user.id}`)}
           >
-            <Eye className="size-4 " aria-hidden="true" />
+            <Eye className="size-4" aria-hidden="true" />
             View Profile
           </DropdownMenuItem>
 
           {user.status !== "active" && (
             <DropdownMenuItem
               className="hover:cursor-pointer"
-              onClick={handleActivate}
+              onClick={() => openDialog("activate")}
             >
               <UserCheck className="size-4" aria-hidden="true" />
               Activate
@@ -144,58 +182,82 @@ function UserRowActions({ user }: { user: UserProfile }) {
           {user.status !== "inactive" && (
             <DropdownMenuItem
               className="hover:cursor-pointer"
-              onClick={handleDeactivate}
+              onClick={() => openDialog("deactivate")}
             >
               <UserMinus className="size-4" aria-hidden="true" />
-              Deativate
+              Deactivate
             </DropdownMenuItem>
           )}
 
           {user.status !== "suspended" && (
             <DropdownMenuItem
               className="hover:cursor-pointer"
-              onClick={handleSuspend}
+              onClick={() => openDialog("suspend")}
             >
-              <ShieldBan className="size-4 mr-2" aria-hidden="true" />
+              <ShieldBan className="size-4" aria-hidden="true" />
               Suspend
             </DropdownMenuItem>
           )}
 
           <DropdownMenuSeparator />
 
-          <AlertDialogTrigger asChild>
-            <DropdownMenuItem
-              className="hover:cursor-pointer"
-              variant="destructive"
-            >
-              <Trash2 className="size-4" aria-hidden="true" />
-              Delete
-            </DropdownMenuItem>
-          </AlertDialogTrigger>
+          <DropdownMenuItem
+            className="hover:cursor-pointer"
+            variant="destructive"
+            onClick={() => openDialog("delete")}
+          >
+            <Trash2 className="size-4" aria-hidden="true" />
+            Delete
+          </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
 
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogTitle>Delete User</AlertDialogTitle>
-          <AlertDialogDescription>
-            Are you sure you want to delete {user.firstName} {user.lastName}?
-            This action cannot be undone.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="hover:cursor-pointer">
-            Cancel
-          </AlertDialogCancel>
-          <AlertDialogAction
-            onClick={handleDelete}
-            className="bg-red-600 hover:bg-red-700 text-white hover:cursor-pointer"
-          >
-            Delete
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+      <AlertDialog open={dialogAction !== null} onOpenChange={(open) => { if (!open) closeDialog(); }}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>{meta?.title}</AlertDialogTitle>
+            <AlertDialogDescription>
+              {meta?.description(fullName)}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+
+          <div className="space-y-2">
+            <label
+              htmlFor={`reason-${user.id}`}
+              className="text-sm font-medium text-slate-700 dark:text-slate-300"
+            >
+              Reason <span className="text-red-500">*</span>
+            </label>
+            <Textarea
+              id={`reason-${user.id}`}
+              placeholder="Provide a reason for this action..."
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              rows={3}
+              className="resize-none"
+            />
+          </div>
+
+          <AlertDialogFooter>
+            <AlertDialogCancel className="hover:cursor-pointer">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction
+              onClick={handleConfirm}
+              disabled={!reason.trim()}
+              className={cn(
+                "hover:cursor-pointer",
+                meta?.destructive
+                  ? "bg-red-600 hover:bg-red-700 text-white"
+                  : "bg-primary hover:bg-primary-dark text-white",
+              )}
+            >
+              {meta?.confirmLabel}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
   );
 }
 

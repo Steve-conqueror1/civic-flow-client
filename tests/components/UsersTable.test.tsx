@@ -11,13 +11,13 @@ vi.mock("next/navigation", () => ({
 
 const mockActivate = vi.fn().mockReturnValue({ unwrap: () => Promise.resolve() });
 const mockDeactivate = vi.fn().mockReturnValue({ unwrap: () => Promise.resolve() });
-const mockUpdate = vi.fn().mockReturnValue({ unwrap: () => Promise.resolve() });
+const mockSuspend = vi.fn().mockReturnValue({ unwrap: () => Promise.resolve() });
 const mockDelete = vi.fn().mockReturnValue({ unwrap: () => Promise.resolve() });
 
 vi.mock("@/app/state/api", () => ({
   useAdminActivateUserMutation: () => [mockActivate, {}],
   useAdminDeactivateUserMutation: () => [mockDeactivate, {}],
-  useAdminUpdateUserMutation: () => [mockUpdate, {}],
+  useAdminSuspendUserMutation: () => [mockSuspend, {}],
   useAdminDeleteUserMutation: () => [mockDelete, {}],
 }));
 
@@ -114,7 +114,7 @@ describe("UsersTable row actions", () => {
 
     await waitFor(() => {
       expect(screen.getByText("View Profile")).toBeDefined();
-      expect(screen.getByText("Delete User")).toBeDefined();
+      expect(screen.getByText("Delete")).toBeDefined();
     });
   });
 
@@ -131,21 +131,49 @@ describe("UsersTable row actions", () => {
     expect(mockPush).toHaveBeenCalledWith("/dashboard/users/1");
   });
 
-  it("calls activate mutation for an inactive user", async () => {
+  it("opens dialog with reason field when Activate is clicked for an inactive user", async () => {
     render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
-    // Sarah Jenkins (index 1) is inactive, so "Set Active" should appear
+    // Sarah Jenkins (index 1) is inactive, so "Activate" should appear
     const actionButtons = screen.getAllByLabelText("User actions");
     await userEvent.click(actionButtons[1]);
 
     await waitFor(() => {
-      expect(screen.getByText("Set Active")).toBeDefined();
+      expect(screen.getByText("Activate")).toBeDefined();
     });
-    await userEvent.click(screen.getByText("Set Active"));
+    await userEvent.click(screen.getByText("Activate"));
 
-    expect(mockActivate).toHaveBeenCalledWith("2");
+    await waitFor(() => {
+      expect(screen.getByText("Activate User")).toBeDefined();
+      expect(screen.getByPlaceholderText(/provide a reason/i)).toBeDefined();
+    });
   });
 
-  it("hides Set Active for an active user", async () => {
+  it("calls activate mutation with reason after filling in the form", async () => {
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
+    const actionButtons = screen.getAllByLabelText("User actions");
+    await userEvent.click(actionButtons[1]);
+
+    await waitFor(() => {
+      expect(screen.getByText("Activate")).toBeDefined();
+    });
+    await userEvent.click(screen.getByText("Activate"));
+
+    await waitFor(() => {
+      expect(screen.getByPlaceholderText(/provide a reason/i)).toBeDefined();
+    });
+
+    await userEvent.type(screen.getByPlaceholderText(/provide a reason/i), "Reinstated");
+
+    const confirmButtons = screen.getAllByRole("button", { name: "Activate" });
+    const dialogConfirm = confirmButtons.find(
+      (btn) => btn.closest("[role='alertdialog']") !== null,
+    )!;
+    await userEvent.click(dialogConfirm);
+
+    expect(mockActivate).toHaveBeenCalledWith({ id: "2", reason: "Reinstated" });
+  });
+
+  it("hides Activate for an active user", async () => {
     render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
     // Marcus Chen (index 0) is active
     const actionButtons = screen.getAllByLabelText("User actions");
@@ -154,7 +182,7 @@ describe("UsersTable row actions", () => {
     await waitFor(() => {
       expect(screen.getByText("View Profile")).toBeDefined();
     });
-    expect(screen.queryByText("Set Active")).toBeNull();
+    expect(screen.queryByText("Activate")).toBeNull();
   });
 
   it("does not call delete when cancel is clicked in confirmation dialog", async () => {
@@ -163,9 +191,9 @@ describe("UsersTable row actions", () => {
     await userEvent.click(actionButtons[0]);
 
     await waitFor(() => {
-      expect(screen.getByText("Delete User")).toBeDefined();
+      expect(screen.getByText("Delete")).toBeDefined();
     });
-    await userEvent.click(screen.getByText("Delete User"));
+    await userEvent.click(screen.getByText("Delete"));
 
     await waitFor(() => {
       expect(screen.getByText("Cancel")).toBeDefined();
@@ -173,5 +201,26 @@ describe("UsersTable row actions", () => {
     await userEvent.click(screen.getByText("Cancel"));
 
     expect(mockDelete).not.toHaveBeenCalled();
+  });
+
+  it("disables confirm button when reason is empty", async () => {
+    render(<UsersTable users={mockUsers} total={2} page={1} limit={10} onPageChange={vi.fn()} />);
+    const actionButtons = screen.getAllByLabelText("User actions");
+    await userEvent.click(actionButtons[0]);
+
+    await waitFor(() => {
+      expect(screen.getByText("Delete")).toBeDefined();
+    });
+    await userEvent.click(screen.getByText("Delete"));
+
+    await waitFor(() => {
+      expect(screen.getByText("Delete User")).toBeDefined();
+    });
+
+    const confirmButtons = screen.getAllByRole("button", { name: "Delete" });
+    const dialogConfirm = confirmButtons.find(
+      (btn) => btn.closest("[role='alertdialog']") !== null,
+    )!;
+    expect(dialogConfirm).toHaveAttribute("disabled");
   });
 });

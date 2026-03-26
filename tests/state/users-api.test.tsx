@@ -579,7 +579,7 @@ describe("adminDeleteUser API endpoint", () => {
     vi.restoreAllMocks();
   });
 
-  it("sends DELETE request with user ID", async () => {
+  it("sends PATCH request to /delete with reason in body", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValueOnce(
@@ -593,7 +593,7 @@ describe("adminDeleteUser API endpoint", () => {
     });
 
     await act(async () => {
-      result.current[0]("u1");
+      result.current[0]({ id: "u1", reason: "Policy violation" });
     });
 
     await waitFor(() => {
@@ -601,8 +601,10 @@ describe("adminDeleteUser API endpoint", () => {
     });
 
     const request = vi.mocked(fetch).mock.calls[0][0] as Request;
-    expect(request.method).toBe("DELETE");
-    expect(request.url).toContain("/users/u1");
+    expect(request.method).toBe("PATCH");
+    expect(request.url).toContain("/users/u1/delete");
+    const body = await request.json();
+    expect(body.reason).toBe("Policy violation");
   });
 
   it("handles error responses", async () => {
@@ -619,7 +621,7 @@ describe("adminDeleteUser API endpoint", () => {
     });
 
     await act(async () => {
-      result.current[0]("u1");
+      result.current[0]({ id: "u1", reason: "Test reason" });
     });
 
     await waitFor(() => {
@@ -635,7 +637,7 @@ describe("adminDeactivateUser API endpoint", () => {
     vi.restoreAllMocks();
   });
 
-  it("sends PATCH request with no body", async () => {
+  it("sends PATCH request with reason in body", async () => {
     vi.stubGlobal(
       "fetch",
       vi.fn().mockResolvedValueOnce(
@@ -653,7 +655,7 @@ describe("adminDeactivateUser API endpoint", () => {
     });
 
     await act(async () => {
-      result.current[0]("u1");
+      result.current[0]({ id: "u1", reason: "No longer employed" });
     });
 
     await waitFor(() => {
@@ -663,6 +665,8 @@ describe("adminDeactivateUser API endpoint", () => {
     const request = vi.mocked(fetch).mock.calls[0][0] as Request;
     expect(request.method).toBe("PATCH");
     expect(request.url).toContain("/users/u1/deactivate");
+    const body = await request.json();
+    expect(body.reason).toBe("No longer employed");
   });
 
   it("handles error responses", async () => {
@@ -679,7 +683,7 @@ describe("adminDeactivateUser API endpoint", () => {
     });
 
     await act(async () => {
-      result.current[0]("u1");
+      result.current[0]({ id: "u1", reason: "Test reason" });
     });
 
     await waitFor(() => {

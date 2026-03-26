@@ -95,6 +95,12 @@ export type DeleteUserResponse = {
   message: string;
 };
 
+// Shared payload for user status actions (activate, deactivate, suspend, delete)
+export type UserActionPayload = {
+  id: string;
+  reason: string;
+};
+
 // PATCH /v1/users/{id}/deactivate
 export type DeactivateUserResponse = {
   success: boolean;
@@ -104,6 +110,12 @@ export type DeactivateUserResponse = {
 
 // PATCH /v1/users/{id}/activate
 export type ActivateUserResponse = {
+  success: boolean;
+  message: string;
+};
+
+// PATCH /v1/users/{id}/suspend
+export type SuspendUserResponse = {
   success: boolean;
   message: string;
 };
