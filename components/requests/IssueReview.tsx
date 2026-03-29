@@ -1,18 +1,9 @@
 "use client";
 
-import { ArrowLeft, Send, ShieldCheck, CheckCircle } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
-import {
-  RequestProgressBar,
-  ReviewSection,
-  AttachmentThumbnailGrid,
-} from "@/components/requests";
-import MapView from "@/components/maps";
+import { CheckCircle, Send, ShieldCheck } from "lucide-react";
+import { ReviewSection } from "./ReviewSection";
+import { AttachmentThumbnailGrid } from "./AttachmentThumbnailGrid";
 
-const WIZARD_STEPS = ["Description", "Location", "Upload", "Review"];
-
-// Placeholder data — in production this comes from wizard state / API
 const REVIEW_DATA = {
   category: "Road Maintenance",
   issueType: "Pothole Repair",
@@ -24,27 +15,13 @@ const REVIEW_DATA = {
   attachments: [] as { id: string; src: string; alt: string }[],
 };
 
-export default function RequestReviewPage() {
+export const IssueReview = () => {
   const handleSubmit = () => {
     // Submit logic — will call API
   };
-
   return (
-    <main className="flex flex-1 flex-col overflow-y-auto">
+    <div className="w-full">
       <div className="max-w-7xl mx-auto w-full px-6 py-8 flex flex-col gap-8">
-        {/* Page header */}
-        <div className="flex flex-col gap-1">
-          <h1 className="text-slate-900 dark:text-white text-3xl font-bold leading-tight">
-            Submit New Request
-          </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-sm">
-            Step 4: Review &amp; Submit
-          </p>
-        </div>
-
-        {/* Progress bar */}
-        <RequestProgressBar steps={WIZARD_STEPS} currentStep={4} />
-
         {/* Review card */}
         <div className="bg-white dark:bg-[#15232d] rounded-xl border border-slate-200 dark:border-slate-800 shadow-sm overflow-hidden">
           {/* Card header */}
@@ -157,31 +134,17 @@ export default function RequestReviewPage() {
               </span>
             </div>
             <div className="flex gap-4 w-full max-w-md">
-              <Button variant="outline" asChild className="flex-1 py-3">
-                <Link
-                  href="/dashboard/requests/upload"
-                  className="flex items-center gap-2"
-                >
-                  <ArrowLeft className="size-4" aria-hidden="true" />
-                  Back
-                </Link>
-              </Button>
-              <Button
+              <button
                 onClick={handleSubmit}
-                className="flex-[2] py-3 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm flex items-center justify-center gap-2"
+                className="flex-2 py-3 bg-primary hover:bg-primary/90 text-white font-bold shadow-sm flex items-center justify-center gap-2 rounded-lg hover:cursor-pointer"
               >
                 Confirm &amp; Submit
                 <Send className="size-4" aria-hidden="true" />
-              </Button>
+              </button>
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <p className="text-center text-slate-400 dark:text-slate-500 text-sm pb-4">
-          &copy; 2024 CivicFlow Alberta. All rights reserved.
-        </p>
       </div>
-    </main>
+    </div>
   );
-}
+};

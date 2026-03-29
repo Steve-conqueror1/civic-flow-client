@@ -38,3 +38,13 @@ export function getErrorMessage(error: RTKError): string {
 
   return "Something went wrong.";
 }
+
+export function fileFormatSize(bytes: number): string {
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+}
+
+export function getFileType(name: string): string {
+  const ext = name.split(".").pop()?.toUpperCase() ?? "FILE";
+  return ext;
+}

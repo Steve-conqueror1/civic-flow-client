@@ -14,6 +14,7 @@ interface LocationPickerProps {
   onAddressChange?: (address: string) => void;
   onUseMyLocation?: () => void;
   onEditLocation?: () => void;
+  height?: number;
 }
 
 export function LocationPicker({
@@ -23,6 +24,7 @@ export function LocationPicker({
   onAddressChange,
   onUseMyLocation,
   onEditLocation,
+  height = 320,
 }: LocationPickerProps) {
   const [searchValue, setSearchValue] = useState("");
 
@@ -82,7 +84,11 @@ export function LocationPicker({
 
       {/* Map */}
       <div className="relative w-full rounded-lg overflow-hidden border border-gray-200 dark:border-gray-700 mb-4">
-        <MapView longitude={longitude} latitude={latitude} height="320px" />
+        <MapView
+          longitude={longitude}
+          latitude={latitude}
+          height={`${height}px`}
+        />
       </div>
 
       {/* Selected location confirmation */}
