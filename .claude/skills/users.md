@@ -1,3 +1,8 @@
+---
+title: "Users API"
+description: "User profile management and admin user management endpoints including status actions and statistics"
+---
+
 # Users
 
 User profiles and admin user management endpoints.

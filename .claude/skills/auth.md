@@ -1,3 +1,8 @@
+---
+title: "Auth API"
+description: "Authentication and account security endpoints including registration, login, MFA, and password reset"
+---
+
 # Auth
 
 Authentication and account security endpoints.

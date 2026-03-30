@@ -1,3 +1,8 @@
+---
+title: "Categories API"
+description: "Service category management endpoints for listing, creating, updating, and toggling category status"
+---
+
 # Categories
 
 Service category management endpoints.

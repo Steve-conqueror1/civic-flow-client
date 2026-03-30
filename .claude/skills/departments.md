@@ -1,3 +1,8 @@
+---
+title: "Departments API"
+description: "Government department management endpoints for listing, creating, updating, and toggling department status"
+---
+
 # Departments
 
 Government department management endpoints.

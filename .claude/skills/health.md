@@ -1,3 +1,8 @@
+---
+title: "Health API"
+description: "Server health check endpoint"
+---
+
 # Health
 
 Server health check endpoint.

@@ -1,3 +1,8 @@
+---
+title: "Services API"
+description: "Public services catalog endpoints for listing, searching, grouping, and admin management of services"
+---
+
 # Services
 
 Public services catalog endpoints.

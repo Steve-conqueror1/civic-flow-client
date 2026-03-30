@@ -1,3 +1,8 @@
+---
+title: "Service Requests API"
+description: "Citizen service request submission, tracking, attachment upload, and admin status management endpoints"
+---
+
 # Service Requests
 
 Citizen service request submission and tracking endpoints.
