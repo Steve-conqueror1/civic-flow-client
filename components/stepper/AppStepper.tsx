@@ -23,6 +23,7 @@ type StepsContent = {
   title: string;
   description: string;
   content: React.ReactNode;
+  canProceed?: boolean;
 };
 
 interface Props {
@@ -66,6 +67,7 @@ export const AppStepper: React.FC<Props> = (props) => {
             className="flex w-full items-center justify-center"
             key={step.position}
             value={step.position}
+            forceMount
           >
             {step.content}
           </StepperContent>
@@ -87,7 +89,10 @@ export const AppStepper: React.FC<Props> = (props) => {
           className="hover:cursor-pointer flex items-center gap-2"
           variant="outline"
           onClick={() => setCurrentStep((prev) => prev + 1)}
-          disabled={currentStep === steps.length}
+          disabled={
+            currentStep === steps.length ||
+            steps[currentStep - 1]?.canProceed === false
+          }
         >
           <span>Next</span>
           <IconArrowNarrowRight />

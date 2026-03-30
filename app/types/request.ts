@@ -37,3 +37,35 @@ export interface GetFeaturedServiceRequestResponse {
   message: string;
   data: FeaturedServiceRequest;
 }
+
+// AI Analysis types
+export interface AnalyseRequestPayload {
+  title: string;
+  description: string;
+  note?: string;
+}
+
+export interface AnalyseRequestAlert {
+  title: string;
+  type: string;
+  message: string;
+}
+
+export interface AnalyseRequestData {
+  category: {
+    name: string;
+    matchPercentage: number;
+  };
+  service: {
+    name: string;
+    confidence: number;
+  };
+  summary: string[];
+  alert: AnalyseRequestAlert;
+}
+
+export interface AnalyseRequestResponse {
+  success: boolean;
+  message: string;
+  data: AnalyseRequestData;
+}

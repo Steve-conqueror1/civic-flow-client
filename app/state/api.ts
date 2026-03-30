@@ -5,7 +5,11 @@ import type {
   ContactApiResponse,
 } from "@/app/types/contact";
 import type { GetDepartmentsResponse } from "@/app/types/department";
-import type { GetFeaturedServiceRequestResponse } from "@/app/types/request";
+import type {
+  GetFeaturedServiceRequestResponse,
+  AnalyseRequestPayload,
+  AnalyseRequestResponse,
+} from "@/app/types/request";
 import type {
   GetServicesQuery,
   GetServicesResponse,
@@ -69,6 +73,11 @@ export const api = createApi({
     submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
       query: (body) => ({ url: "/contact", method: "POST", body }),
     }),
+    analyseRequest: build.mutation<AnalyseRequestResponse, AnalyseRequestPayload>(
+      {
+        query: (body) => ({ url: "/ai/analyse-request", method: "POST", body }),
+      },
+    ),
     getDepartments: build.query<GetDepartmentsResponse, void>({
       query: () => "/departments",
       providesTags: ["Departments"],
@@ -314,6 +323,7 @@ export const api = createApi({
 
 export const {
   useSubmitContactMutation,
+  useAnalyseRequestMutation,
   useGetDepartmentsQuery,
   useGetFeaturedServiceRequestQuery,
   useGetMeQuery,
