@@ -14,7 +14,7 @@ Analyse a citizen request before submission. Uses AI to match the request to the
 - **Auth:** Cookie (`access_token`)
 - **Body (required):** `title` (max 255), `description`
 - **Body (optional):** `note`
-- **Response 200:** Analysis result — includes matched category, matched service, summary, and any alerts
+- **Response 200:** Analysis result — includes matched category, matched service, summary, and any alert
 - **Response 400:** Validation error
 - **Response 401:** Not authenticated
 - **Response 503:** AI service unavailable
