@@ -27,6 +27,7 @@ function MapView({
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
   const mapRef = React.useRef<MapRef | null>(null);
+  const containerRef = React.useRef<HTMLDivElement | null>(null);
 
   React.useEffect(() => {
     if (!mapRef.current) return;
@@ -43,6 +44,19 @@ function MapView({
     }
   }, [longitude, latitude, zoom]);
 
+  // Resize the map when its container becomes visible (e.g. inside a hidden stepper panel)
+  React.useEffect(() => {
+    const el = containerRef.current;
+    if (!el) return;
+
+    const observer = new ResizeObserver(() => {
+      mapRef.current?.getMap()?.resize();
+    });
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
   if (!token) {
     return (
       <div
@@ -56,7 +70,7 @@ function MapView({
   }
 
   return (
-    <div style={{ height }} data-testid="map-container">
+    <div ref={containerRef} style={{ width: "100%", height }} data-testid="map-container">
       <Map
         ref={mapRef}
         initialViewState={{

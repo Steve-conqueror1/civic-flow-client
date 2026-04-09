@@ -182,7 +182,7 @@ function ErrorContent({ message }: { message: string }) {
       <p className="text-sm font-medium text-red-700 dark:text-red-400">
         Analysis failed
       </p>
-      <p className="text-xs text-slate-500 dark:text-slate-400 max-w-[220px]">
+      <p className="text-xs text-slate-500 dark:text-slate-400 max-w-55">
         {message}
       </p>
     </div>
