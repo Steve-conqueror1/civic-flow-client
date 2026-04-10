@@ -11,6 +11,10 @@ import type {
   AnalyseRequestResponse,
 } from "@/app/types/request";
 import type {
+  SearchGeocodesQuery,
+  SearchGeocodesResponse,
+} from "@/app/types/geocode";
+import type {
   GetServicesQuery,
   GetServicesResponse,
   SearchServicesQuery,
@@ -68,6 +72,7 @@ export const api = createApi({
     "FeaturedServiceRequest",
     "Services",
     "UserStats",
+    "Geocode",
   ],
   endpoints: (build) => ({
     submitContact: build.mutation<ContactApiResponse, ContactApiPayload>({
@@ -78,6 +83,15 @@ export const api = createApi({
         query: (body) => ({ url: "/ai/analyse-request", method: "POST", body }),
       },
     ),
+    searchGeocodes: build.query<SearchGeocodesResponse, SearchGeocodesQuery>({
+      query: (params) => {
+        const searchParams = new URLSearchParams();
+        searchParams.set("q", params.q);
+        if (params.limit != null)
+          searchParams.set("limit", String(params.limit));
+        return `/geocode?${searchParams.toString()}`;
+      },
+    }),
     getDepartments: build.query<GetDepartmentsResponse, void>({
       query: () => "/departments",
       providesTags: ["Departments"],
@@ -352,4 +366,5 @@ export const {
   useDeleteServiceMutation,
   useActivateServiceMutation,
   useDeactivateServiceMutation,
+  useLazySearchGeocodesQuery,
 } = api;

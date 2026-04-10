@@ -9,13 +9,27 @@ import {
 } from "@/components/requests";
 
 import { AppStepper } from "@/components/stepper/AppStepper";
+import { useRequestWizard } from "@/app/hooks/use-request-wizard";
+import type { WizardLocation } from "@/app/types/geocode";
 
 export default function NewRequestPage() {
   const [hasAnalysis, setHasAnalysis] = useState(false);
+  const { location, setLocation, clearLocation } = useRequestWizard();
 
   const handleAnalysisChange = useCallback((value: boolean) => {
     setHasAnalysis(value);
   }, []);
+
+  const handleLocationConfirm = useCallback(
+    (loc: WizardLocation) => {
+      setLocation(loc);
+    },
+    [setLocation],
+  );
+
+  const handleLocationClear = useCallback(() => {
+    clearLocation();
+  }, [clearLocation]);
 
   const requestSteps = [
     {
@@ -29,7 +43,14 @@ export default function NewRequestPage() {
       position: 2,
       title: "Issue Location",
       description: "Select The location",
-      content: <IssueLocation />,
+      content: (
+        <IssueLocation
+          location={location}
+          onLocationConfirm={handleLocationConfirm}
+          onLocationClear={handleLocationClear}
+        />
+      ),
+      canProceed: location !== null,
     },
     {
       position: 3,
@@ -41,7 +62,7 @@ export default function NewRequestPage() {
       position: 4,
       title: "Issue Review",
       description: "Review The issue",
-      content: <IssueReview />,
+      content: <IssueReview location={location} />,
     },
   ];
 

@@ -3,6 +3,8 @@
 import { CheckCircle, Send, ShieldCheck } from "lucide-react";
 import { ReviewSection } from "./ReviewSection";
 import { AttachmentThumbnailGrid } from "./AttachmentThumbnailGrid";
+import MapView from "@/components/maps";
+import type { WizardLocation } from "@/app/types/geocode";
 
 const REVIEW_DATA = {
   category: "Road Maintenance",
@@ -15,7 +17,11 @@ const REVIEW_DATA = {
   attachments: [] as { id: string; src: string; alt: string }[],
 };
 
-export const IssueReview = () => {
+interface IssueReviewProps {
+  location?: WizardLocation | null;
+}
+
+export const IssueReview = ({ location }: IssueReviewProps) => {
   const handleSubmit = () => {
     // Submit logic — will call API
   };
@@ -91,20 +97,24 @@ export const IssueReview = () => {
                     Address
                   </p>
                   <p className="text-slate-900 dark:text-slate-100 font-medium mb-4 whitespace-pre-line">
-                    {REVIEW_DATA.address}
-                  </p>
-                  <p className="text-slate-500 dark:text-slate-400 text-xs font-medium uppercase tracking-wider mb-1">
-                    Additional Notes
-                  </p>
-                  <p className="text-slate-700 dark:text-slate-300 text-sm">
-                    {REVIEW_DATA.locationNotes}
+                    {location?.address ?? "No location selected"}
                   </p>
                 </div>
-                {/* Map placeholder */}
-                <div className="w-full sm:w-48 h-32 rounded-lg bg-slate-200 dark:bg-slate-700 overflow-hidden relative border border-slate-200 dark:border-slate-600 flex items-center justify-center">
-                  {/* <MapView /> */}
-
-                  <span className="text-xs text-slate-400 dark:text-slate-500"></span>
+                <div className="w-full sm:w-48 h-32 rounded-lg overflow-hidden border border-slate-200 dark:border-slate-600">
+                  {location ? (
+                    <MapView
+                      longitude={location.longitude}
+                      latitude={location.latitude}
+                      height="128px"
+                      zoom={14}
+                    />
+                  ) : (
+                    <div className="w-full h-full bg-slate-200 dark:bg-slate-700 flex items-center justify-center">
+                      <span className="text-xs text-slate-400 dark:text-slate-500">
+                        No location
+                      </span>
+                    </div>
+                  )}
                 </div>
               </div>
             </ReviewSection>

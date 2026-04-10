@@ -1,7 +1,7 @@
 "use client";
 
 import { MapPin } from "lucide-react";
-import Map, { Marker, Popup, MapRef } from "react-map-gl/mapbox";
+import Map, { Marker, Popup, MapRef, MarkerDragEvent } from "react-map-gl/mapbox";
 import "mapbox-gl/dist/mapbox-gl.css";
 import React from "react";
 
@@ -11,6 +11,8 @@ interface MapViewProps {
   zoom?: number;
   markerLabel?: string;
   height?: string;
+  draggable?: boolean;
+  onLocationChange?: (longitude: number, latitude: number) => void;
 }
 
 const DEFAULT_LONGITUDE = -114.097;
@@ -23,6 +25,8 @@ function MapView({
   zoom = DEFAULT_ZOOM,
   markerLabel,
   height = "400px",
+  draggable = false,
+  onLocationChange,
 }: MapViewProps) {
   const token = process.env.NEXT_PUBLIC_MAPBOX_TOKEN;
 
@@ -83,7 +87,15 @@ function MapView({
         style={{ width: "100%", height: "100%" }}
         attributionControl={false}
       >
-        <Marker longitude={longitude} latitude={latitude} anchor="bottom">
+        <Marker
+          longitude={longitude}
+          latitude={latitude}
+          anchor="bottom"
+          draggable={draggable}
+          onDragEnd={(e: MarkerDragEvent) => {
+            onLocationChange?.(e.lngLat.lng, e.lngLat.lat);
+          }}
+        >
           <MapPin
             className="text-white hover:cursor-pointer"
             size={28}
